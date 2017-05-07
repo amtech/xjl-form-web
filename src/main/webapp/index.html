@@ -1,0 +1,32 @@
+<html>
+<head>
+<script type="text/javascript" src="js/jquery-2.2.2.js"></script>
+<script type="text/javascript" src="js/jquery-rest.js"></script>
+</head>
+
+<script type="text/javascript">
+function test(){
+	$.restPost({
+		  url: 'rest/form/add',
+		  data: {formName:'abcd123'},
+		  success: function(data){
+			  alert(data);
+		  }
+		});
+}
+function query(){
+	$.restGet({
+		  url: 'rest/form/all/1/10',
+		  success: function(data){
+			  console.log(data);
+		  }
+		});
+}
+</script>
+<body>
+<h2>Hello XJL Form!</h2>
+
+<button onClick="test()">abc</button>
+<button onClick="query()">query</button>
+</body>
+</html>
