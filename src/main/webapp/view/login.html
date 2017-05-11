@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录页面</title>
+<link rel="stylesheet" href="../css/tabulous.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/buttons.css">
+<script src="../js/jquery-2.2.2.js"></script>
+<script src="../js/tabulous.js"></script>
+<script src="../js/custom.js"></script>
+<script>
+$(function(){
+	/*tab切换*/
+	$('.tabs').tabulous({
+		effect: 'scale'
+	});
+	createCode();
+});
+</script>
+</head>
+<body>
+<div id="main">
+<!-- 左边登录框 -->
+		<div class="tabs">
+			<ul id="tab_ul">
+				<li><a href="#tabs-1" title="">个人登录</a></li>
+				<li><a href="#tabs-2" title="">法人登录</a></li>
+			</ul>
+			<div id="tabs_container" style="width: 100%;">
+				<div id="tabs-1" style="margin-top: -40px;">
+					<form class="cd-form floating-labels">
+					 	<table id="loginTab1"   border="0"  width="400px" height="200px" >
+					 		<tr >
+					 			<td colspan="2"><input type="text"   name="loginName" placeholder="手机号码/身份证号码"></td>
+					 		</tr>
+					 		<tr>
+					 			<td colspan="2"><input type="password" name="loginPwd" placeholder="请输入密码"></td>
+					 		</tr>
+					 		<tr>
+					 			<td><input type="text" id="verify" placeholder="请输入验证码" style="width: 200px;"></td>
+					 			<td  style="position:relative;"id="checkCode" class="code" onclick="createCode()"></td>
+					 		</tr>
+					 		<tr>
+					 			<td align="center"><a href="#" class="button button-primary button-rounded button-small">登录</a></td>
+					 			<td align="center"><a href="./register.html"  class="button button-primary button-rounded button-small">注册</a></td>
+					 		</tr>
+					 		<tr>
+					 			<td align="center" colspan="2"><a href="#"  >忘记密码</a></td>
+					 		</tr>
+					 	</table>
+				 	</form>
+				</div>
+				<div id="tabs-2">
+					..维护中
+				</div>
+			</div>
+		</div>
+</div>
+</body>
+</html>
