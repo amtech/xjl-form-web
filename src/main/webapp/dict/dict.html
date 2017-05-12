@@ -38,10 +38,17 @@ var tableInit = {
                 return { limit: param.limit, offset: param.offset,search:param.search };
             },//传递参数（*）
             pagination: true,                   //是否显示分页（*）
+            detailView:true,
             sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
             pageNumber: 1,                      //初始化加载第一页，默认第一页
             pageSize: 2,                       //每页的记录行数（*）
             pageList: [2, 4, 6, 8],        //可供选择的每页的行数（*）
+           
+          //注册加载子表的事件。注意下这里的三个参数！
+            onExpandRow: function (index, row, $detail) {
+            	alert("abc");
+                //oInit.InitSubTable(index, row, $detail);
+            }
         });
         ko.applyBindings(this.myViewModel, document.getElementById("tb_dict"));
     }
@@ -64,6 +71,7 @@ var operate = {
     operateAdd: function(){
         $('#btn_add').on("click", function () {
             $("#myModal").modal().on("shown.bs.modal", function () {
+            	$("#myModalLabel").text("新增");
                 var oEmptyModel = {
                     dictId: ko.observable(),
                     dictName: ko.observable()
@@ -79,9 +87,13 @@ var operate = {
     //编辑
     operateUpdate: function () {
         $('#btn_edit').on("click", function () {
+        	
+        	var arrselectedData = tableInit.myViewModel.getSelections();
+            if (!operate.operateCheck(arrselectedData)) { 
+            	return; 
+            }
+            $("#myModalLabel").text("修改");
             $("#myModal").modal().on("shown.bs.modal", function () {
-                var arrselectedData = tableInit.myViewModel.getSelections();
-                if (!operate.operateCheck(arrselectedData)) { return; }
                 //将选中该行数据有数据Model通过Mapping组件转换为viewmodel
                 ko.utils.extend(operate.dictModel, ko.mapping.fromJS(arrselectedData[0]));
                 ko.applyBindings(operate.dictModel, document.getElementById("myModal"));
