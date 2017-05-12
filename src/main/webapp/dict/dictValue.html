@@ -15,10 +15,18 @@
 <script src="../js/knockout-3.4.2.js"></script>
 <script src="../js/knockout.mapping-latest.js"></script>
 <script src="../js/bootstraptable/js/knockout.bootstraptable.js"></script>
+<script src="../js/urlParams.js"></script>
 <script>
+var dictId = $.getUrlParam("dictId");
+var dictName = $.getUrlParam("dictName");
 
+$(window).bind('beforeunload',function(){
+	var parentEvent = $.getUrlParam("parentEvent");
+	eval("window.opener."+parentEvent+"()");
+});
 //初始化
 $(function () {
+	$("#dictNamePanel").text("字典名称:" + dictName);
     //1、初始化表格
     tableInit.Init();
 
@@ -31,11 +39,11 @@ var tableInit = {
     Init: function () {
         //绑定table的viewmodel
         this.myViewModel = new ko.bootstrapTableViewModel({
-            url:'../rest/dict/all',         //请求后台的URL（*）
+            url:'../rest/dictValue/all',         //请求后台的URL（*）
             method: 'get',                      //请求方式（*）
             toolbar: '#toolbar',                //工具按钮用哪个容器
             queryParams: function (param) {
-            	this.url = '../rest/dict/all'+"/" + this.pageNumber + "/" + this.pageSize;
+            	this.url = '../rest/dictValue/all'+"/" +dictId+"/"+ this.pageNumber + "/" + this.pageSize;
                 return {search:param.search };
             },//传递参数（*）
             pagination: true,                   //是否显示分页（*）
@@ -57,7 +65,7 @@ var tableInit = {
             	return 'aaa';
             }
         });
-        ko.applyBindings(this.myViewModel, document.getElementById("tb_dict"));
+        ko.applyBindings(this.myViewModel, document.getElementById("tb_dictValue"));
     }
 };
 
@@ -69,9 +77,11 @@ var operate = {
         this.operateAdd();
         this.operateUpdate();
         this.operateDelete();
-        this.dictModel = {
+        this.dictValueModel = {
             dictId: ko.observable(),
-            dictName: ko.observable()
+            dictValueId: ko.observable(),
+            dictValueCode: ko.observable(),
+            dictValueName: ko.observable()
         };
     },
     //新增
@@ -81,10 +91,12 @@ var operate = {
             	$("#myModalLabel").text("新增");
                 var oEmptyModel = {
                     dictId: ko.observable(),
-                    dictName: ko.observable()
+                    dictValueId: ko.observable(),
+                    dictValueCode: ko.observable(),
+                    dictValueName: ko.observable()
                 };
-                ko.utils.extend(operate.dictModel, oEmptyModel);
-                ko.applyBindings(operate.dictModel, document.getElementById("myModal"));
+                ko.utils.extend(operate.dictValueModel, oEmptyModel);
+                ko.applyBindings(operate.dictValueModel, document.getElementById("myModal"));
                 operate.operateSave();
             }).on('hidden.bs.modal', function () {
                 ko.cleanNode(document.getElementById("myModal"));
@@ -102,8 +114,8 @@ var operate = {
             $("#myModalLabel").text("修改");
             $("#myModal").modal().on("shown.bs.modal", function () {
                 //将选中该行数据有数据Model通过Mapping组件转换为viewmodel
-                ko.utils.extend(operate.dictModel, ko.mapping.fromJS(arrselectedData[0]));
-                ko.applyBindings(operate.dictModel, document.getElementById("myModal"));
+                ko.utils.extend(operate.dictValueModel, ko.mapping.fromJS(arrselectedData[0]));
+                ko.applyBindings(operate.dictValueModel, document.getElementById("myModal"));
                 operate.operateSave();
             }).on('hidden.bs.modal', function () {
                 //关闭弹出框的时候清除绑定(这个清空包括清空绑定和清空注册事件)
@@ -116,7 +128,7 @@ var operate = {
         $('#btn_delete').on("click", function () {
             var arrselectedData = tableInit.myViewModel.getSelections();
             $.ajax({
-                url: "../rest/dict/delete",
+                url: "../rest/dictValue/delete",
                 type: "post",
                 contentType: 'application/json',
                 data: JSON.stringify(arrselectedData),
@@ -131,15 +143,16 @@ var operate = {
         $('#btn_submit').on("click", function () {
         	console.log("submit click");
             //取到当前的viewmodel
-            var oViewModel = operate.dictModel;
+            var oViewModel = operate.dictValueModel;
+            oViewModel.dictId=dictId;
             console.log("oViewModel", oViewModel);
             //将Viewmodel转换为数据model
             var oDataModel = ko.toJS(oViewModel);
             console.log("oDataModel", oDataModel);
-            var funcName = oDataModel.dictId?"modify":"add";
+            var funcName = oDataModel.dictValueId?"modify":"add";
             console.log("funcName", funcName);
             $.restPost({
-                url: "../rest/dict/"+funcName,
+                url: "../rest/dictValue/"+funcName,
                 data: oDataModel,
                 success: function (data, status) {
                     tableInit.myViewModel.refresh();
@@ -160,17 +173,11 @@ var operate = {
         return true;
     }
 }
-function dictValueCountFormatter(value, row, index) {
-	if (value > 0){
-		return '<a href="dictValue.html?parentEvent=tableInit.myViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="点击查看值列表">'+row.dictValueCount+'个</a>';
-	} else {
-		return '<a href="dictValue.html?parentEvent=tableInit.myViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="添加一个字典值">添加一个</a>';
-	}
-}
 </script>
 </head>
 <body>
 	<div class="panel-body" style="padding-bottom:0px;">
+		<div id="dictNamePanel">字典名称</div>
 		<div id="toolbar" class="btn-group">
             <button id="btn_add" type="button" class="btn btn-default">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
@@ -182,13 +189,12 @@ function dictValueCountFormatter(value, row, index) {
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
             </button>
         </div>
-       <table id="tb_dict" data-bind="myBootstrapTable:$root">
+       <table id="tb_dictValue" data-bind="myBootstrapTable:$root">
             <thead>
                 <tr>
                     <th data-checkbox="true"></th>
-                    <th data-field="dictId">字典id</th>
-                    <th data-field="dictName">字典名称</th>
-                    <th data-field="dictValueCount" data-formatter="dictValueCountFormatter">选项数量</th>
+                    <th data-field="dictValueCode">字典值代码</th>
+                    <th data-field="dictValueName" >字典值名称</th>
                 </tr>
             </thead>
         </table>
@@ -202,10 +208,13 @@ function dictValueCountFormatter(value, row, index) {
                         <h4 class="modal-title" id="myModalLabel">操作</h4>
                     </div>
                     <div class="modal-body">
-
+<div class="form-group">
+                            <label for="txt_dictValueCode">字典值代码</label>
+                            <input type="text" name="txt_dictValueCode" data-bind="value:dictValueCode" class="form-control" id="txt_dictValueCode" placeholder="字典名称">
+                        </div>
                         <div class="form-group">
-                            <label for="txt_dictName">字典名称</label>
-                            <input type="text" name="txt_dictName" data-bind="value:dictName" class="form-control" id="txt_dictName" placeholder="字典名称">
+                            <label for="txt_dictValueName">字典值名称</label>
+                            <input type="text" name="txt_dictValueName" data-bind="value:dictValueName" class="form-control" id="txt_dictValueName" placeholder="字典名称">
                         </div>
                     </div>
                     <div class="modal-footer">
