@@ -14,6 +14,12 @@ var WIDTH = $(window).innerWidth();
 var HEIGHT = $(window).innerHeight();
 $(function(){
     $(".page").css("height", HEIGHT+"px");
+    $("#register").click(function(){
+   		window.location.href='./certification.html';
+    })
+    $("#login").click(function(){
+    	window.location.href='./login.html';
+    });
 });
 </script>
 </head>
@@ -51,12 +57,12 @@ $(function(){
                 <td><input name="verify" type="text" id="verify" easytip="disappear:lost-focus;theme:blue;"></td>
             </tr>      
             <tr>
-                <td colspan="2" align="center"><input type="checkbox">我已阅读并同意<a href="#" style="text-decoration: none;">《用户协议》</a></td>
+                <td colspan="2" align="center"><input type="checkbox">我已阅读并同意<a href="./registeragree.html" style="text-decoration: none;">《用户协议》</a></td>
             </tr>     
         </table>
         <div class="buttons">
-			<input value="注 册" type="submit" style="margin-right:20px; margin-top:20px;">
-	        <input value="我有账号，我要登录" type="button" style="margin-right:45px; margin-top:20px;">
+			<input value="注 册" type="button" id="register" style="margin-right:20px; margin-top:20px;">
+	        <input value="我有账号，我要登录"  id="login" type="button" style="margin-right:45px; margin-top:20px;">
         </div>
         <br class="clear">
  </form>
