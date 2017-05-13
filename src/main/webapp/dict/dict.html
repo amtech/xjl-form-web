@@ -15,156 +15,22 @@
 <script src="../js/knockout-3.4.2.js"></script>
 <script src="../js/knockout.mapping-latest.js"></script>
 <script src="../js/bootstraptable/js/knockout.bootstraptable.js"></script>
+<script src="../js/xjl/xjl-table.js"></script>
 <script>
-
+XJL.bindCloseWindowEvent();
 //初始化
 $(function () {
     //1、初始化表格
-    tableInit.Init();
-
+    XJL.initTable("tb_dict","../rest/dict/all",3);
     //2、注册增删改事件
-    operate.operateInit();
+    XJL.initOperate("../rest/dict",{dictId:ko.observable(),dictName:ko.observable()});
 });
 
-//初始化表格
-var tableInit = {
-    Init: function () {
-        //绑定table的viewmodel
-        this.myViewModel = new ko.bootstrapTableViewModel({
-            url:'../rest/dict/all',         //请求后台的URL（*）
-            method: 'get',                      //请求方式（*）
-            toolbar: '#toolbar',                //工具按钮用哪个容器
-            queryParams: function (param) {
-            	this.url = '../rest/dict/all'+"/" + this.pageNumber + "/" + this.pageSize;
-                return {search:param.search };
-            },//传递参数（*）
-            pagination: true,                   //是否显示分页（*）
-            detailView:true,
-            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-            pageNumber: 1,                      //初始化加载第一页，默认第一页
-            pageSize: 2,                       //每页的记录行数（*）
-            pageList: [2, 4, 6, 8],        //可供选择的每页的行数（*）
-           
-          //注册加载子表的事件。注意下这里的三个参数！
-            onExpandRow: function (index, row, $detail) {
-            	alert("abc");
-                //oInit.InitSubTable(index, row, $detail);
-            },
-            detailFormatter:function(index, row, element) {
-            	console.log(index);
-            	console.log(row);
-            	console.log(element);
-            	return 'aaa';
-            }
-        });
-        ko.applyBindings(this.myViewModel, document.getElementById("tb_dict"));
-    }
-};
-
-
-//操作
-var operate = {
-    //初始化按钮事件
-    operateInit: function () {
-        this.operateAdd();
-        this.operateUpdate();
-        this.operateDelete();
-        this.dictModel = {
-            dictId: ko.observable(),
-            dictName: ko.observable()
-        };
-    },
-    //新增
-    operateAdd: function(){
-        $('#btn_add').on("click", function () {
-            $("#myModal").modal().on("shown.bs.modal", function () {
-            	$("#myModalLabel").text("新增");
-                var oEmptyModel = {
-                    dictId: ko.observable(),
-                    dictName: ko.observable()
-                };
-                ko.utils.extend(operate.dictModel, oEmptyModel);
-                ko.applyBindings(operate.dictModel, document.getElementById("myModal"));
-                operate.operateSave();
-            }).on('hidden.bs.modal', function () {
-                ko.cleanNode(document.getElementById("myModal"));
-            });
-        });
-    },
-    //编辑
-    operateUpdate: function () {
-        $('#btn_edit').on("click", function () {
-        	
-        	var arrselectedData = tableInit.myViewModel.getSelections();
-            if (!operate.operateCheck(arrselectedData)) { 
-            	return; 
-            }
-            $("#myModalLabel").text("修改");
-            $("#myModal").modal().on("shown.bs.modal", function () {
-                //将选中该行数据有数据Model通过Mapping组件转换为viewmodel
-                ko.utils.extend(operate.dictModel, ko.mapping.fromJS(arrselectedData[0]));
-                ko.applyBindings(operate.dictModel, document.getElementById("myModal"));
-                operate.operateSave();
-            }).on('hidden.bs.modal', function () {
-                //关闭弹出框的时候清除绑定(这个清空包括清空绑定和清空注册事件)
-                ko.cleanNode(document.getElementById("myModal"));
-            });
-        });
-    },
-    //删除
-    operateDelete: function () {
-        $('#btn_delete').on("click", function () {
-            var arrselectedData = tableInit.myViewModel.getSelections();
-            $.ajax({
-                url: "../rest/dict/delete",
-                type: "post",
-                contentType: 'application/json',
-                data: JSON.stringify(arrselectedData),
-                success: function (data, status) {
-                    tableInit.myViewModel.refresh();
-                }
-            });
-        });
-    },
-    //保存数据
-    operateSave: function () {
-        $('#btn_submit').on("click", function () {
-        	console.log("submit click");
-            //取到当前的viewmodel
-            var oViewModel = operate.dictModel;
-            console.log("oViewModel", oViewModel);
-            //将Viewmodel转换为数据model
-            var oDataModel = ko.toJS(oViewModel);
-            console.log("oDataModel", oDataModel);
-            var funcName = oDataModel.dictId?"modify":"add";
-            console.log("funcName", funcName);
-            $.restPost({
-                url: "../rest/dict/"+funcName,
-                data: oDataModel,
-                success: function (data, status) {
-                    tableInit.myViewModel.refresh();
-                }
-            });
-        });
-    },
-    //数据校验
-    operateCheck:function(arr){
-        if (arr.length <= 0) {
-            alert("请至少选择一行数据");
-            return false;
-        }
-        if (arr.length > 1) {
-            alert("只能编辑一行数据");
-            return false;
-        }
-        return true;
-    }
-}
 function dictValueCountFormatter(value, row, index) {
 	if (value > 0){
-		return '<a href="dictValue.html?parentEvent=tableInit.myViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="点击查看值列表">'+row.dictValueCount+'个</a>';
+		return '<a href="dictValue.html?parentEvent=XJL.tableViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="点击查看值列表">'+row.dictValueCount+'个</a>';
 	} else {
-		return '<a href="dictValue.html?parentEvent=tableInit.myViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="添加一个字典值">添加一个</a>';
+		return '<a href="dictValue.html?parentEvent=XJL.tableViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="添加一个字典值">添加一个</a>';
 	}
 }
 </script>
