@@ -21,7 +21,7 @@ XJL.bindCloseWindowEvent();
 //初始化
 $(function () {
     //1、初始化表格
-    XJL.initTable("tb_dict","../rest/dict/all",3);
+    XJL.initTable("tb_dict","../rest/dict",3);
     //2、注册增删改事件
     XJL.initOperate("../rest/dict",{dictId:ko.observable(),dictName:ko.observable()});
 });

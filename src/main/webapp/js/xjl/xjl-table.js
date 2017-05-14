@@ -31,34 +31,24 @@ var XJL = {
 			}
 		},
 		initTable:function (tableDiv,baseURL,pageSize) {
+			this.baseURL = baseURL;
+			pageSize = pageSize||10,
 	        //绑定table的viewmodel
 	        this.tableViewModel = new ko.bootstrapTableViewModel({
 	            url:baseURL,         //请求后台的URL（*）
 	            method: 'get',                      //请求方式（*）
 	            toolbar: '#toolbar',                //工具按钮用哪个容器
 	            queryParams: function (param) {
-	            	this.url = baseURL + "/" + this.pageNumber + "/" + this.pageSize;
-	                return {search:param.search };
+	            	this.url = XJL.baseURL + "/query/" + this.pageNumber + "/" + this.pageSize;
+	                return XJL.queryParams({search:param.search});
 	            },//传递参数（*）
 	            pagination: true,                   //是否显示分页（*）
 	            detailView:true,
 	            queryParamsType:'limit',
 	            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
 	            pageNumber: 1,                      //初始化加载第一页，默认第一页
-	            pageSize: pageSize||2,                       //每页的记录行数（*）
-	            pageList: [2, 4, 6, 8],        //可供选择的每页的行数（*）
-	           
-	          //注册加载子表的事件。注意下这里的三个参数！
-	            onExpandRow: function (index, row, $detail) {
-	            	alert("abc");
-	                //oInit.InitSubTable(index, row, $detail);
-	            },
-	            detailFormatter:function(index, row, element) {
-	            	console.log(index);
-	            	console.log(row);
-	            	console.log(element);
-	            	return 'aaa';
-	            }
+	            pageSize: pageSize,                       //每页的记录行数（*）
+	            pageList: [pageSize,pageSize*2],        //可供选择的每页的行数（*）
 	        });
 	        ko.applyBindings(this.tableViewModel, document.getElementById(tableDiv));
 	    },
@@ -157,6 +147,8 @@ var XJL = {
 	    },
 	    beforeSubmit:function(oViewModel){
 	    	
+	    },
+	    queryParams:function(params){
+	    	return params;
 	    }
-		
 }

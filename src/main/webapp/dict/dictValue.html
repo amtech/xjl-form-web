@@ -24,10 +24,15 @@ XJL.bindCloseWindowEvent();
 $(function () {
 	$("#dictNamePanel").text("字典名称:" + dictName);
     //1、初始化表格
-    XJL.initTable("tb_dictValue","../rest/dictValue/all/" + dictId,3);
+    XJL.initTable("tb_dictValue","../rest/dictValue",3);
     //2、注册增删改事件
     XJL.initOperate("../rest/dictValue",{dictId:ko.observable(),dictValueId:ko.observable(),dictValueCode:ko.observable(),dictValueName:ko.observable()});
 });
+//添加查询参数
+XJL.queryParams=function(params){
+	jQuery.extend(params,{dictId:dictId});
+	return params;
+}
 //自定义提交前方法，一般做一些验证或者赋值
 XJL.beforeSubmit = function(oViewModel){
 	oViewModel.dictId = dictId;
