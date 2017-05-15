@@ -47,9 +47,12 @@ jQuery.extend(XJL,{
 	            	}); 
 	                ko.utils.extend(XJL.domainModel, emptyDomainModel);
 	                ko.applyBindings(XJL.domainModel, document.getElementById("myModal"));
+	                console.log("add pk,设置checked为false");
+	                XJL.beforeShowAdd();
 	                XJL.operateSave(baseURL+"/add");
 	            }).on('hidden.bs.modal', function () {
 	                ko.cleanNode(document.getElementById("myModal"));
+	                XJL.afterHiddenModal();
 	            });
 	        });
 	    },
@@ -66,10 +69,13 @@ jQuery.extend(XJL,{
 	                //将选中该行数据有数据Model通过Mapping组件转换为viewmodel
 	                ko.utils.extend(XJL.domainModel, ko.mapping.fromJS(arrselectedData[0]));
 	                ko.applyBindings(XJL.domainModel, document.getElementById("myModal"));
+	                XJL.beforeShowUpdate(arrselectedData[0]);
 	                XJL.operateSave(baseURL+"/modify");
 	            }).on('hidden.bs.modal', function () {
 	                //关闭弹出框的时候清除绑定(这个清空包括清空绑定和清空注册事件)
 	                ko.cleanNode(document.getElementById("myModal"));
+	                XJL.afterHiddenModal();
+	                
 	            });
 	        });
 	    },
@@ -94,10 +100,10 @@ jQuery.extend(XJL,{
 	        	console.log("submit click");
 	            //取到当前的viewmodel
 	            var oViewModel = XJL.domainModel;
-	            XJL.beforeSubmit(oViewModel);
-	            console.log("oViewModel", oViewModel);
+	           
 	            //将Viewmodel转换为数据model
 	            var oDataModel = ko.toJS(oViewModel);
+	            XJL.beforeSubmit(oDataModel);
 	            console.log("oDataModel", oDataModel);
 	            $.restPost({
 	                url: url,
@@ -127,5 +133,14 @@ jQuery.extend(XJL,{
 	    },
 	    queryParams:function(params){
 	    	return params;
+	    },
+	    beforeShowAdd:function(){
+	    	
+	    },
+	    beforeShowUpdate:function(oDataModel){
+	    	
+	    },
+	    afterHiddenModal:function(){
+	    	
 	    }
 })

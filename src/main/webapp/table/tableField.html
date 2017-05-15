@@ -29,18 +29,39 @@ XJL.bindCloseWindowEvent();
 $(function () {
 	$("#tableNamePanel").text("表名称:" + tableName);
     //1、初始化表格
-    XJL.initTable("tb_tableField","../rest/tableField",3);
+    XJL.initTable("tb_tableField","../rest/tableField",10);
     //2、注册增删改事件
     XJL.initOperate2("../rest/tableField","fieldId,fieldName,fieldDesc,fieldType,dictId,tableId,fkTableId,fieldLength,pk");
+    
+   
+    
 });
 //添加查询参数
 XJL.queryParams=function(params){
 	jQuery.extend(params,{tableId:tableId});
 	return params;
 }
+XJL.beforeShowAdd = function(){
+	$('#txt_pk').checkboxpicker();
+	$('#txt_pk').prop('checked', false);
+}
+XJL.beforeShowUpdate = function(oDataModel){
+	$('#txt_pk').checkboxpicker();
+	$('#txt_pk').prop('checked', oDataModel.pk === "Y");
+}
+XJL.afterHiddenModal = function(){
+	$('#txt_pk').next().remove();
+}
 //自定义提交前方法，一般做一些验证或者赋值
-XJL.beforeSubmit = function(oViewModel){
-	oViewModel.tableId = tableId;
+XJL.beforeSubmit = function(oDataModel){
+	oDataModel.tableId = tableId;
+	if ($('#txt_pk').is(':checked')){
+		oDataModel.pk = "Y";
+	} else {
+		oDataModel.pk = "N";
+	}
+	oDataModel.fieldType = $('#txt_fieldType').val();
+	console.log("fieldType:",oDataModel.fieldType);
 }
 
 function tableFieldPkFormatter(value, row, index){
@@ -51,7 +72,7 @@ function tableFieldPkFormatter(value, row, index){
 		return "否";
 	}
 }
-$(':checkbox').checkboxpicker();
+
 </script>
 </head>
 <body>
@@ -114,7 +135,7 @@ $(':checkbox').checkboxpicker();
                        		<label for="txt_fieldLength">长度</label>
                             <input type="text" name="txt_fieldLength" data-bind="value:fieldLength" class="form-control" id="txt_fieldLength" placeholder="长度">
                        		<label for="txt_pk">主键</label>
-							  <input type="checkbox" id="txt_pk" name="txt_pk" data-bind="value:pk" data-group-cls="btn-group-justified">
+							<input type="checkbox" id="txt_pk" name="txt_pk"  data-group-cls="btn-group-justified">
                        		<label for="txt_dictId">字典</label>
                             <input type="text" name="txt_dictId" data-bind="value:dictId" class="form-control" id="txt_dictId" placeholder="字典ID">
                        		<label for="txt_fkTableId">外键表</label>
