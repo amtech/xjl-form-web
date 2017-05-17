@@ -20,3 +20,33 @@ function createCode(){
         checkCode.innerHTML = code;
     }
 }
+/*序列化表单*/
+function toSerialize(){
+	var data="{";
+	$("#registerForm input[type=text],[type=password]").each(function(i){
+			data+="'"+$(this).attr("name")+"':'"+$("#"+$(this).attr("id")).val()+"',";
+	});
+	data= data.substring(0,data.length-1);
+	data+="}";
+	return data;
+}
+/*post提交*/
+function restPost(url,data){
+ 	$.restPost({
+		 url:url,
+		 data:data,
+		 success:function(data){
+			 console.log("data",data);
+         	 console.log("1212");
+		 }
+	}); 
+}
+/*警告框*/
+function showMsg(msg){
+	$("#myAlert").css('display',"block");
+	$("#myAlert").html("<strong>警告！</strong>"+msg);
+	window.setTimeout(function(){
+		$("#myAlert").css('display',"none");
+	},2000);
+}
+
