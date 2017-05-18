@@ -10,7 +10,7 @@
  <meta http-equiv="cleartype" content="on">
 <link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css">  
 <link rel="stylesheet" href="../js/bootstrapvalidator/css/bootstrapValidator.css">  
-<script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery/js/jquery-2.2.2.js"></script>
 <script type="text/javascript" src="../js/jquery/js/jquery-rest.js"></script>
 <script src="../js/bootstrap/js/bootstrap.min.js"></script>
 <script src="../js/bootstrapvalidator/js/bootstrapValidator.js"></script>
@@ -24,7 +24,9 @@
 }  
 </style>
 <script type="text/javascript">
+/*初始化*/
 $(function(){
+	/*申明注册按钮*/
     $("#register").click(function(){
     		if($('#registerForm').data('bootstrapValidator').isValid()){
     			var data =eval("(" + toSerialize() + ")");
@@ -33,9 +35,11 @@ $(function(){
     			showMsg("请将信息填写完整");
     		}
     });
+    /*申明登录按钮*/
     $("#login").click(function(){
     		window.location.href='./login.html';
     });
+    /*申明短信发送*/
     $("#sendbutton").click(function(){
     		var phone = $("#phone").val();
     		if(phone.length==0){
@@ -47,11 +51,18 @@ $(function(){
     			return;
     		}
     		var data="";
-    		restPost('../rest/user/sendMsg?phoneno='+phone,data);
+    		//restPost('../rest/user/sendMsg?phoneno='+phone,data);
+    		$.restPost({
+    			 url:'../rest/user/sendMsg?phoneno='+phone,
+    			 data:data,
+    			 success:function(data){
+    			 }
+    		}); 
     });
+    /*验证是否选择注册协议*/
     $("#agree").change(function(){
     		if ($(this).is(':checked')) { 
-    		 $("#register").attr("disabled",false);
+    		 	$("#register").attr("disabled",false);
     		}else{
     			 $("#register").attr("disabled",true);
     		}
