@@ -31,9 +31,27 @@ $(function () {
     //1、初始化表格
     XJL.initTable("tb_tableField","../rest/tableField",10);
     //2、注册增删改事件
-    XJL.initOperate2("../rest/tableField","fieldId,fieldName,fieldDesc,fieldType,dictId,tableId,fkTableId,fieldLength,pk");
+    XJL.initOperate2("../rest/tableField","fieldId,fieldName,fieldDesc,fieldType,dictId,tableId,foreignTableId,fieldLength,pk");
     
-   
+    $("#txt_dictId").on("loaded.bs.select",function () {  
+    	alert("abc");
+        $.ajax({  
+            url: "../rest/dict/query/1/1000",  
+            type: "get",
+            contentType: 'application/json',
+            success: function (data) {  
+                $.each(data.rows, function (index, dict) {  
+                	console.log("dict", dict);
+                    $("#txt_dictId").append("<option value="+dict.dictId+">" + dict.dictName + "</option>");  
+                });  
+                $('txt_dictId').selectpicker('refresh'); 
+            },  
+
+            error: function (XMLHttpRequest, textStatus, errorThrown) {  
+                alert("error");  
+            }  
+        });  
+    });
     
 });
 //添加查询参数
@@ -48,6 +66,7 @@ XJL.beforeShowAdd = function(){
 XJL.beforeShowUpdate = function(oDataModel){
 	$('#txt_pk').checkboxpicker();
 	$('#txt_pk').prop('checked', oDataModel.pk === "Y");
+	
 }
 XJL.afterHiddenModal = function(){
 	$('#txt_pk').next().remove();
@@ -101,7 +120,7 @@ function tableFieldPkFormatter(value, row, index){
                     <th data-field="pk" data-formatter="tableFieldPkFormatter">是不是主键</th>
                     <th data-field="dictId$name" >字典名称</th>
                     <th data-field="tableId$name" >表名称</th>
-                    <th data-field="fkTableId$name" >外键表名称</th>
+                    <th data-field="foreignTableId$name" >外键表名称</th>
                       
                 </tr>
             </thead>
@@ -137,9 +156,11 @@ function tableFieldPkFormatter(value, row, index){
                        		<label for="txt_pk">主键</label>
 							<input type="checkbox" id="txt_pk" name="txt_pk"  data-group-cls="btn-group-justified">
                        		<label for="txt_dictId">字典</label>
-                            <input type="text" name="txt_dictId" data-bind="value:dictId" class="form-control" id="txt_dictId" placeholder="字典ID">
-                       		<label for="txt_fkTableId">外键表</label>
-                            <input type="text" name="txt_fkTableId" data-bind="value:fkTableId" class="form-control" id="txt_fkTableId" placeholder="外键表的id">
+                            <select name="txt_dictId" data-bind="value:dictId" class="selectpicker show-tick form-control" id="txt_dictId" data-live-search="true" multiple data-max-options="1">
+                            </select>
+                       		<label for="txt_foreignTableId">外键表</label>
+                            <select name="txt_foreignTableId" data-bind="value:foreignTableId" class="selectpicker show-tick form-control" id="txt_foreignTableId" data-live-search="true" multiple data-max-options="1">
+                            </select>
                        		
                         </div>
                     </div>
