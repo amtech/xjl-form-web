@@ -26,6 +26,7 @@ XJL.bindCloseWindowEvent();
 $(function () {
     //1、初始化表格
     XJL.initTable("tb_table","../rest/table",3);
+    
     //2、注册增删改事件
     XJL.initOperate("../rest/table",{tableId:ko.observable(),tableName:ko.observable(),tableDesc:ko.observable()});
 });
