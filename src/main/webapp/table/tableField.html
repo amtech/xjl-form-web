@@ -21,6 +21,7 @@
 <script src="../js/bootstrapcheckbox/js/docs.js"></script>
 <script src="../js/xjl/js/xjl.js"></script>
 <script src="../js/xjl/js/xjl-table.js"></script>
+<script src="../js/xjl/js/xjl-select.js"></script>
 <script>
 var tableId = XJL.getUrlParam("tableId");
 var tableName = XJL.getUrlParam("tableName");
@@ -32,27 +33,32 @@ $(function () {
     XJL.initTable("tb_tableField","../rest/tableField",10);
     //2、注册增删改事件
     XJL.initOperate2("../rest/tableField","fieldId,fieldName,fieldDesc,fieldType,dictId,tableId,foreignTableId,fieldLength,pk");
-    
-    $("#txt_dictId").on("loaded.bs.select",function () {  
-    	alert("abc");
-        $.ajax({  
-            url: "../rest/dict/query/1/1000",  
-            type: "get",
-            contentType: 'application/json',
-            success: function (data) {  
-                $.each(data.rows, function (index, dict) {  
-                	console.log("dict", dict);
-                    $("#txt_dictId").append("<option value="+dict.dictId+">" + dict.dictName + "</option>");  
-                });  
-                $('txt_dictId').selectpicker('refresh'); 
-            },  
-
-            error: function (XMLHttpRequest, textStatus, errorThrown) {  
-                alert("error");  
-            }  
-        });  
+    XJL.loadSelectOption({selectId:"txt_dictId",url: "../rest/dict/query/1/1000",valueName:"dictId",textName:"dictName"});
+    XJL.loadSelectOption({selectId:"txt_foreignTableId",url: "../rest/table/query/1/1000",valueName:"tableId",textName:"tableName"});
+    /**
+    $("#txt_dictId").on("changed.bs.select",function(e,clickedIndex, newValue, oldValue){
+    	console.log("clickedIndex",clickedIndex);
+    	if (clickedIndex==0){
+    		$("#txt_fieldLength").val("");
+    		$("#txt_fieldType").selectpicker("val","10");
+    		
+    	} else if (clickedIndex>0){
+    		$("#txt_fieldLength").val("36");
+    		$("#txt_fieldType").selectpicker("val","40");
+    	}
     });
-    
+    $("#txt_foreignTableId").on("changed.bs.select",function(e,clickedIndex, newValue, oldValue){
+    	console.log("clickedIndex",clickedIndex);
+    	if (clickedIndex==0){
+    		$("#txt_fieldLength").val("");
+    		$("#txt_fieldType").selectpicker("val","10");
+    		
+    	} else if (clickedIndex>0){
+    		$("#txt_fieldLength").val("36");
+    		$("#txt_fieldType").selectpicker("val","10");
+    	}
+    });
+    **/
 });
 //添加查询参数
 XJL.queryParams=function(params){
@@ -60,16 +66,25 @@ XJL.queryParams=function(params){
 	return params;
 }
 XJL.beforeShowAdd = function(){
+	//初始化combox
 	$('#txt_pk').checkboxpicker();
 	$('#txt_pk').prop('checked', false);
+	//初始化下拉框
+	$("#txt_dictId").selectpicker("val",'');
+	$("#txt_foreignTableId").selectpicker("val",'');
 }
 XJL.beforeShowUpdate = function(oDataModel){
 	$('#txt_pk').checkboxpicker();
 	$('#txt_pk').prop('checked', oDataModel.pk === "Y");
-	
+	$('#txt_dictId').selectpicker("val",oDataModel.dictId);
+	$("#txt_foreignTableId").selectpicker("val",oDataModel.foreignTableId);
 }
 XJL.afterHiddenModal = function(){
+	//清除combox
 	$('#txt_pk').next().remove();
+	//清除下拉框
+	XJL.clearSelectPicker("txt_dictId");
+	XJL.clearSelectPicker("txt_foreignTableId");
 }
 //自定义提交前方法，一般做一些验证或者赋值
 XJL.beforeSubmit = function(oDataModel){
@@ -79,8 +94,6 @@ XJL.beforeSubmit = function(oDataModel){
 	} else {
 		oDataModel.pk = "N";
 	}
-	oDataModel.fieldType = $('#txt_fieldType').val();
-	console.log("fieldType:",oDataModel.fieldType);
 }
 
 function tableFieldPkFormatter(value, row, index){
@@ -125,9 +138,6 @@ function tableFieldPkFormatter(value, row, index){
                 </tr>
             </thead>
         </table>
-       
-
-                            
 	</div>
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -156,10 +166,12 @@ function tableFieldPkFormatter(value, row, index){
                        		<label for="txt_pk">主键</label>
 							<input type="checkbox" id="txt_pk" name="txt_pk"  data-group-cls="btn-group-justified">
                        		<label for="txt_dictId">字典</label>
-                            <select name="txt_dictId" data-bind="value:dictId" class="selectpicker show-tick form-control" id="txt_dictId" data-live-search="true" multiple data-max-options="1">
+                            <select name="txt_dictId" data-bind="value:dictId" class="selectpicker show-tick form-control" id="txt_dictId" data-live-search="true">
+                            <option selected>空</option>
                             </select>
                        		<label for="txt_foreignTableId">外键表</label>
                             <select name="txt_foreignTableId" data-bind="value:foreignTableId" class="selectpicker show-tick form-control" id="txt_foreignTableId" data-live-search="true" multiple data-max-options="1">
+                            <option selected>空</option>
                             </select>
                        		
                         </div>
