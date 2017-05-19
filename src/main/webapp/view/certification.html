@@ -8,16 +8,51 @@
 <link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="../js/jqueryuploadify/css/uploadify.css">  
 <script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery/js/jquery-rest.js"></script>
 <script src="../js/jqueryuploadify/js/jquery.uploadify.min.js"></script>
+<script src="../js/xjl/js/custom.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("#file_upload").click(function(){
-	});
+	$("#userName").html(decodeURI(decodeURI(GetQueryString('userName'))));
+	$("#cardNo").html(GetQueryString('cardNo'));
 	fileUpload("file_upload","uploadfileQueue","pic_view_div1 img","front");
 	fileUpload("file_upload_1","uploadfileQueue_1","pic_view_div2 img","back");
 	fileUpload("file_upload_2","uploadfileQueue_2","pic_view_div3 img","hand");
+	$("#submit").click(function(){
+		if("" == val){
+			alert("请选择证照");
+			return;
+		}
+		var arr = val.split(",");
+		var front = "";
+		var back = "";
+		var hand = "";
+		for(var i = 0;i<arr.length;i++){
+			if(arr[i].indexOf("FRONT")!=-1){
+				front = arr[i];
+			}else if(arr[i].indexOf("BACK")!=-1){
+				back = arr[i];
+			}else if(arr[i].indexOf("HAND")!=-1){
+				hand = arr[i];
+			}
+		}
+		var data="{'handShot':'"+hand+"','cardPhoto':'"+front+"','cardBackPhoto':'"+back+"','cardNo':'"+GetQueryString('cardNo')+"'}";
+		var obj =eval("(" + data + ")");
+		$.restPost({
+			 url:'../rest/user/realNameCertification',
+			 data:obj,
+			 success:function(data){
+				 if(data.success){
+					 window.location.href="./login.html";
+				 }else{
+					showMsg("警告",data.errorMsg);
+					return;
+				 }
+			 }
+		});
+	});
 });
-
+var val="";
 function fileUpload(fileid,queueid,showimg,sign){
 	$("#"+fileid).uploadify({
 		//开启调试    
@@ -31,7 +66,7 @@ function fileUpload(fileid,queueid,showimg,sign){
         //文件选择后的容器ID    
         'queueID': queueid,  
         //后台运行上传的程序  
-        'uploader': '../rest/file/uploadFile?sign='+sign,  
+        'uploader': '../rest/file/uploadFile?sign='+sign+'&cardNo='+GetQueryString('cardNo'),  
         'width': '75',  
         'height': '24',  
         //是否支持多文件上传，这里为true，你在选择文件的时候，就可以选择多个文件  
@@ -63,12 +98,28 @@ function fileUpload(fileid,queueid,showimg,sign){
             alert("您未安装FLASH控件，无法上传图片！请安装FLASH控件后再试。");  
         },  
         //上传到服务器，服务器返回相应信息到data里    
-        'onUploadSuccess': function (file, data, response) {  
+        'onUploadSuccess': function (file, data, response) { 
         		var _arr_val = data.split(",");  
+        		var str_val = _arr_val.toString();
+        		var start = str_val.lastIndexOf("_");
+        		var end = str_val.lastIndexOf(".");
+        		var str_sub = str_val.substring(start,end);
+        		if(val.indexOf(str_sub)==-1){
+        			val+=_arr_val+",";
+        		}else{
+        			var arr = val.split(",");
+        			for(var i=0;i<arr.length;i++){
+        				if(arr[i].indexOf(str_sub)!=-1){
+        					arr[i] = _arr_val;
+        				}
+        			}
+        			val = arr.join(",");
+        		}
         		var url="../upload/"+_arr_val;
         		$("#"+showimg).attr("src",url);
         		$("#"+showimg).css("height","160");
         		$("#"+showimg).css("width","250");
+        		
         } 
 	});
 }
@@ -79,11 +130,11 @@ function fileUpload(fileid,queueid,showimg,sign){
 	<table id="from_table" border="0"  width="99%">
 		<tr>
 			<td align="right">姓名：</td>
-			<td colspan="2" align="left">	<label>张X三</label></td>
+			<td colspan="2" align="left">	<label id="userName">张X三</label></td>
 		</tr>
 		<tr>
 			<td align="right">身份证号码：</td>
-			<td colspan="2" align="left"><label>3204123222122223432</label></td>
+			<td colspan="2" align="left"><label id="cardNo">3204123222122223432</label></td>
 		</tr>
 		<tr>
 			<td colspan="2" > 上传身份证正面、背面照片:

@@ -30,9 +30,20 @@ $(function(){
     $("#register").click(function(){
     		if($('#registerForm').data('bootstrapValidator').isValid()){
     			var data =eval("(" + toSerialize() + ")");
-    			restPost('../rest/user/add',data);
+    			$.restPost({
+    				 url:'../rest/user/add',
+    				 data:data,
+    				 success:function(data){
+    					 if(data.success){
+    						 window.location.href="./certification.html?cardNo="+$("#cardNo").val()+"&userName="+$("#name").val();
+    					 }else{
+    						showMsg("警告",data.errorMsg);
+    						return;
+    					 }
+    				 }
+    			});
     		}else{
-    			showMsg("请将信息填写完整");
+    			showMsg("警告","请将信息填写完整");
     		}
     });
     /*申明登录按钮*/
@@ -43,19 +54,26 @@ $(function(){
     $("#sendbutton").click(function(){
     		var phone = $("#phone").val();
     		if(phone.length==0){
-    			showMsg("请输入手机号");
+    			showMsg("警告","请输入手机号");
     			return;
     		}
+    		if(phone.length<11){
+    			showMsg("警告","请输入正确的手机号");
+    			return;
+    		} 
     		if(phone.length>11){
-    			showMsg("请输入正确的手机号");
+    			showMsg("警告","请输入正确的手机号");
     			return;
     		} 
     		var data="";
-    		//restPost('../rest/user/sendMsg?phoneno='+phone,data);
     		$.restPost({
     			 url:'../rest/user/sendMsg?phoneno='+phone,
     			 data:data,
     			 success:function(data){
+    				 if(data){
+    					 $("#myAlert").attr("class","alert alert-success");
+    					 showMsg("成功","短信息发送成功");
+    				 }
     			 }
     		}); 
     });
@@ -71,10 +89,10 @@ $(function(){
 </script>
 </head>
 <body >
-<div id="myAlert" class="alert alert-warning" style="display: none;">
-	<a href="#" class="close" data-dismiss="alert">&times;</a>
-</div>
   <div class="col-xs-6 col-md-4 col-center-block" > 
+  <div id="myAlert" class="alert alert-warning" style="display: none;">
+	<a href="#" class="close" data-dismiss="alert">&times;</a>
+	</div>
    <form id="registerForm" role = "form"> 
 	    <div class = "form-group"> 
 		     <label for = "name">姓名</label> 
@@ -188,7 +206,7 @@ $(function(){
                          message: '手机号不能为空'
                    	},
                    stringLength: {
-                       min: 0,
+                       min: 11,
                        max: 11,
                        message: '请输入正确的手机号码'
                    }

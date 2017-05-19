@@ -32,21 +32,30 @@ function toSerialize(){
 }
 /*post提交*/
 function restPost(url,data){
- 	$.restPost({
-		 url:url,
-		 data:data,
-		 success:function(data){
-			 console.log("data",data);
-         	 console.log("1212");
-		 }
-	}); 
+	$.restPost({
+			 url:url,
+			 data:data,
+			 success:function(data){
+				 if(data.success){
+				 }else{
+					showMsg("警告",data.errorMsg);
+					return;
+				 }
+			 }
+		});  
 }
 /*警告框*/
-function showMsg(msg){
+function showMsg(title,msg){
 	$("#myAlert").css('display',"block");
-	$("#myAlert").html("<strong>警告！</strong>"+msg);
+	$("#myAlert").html("<strong>"+title+"！</strong>"+msg);
 	window.setTimeout(function(){
 		$("#myAlert").css('display',"none");
-	},2000);
+	},3000);
+}
+/*获取参数*/
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  decodeURIComponent(r[2]); return null;
 }
 
