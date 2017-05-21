@@ -70,9 +70,11 @@ $(function(){
     			 url:'../rest/user/sendMsg?phoneno='+phone,
     			 data:data,
     			 success:function(data){
-    				 if(data){
+    				 if(data.success){
     					 $("#myAlert").attr("class","alert alert-success");
     					 showMsg("成功","短信息发送成功");
+    				 }else{
+    					 showMsg("警告","短信息发送失败");
     				 }
     			 }
     		}); 
