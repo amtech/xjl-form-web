@@ -17,4 +17,11 @@
     </mvc:interceptor>  
 </mvc:interceptors> 
  -->
+ <!-- 登录拦截器 -->
+ <mvc:interceptors>
+ 	<mvc:interceptor>
+ 			<mvc:mapping path="/**"/>
+ 			<bean class="com.xjl.pt.form.controller.loginInterceptor"></bean>
+ 	</mvc:interceptor>
+ </mvc:interceptors>
 </beans>  
