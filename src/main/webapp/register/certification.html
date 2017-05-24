@@ -13,17 +13,19 @@
 <script src="../js/xjl/js/custom.js"></script>
 <script type="text/javascript">
 $(function(){
-	$("#userName").html(decodeURI(decodeURI(GetQueryString('userName'))));
-	$("#cardNo").html(GetQueryString('cardNo'));
+	/*拦截参数*/
+	showParam();
+	/*创建上传*/
 	fileUpload("file_upload","uploadfileQueue","pic_view_div1 img","front");
 	fileUpload("file_upload_1","uploadfileQueue_1","pic_view_div2 img","back");
 	fileUpload("file_upload_2","uploadfileQueue_2","pic_view_div3 img","hand");
+	/*提交*/
 	$("#submit").click(function(){
-		if("" == val){
+		var arr = val.split(",");
+		if(arr.length<3){
 			alert("请选择证照");
 			return;
 		}
-		var arr = val.split(",");
 		var front = "";
 		var back = "";
 		var hand = "";
@@ -52,6 +54,15 @@ $(function(){
 		});
 	});
 });
+/*得到参数*/
+function showParam(){
+	var userName = decodeURI(decodeURI(GetQueryString('userName')));
+	var cardNo = GetQueryString('cardNo');
+	//增加展示控制
+	$("#userName").html(userName);
+	$("#cardNo").html(cardNo);
+}
+/*上传*/
 var val="";
 function fileUpload(fileid,queueid,showimg,sign){
 	$("#"+fileid).uploadify({
@@ -130,11 +141,11 @@ function fileUpload(fileid,queueid,showimg,sign){
 	<table id="from_table" border="0"  width="99%">
 		<tr>
 			<td align="right">姓名：</td>
-			<td colspan="2" align="left">	<label id="userName">张X三</label></td>
+			<td colspan="2" align="left">	<label id="userName"></label></td>
 		</tr>
 		<tr>
 			<td align="right">身份证号码：</td>
-			<td colspan="2" align="left"><label id="cardNo">3204123222122223432</label></td>
+			<td colspan="2" align="left"><label id="cardNo"></label></td>
 		</tr>
 		<tr>
 			<td colspan="2" > 上传身份证正面、背面照片:

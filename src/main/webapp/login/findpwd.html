@@ -29,9 +29,9 @@
 				showMsg("警告","请输入正确的手机号");
 				return;
 			} 
-			var data="";
+			var data={"phoneno":phone};
 			$.restPost({
-				 url:'../rest/user/sendMsg?phoneno='+phone,
+				 url:'../rest/user/sendMsg',
 				 data:data,
 				 success:function(data){
 					 if(data.success){
@@ -83,8 +83,7 @@
 				 showMsg("警告","两次输入密码不符,请重新输入");
 				 return;
 			}
-			var data="{'phoneNo':'"+phoneNo+"','password':'"+password+"'}";
-			data =eval("(" + data + ")");
+			var data={"phoneNo":phoneNo,"password":password};
 			$.restPost({
 				 url:'../rest/user/updatePwd',
 				 data:data,

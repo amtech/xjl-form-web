@@ -19,6 +19,7 @@ function createCode(){
         checkCode.className = "code";
         checkCode.innerHTML = code;
     }
+    return code;
 }
 /*序列化表单*/
 function toSerialize(){

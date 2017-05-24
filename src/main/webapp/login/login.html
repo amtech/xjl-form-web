@@ -3,23 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <title>登录页面</title>
-<link rel="stylesheet" href="../css/tabulous.css">
 <link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/buttons.css">
-<script src="../js/jquery-2.2.2.js"></script>
-<script src="../js/tabulous.js"></script>
-<script src="../js/custom.js"></script>
+<link rel="stylesheet" href="../css/tabulous.css">
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css">
+<script  type="text/javascript"  src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script  type="text/javascript"  src="../js/jquery/js/jquery-rest.js"></script>
+<script  type="text/javascript"  src="../js/xjl/js/tabulous.js"></script>
+<script  type="text/javascript"  src="../js/xjl/js/custom.js"></script>
 <script>
+var code;
 $(function(){
+	code = createCode();
 	/*tab切换*/
 	$('.tabs').tabulous({
 		effect: 'scale'
 	});
-	createCode();
+	/*注册按钮*/
+	$("#register").click(function(){
+		window.location.href="../register/register.html";
+	});
+	/*更新验证码*/
+	$("#checkCode").click(function(){
+		code = createCode();
+	});
+	/*登录操作*/
+	$("#login").click(function(){
+		var loginId  =  $("#loginName").val();
+		var loginPwd  =  $("#loginPwd").val();
+		var verify = $("#verify").val();
+		if(loginId.length == 0){
+			showMsg("警告","请输入用户名!");
+			return ;
+		}
+		if(loginPwd.length == 0){
+			showMsg("警告","请输入密码!");
+			return ;
+		}
+		if(verify != code){
+			showMsg("警告","请输入有效的验证码!");
+			return ;
+		}
+		var data={"loginId":loginId,"loginPwd":loginPwd};
+		$.restPost({
+			 url:'../rest/user/login',
+			 data:data,
+			 success:function(data){
+				 if(data.success){
+					 //登录成功跳转
+				 }else{
+					 showMsg("警告",data.errorMsg);
+					 code = createCode();
+					 return;
+				 }
+			 }
+		});
+	});
+	
 });
 </script>
 </head>
 <body>
+<div id="myAlert" class="alert alert-warning" style="display: none;">
+	<a href="#" class="close" data-dismiss="alert">&times;</a>
+	</div>
 <div id="main">
 <!-- 左边登录框 -->
 		<div class="tabs">
@@ -28,22 +74,22 @@ $(function(){
 				<li><a href="#tabs-2" title="">法人登录</a></li>
 			</ul>
 			<div id="tabs_container" style="width: 100%;">
-				<div id="tabs-1" style="margin-top: -40px;">
+				<div id="tabs-1" style="margin-top: -30px;">
 					<form class="cd-form floating-labels">
 					 	<table id="loginTab1"   border="0"  width="400px" height="200px" >
 					 		<tr >
-					 			<td colspan="2"><input type="text"   name="loginName" placeholder="手机号码/身份证号码"></td>
+					 			<td colspan="2"><input type="text"  id="loginName"   name="loginName" placeholder="手机号码/身份证号码"></td>
 					 		</tr>
 					 		<tr>
-					 			<td colspan="2"><input type="password" name="loginPwd" placeholder="请输入密码"></td>
+					 			<td colspan="2"><input type="password" id="loginPwd" name="loginPwd" placeholder="请输入密码"></td>
 					 		</tr>
 					 		<tr>
 					 			<td><input type="text" id="verify" placeholder="请输入验证码" style="width: 200px;"></td>
-					 			<td  style="position:relative;"id="checkCode" class="code" onclick="createCode()"></td>
+					 			<td  style="position:relative;"id="checkCode" class="code" ></td>
 					 		</tr>
 					 		<tr>
-					 			<td align="center"><a href="#" class="button button-primary button-rounded button-small">登录</a></td>
-					 			<td align="center"><a href="../register/register.html"  class="button button-primary button-rounded button-small">注册</a></td>
+					 			<td align="center"><button type = "button" id="login" class="btn-info btn-lg btn-primary"  >登录</button> </td>
+					 			<td align="center"><button type = "button" id="register" class="btn-info btn-lg btn-primary"  >注册</button></td>
 					 		</tr>
 					 		<tr>
 					 			<td align="center" colspan="2"><a href="./findpwd.html"  >忘记密码</a></td>
