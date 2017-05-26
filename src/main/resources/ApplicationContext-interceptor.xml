@@ -21,7 +21,7 @@
  <mvc:interceptors>
  	<mvc:interceptor>
  			<mvc:mapping path="/**"/>
- 			<bean class="com.xjl.pt.form.controller.loginInterceptor"></bean>
+ 			<bean class="com.xjl.pt.form.interceptor.loginInterceptor"></bean>
  	</mvc:interceptor>
  </mvc:interceptors>
 </beans>  
