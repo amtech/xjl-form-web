@@ -67,15 +67,18 @@ XJL.queryParams=function(params){
 }
 XJL.beforeShowAdd = function(){
 	//初始化下拉框
+	$("#txt_fieldType").selectpicker("val",'10');
 	$("#txt_dictId").selectpicker("val",'');
 	$("#txt_foreignTableId").selectpicker("val",'');
 }
 XJL.beforeShowUpdate = function(oDataModel){
+	$('#txt_fieldType').selectpicker("val",oDataModel.fieldType);
 	$('#txt_dictId').selectpicker("val",oDataModel.dictId);
 	$("#txt_foreignTableId").selectpicker("val",oDataModel.foreignTableId);
 }
 XJL.afterHiddenModal = function(){
 	//清除下拉框
+	XJL.clearSelectPicker("txt_fieldType");
 	XJL.clearSelectPicker("txt_dictId");
 	XJL.clearSelectPicker("txt_foreignTableId");
 }
