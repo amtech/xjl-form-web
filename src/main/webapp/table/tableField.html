@@ -32,7 +32,7 @@ $(function () {
     //1、初始化表格
     XJL.initTable("tb_tableField","../rest/tableField",10);
     //2、注册增删改事件
-    XJL.initOperate2("../rest/tableField","fieldId,fieldName,fieldDesc,fieldType,dictId,tableId,foreignTableId,fieldLength,pk");
+    XJL.initOperate2("../rest/tableField","fieldId,fieldName,fieldDesc,fieldType,dictId,tableId,foreignTableId,fieldLength");
     XJL.loadSelectOption({selectId:"txt_dictId",url: "../rest/dict/query/1/1000",valueName:"dictId",textName:"dictName"});
     XJL.loadSelectOption({selectId:"txt_foreignTableId",url: "../rest/table/query/1/1000",valueName:"tableId",textName:"tableName"});
     /**
@@ -66,22 +66,15 @@ XJL.queryParams=function(params){
 	return params;
 }
 XJL.beforeShowAdd = function(){
-	//初始化combox
-	$('#txt_pk').checkboxpicker();
-	$('#txt_pk').prop('checked', false);
 	//初始化下拉框
 	$("#txt_dictId").selectpicker("val",'');
 	$("#txt_foreignTableId").selectpicker("val",'');
 }
 XJL.beforeShowUpdate = function(oDataModel){
-	$('#txt_pk').checkboxpicker();
-	$('#txt_pk').prop('checked', oDataModel.pk === "Y");
 	$('#txt_dictId').selectpicker("val",oDataModel.dictId);
 	$("#txt_foreignTableId").selectpicker("val",oDataModel.foreignTableId);
 }
 XJL.afterHiddenModal = function(){
-	//清除combox
-	$('#txt_pk').next().remove();
 	//清除下拉框
 	XJL.clearSelectPicker("txt_dictId");
 	XJL.clearSelectPicker("txt_foreignTableId");
@@ -89,22 +82,8 @@ XJL.afterHiddenModal = function(){
 //自定义提交前方法，一般做一些验证或者赋值
 XJL.beforeSubmit = function(oDataModel){
 	oDataModel.tableId = tableId;
-	if ($('#txt_pk').is(':checked')){
-		oDataModel.pk = "Y";
-	} else {
-		oDataModel.pk = "N";
-	}
+	oDataModel.tableId$name=tableName;
 }
-
-function tableFieldPkFormatter(value, row, index){
-	switch (value){
-	case "Y":
-		return "是";
-	default:
-		return "否";
-	}
-}
-
 </script>
 </head>
 <body>
@@ -130,7 +109,6 @@ function tableFieldPkFormatter(value, row, index){
                     <th data-field="fieldDesc">描述</th>
                     <th data-field="fieldType$name">类型</th>
                     <th data-field="fieldLength" >长度</th>
-                    <th data-field="pk" data-formatter="tableFieldPkFormatter">是不是主键</th>
                     <th data-field="dictId$name" >字典名称</th>
                     <th data-field="tableId$name" >表名称</th>
                     <th data-field="foreignTableId$name" >外键表名称</th>
@@ -159,12 +137,11 @@ function tableFieldPkFormatter(value, row, index){
                        			<option value="20">数字</option>
                        			<option value="30">日期</option>
                        			<option value="40">字典</option>
-                       			
+                       			<option value="50">主键</option>
+                       			<option value="60">外键</option>
                        		</select>
                        		<label for="txt_fieldLength">长度</label>
                             <input type="text" name="txt_fieldLength" data-bind="value:fieldLength" class="form-control" id="txt_fieldLength" placeholder="长度">
-                       		<label for="txt_pk">主键</label>
-							<input type="checkbox" id="txt_pk" name="txt_pk"  data-group-cls="btn-group-justified">
                        		<label for="txt_dictId">字典</label>
                             <select name="txt_dictId" data-bind="value:dictId" class="selectpicker show-tick form-control" id="txt_dictId" data-live-search="true">
                             <option selected>空</option>
