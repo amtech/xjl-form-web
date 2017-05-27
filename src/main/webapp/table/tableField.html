@@ -67,7 +67,7 @@ XJL.queryParams=function(params){
 }
 XJL.beforeShowAdd = function(){
 	//初始化下拉框
-	$("#txt_fieldType").selectpicker("val",'10');
+	$("#txt_fieldType").selectpicker("val",'');
 	$("#txt_dictId").selectpicker("val",'');
 	$("#txt_foreignTableId").selectpicker("val",'');
 }
@@ -136,6 +136,7 @@ XJL.beforeSubmit = function(oDataModel){
                             <input type="text" name="txt_fieldDesc" data-bind="value:fieldDesc" class="form-control" id="txt_fieldDesc" placeholder="描述">
                        		<label for="txt_fieldType">类型</label>
                        		<select name="txt_fieldType" data-bind="value:fieldType" class="selectpicker show-tick form-control" id="txt_fieldType" data-live-search="true">
+                       			<option selected>空</option>
                        			<option value="10">字符</option>
                        			<option value="20">数字</option>
                        			<option value="30">日期</option>
