@@ -1,32 +1,79 @@
-<html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <head>
-<script type="text/javascript" src="js/jquery-2.2.2.js"></script>
-<script type="text/javascript" src="js/jquery-rest.js"></script>
+<title>互联网+政务服务门户</title>
+<style type='text/css'>
+	body {
+	     background-color: #CCC;
+	}
+</style>
+<link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css" >
+<link rel="stylesheet" href="js/bootstrap/css/bootstrap-theme.min.css" >
+<link rel="stylesheet" href="js/bootstraptable/css/bootstrap-table.min.css">
+<link rel="stylesheet" href="js/bootstrapselect/css/bootstrap-select.min.css">
+<script src="js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="js/jquery/js/jquery-rest.js"></script>
+<script src="js/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/bootstraptable/js/tableExport.js"></script>
+<script src="js/bootstraptable/js/bootstrap-table.js"></script>
+<script src="js/bootstraptable/js/bootstrap-table-export.js"></script>
+<script src="js/knockout/js/knockout-3.4.2.js"></script>
+<script src="js/knockout/js/knockout.mapping-latest.js"></script>
+<script src="js/bootstraptable/js/knockout.bootstraptable.js"></script>
+<script src="js/bootstrapselect/js/bootstrap-select.min.js"></script>
+<script src="js/bootstrapselect/js/i18n/defaults-zh_CN.min.js"></script>
+<script src="js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
+<script src="js/xjl/js/xjl.js"></script>
+<script src="js/xjl/js/xjl-table.js"></script>
 </head>
-
-<script type="text/javascript">
-function test(){
-	$.restPost({
-		  url: 'rest/form/add',
-		  data: {formName:'abcd123'},
-		  success: function(data){
-			  alert(data);
-		  }
-		});
-}
-function query(){
-	$.restGet({
-		  url: 'rest/form/all/1/10',
-		  success: function(data){
-			  console.log(data);
-		  }
-		});
-}
-</script>
 <body>
-<h2>Hello XJL Form!</h2>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <img class="navbar-brand" src="images/xjl.png" height="30px">
+      <label class="navbar-brand">互联网+政务服务</label>
+    </div>
 
-<button onClick="test()">abc</button>
-<button onClick="query()">query</button>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">网上大厅 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">政务公开</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">南京 <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">鼓楼</a></li>
+            <li><a href="#">玄武</a></li>
+            <li><a href="#">江宁</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">江北新区</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">溧水</a></li>
+          </ul>
+        </li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">搜索</button>
+      </form>
+        <li><a href="#">登录</a></li>
+        <li><a href="#">咨询</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 </body>
 </html>
