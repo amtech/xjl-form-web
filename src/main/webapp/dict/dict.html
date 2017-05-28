@@ -25,16 +25,16 @@ XJL.bindCloseWindowEvent();
 //初始化
 $(function () {
     //1、初始化表格
-    XJL.initTable("tb_dict","../rest/dict",3);
+    XJL.initTable("tb_dict","../rest/dict",10);
     //2、注册增删改事件
     XJL.initOperate("../rest/dict",{dictId:ko.observable(),dictName:ko.observable()});
 });
 
-function dictValueCountFormatter(value, row, index) {
-	if (value > 0){
-		return '<a href="dictValue.html?parentEvent=XJL.tableViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="点击查看值列表">'+row.dictValueCount+'个</a>';
+function dictItemCountFormatter(item, row, index) {
+	if (item > 0){
+		return '<a href="dictItem.html?parentEvent=XJL.tableViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="点击查看值列表">'+row.dictItemCount+'个</a>';
 	} else {
-		return '<a href="dictValue.html?parentEvent=XJL.tableViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="添加一个字典值">添加一个</a>';
+		return '<a href="dictItem.html?parentEvent=XJL.tableViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="添加一个字典值">添加一个</a>';
 	}
 }
 </script>
@@ -58,7 +58,7 @@ function dictValueCountFormatter(value, row, index) {
                     <th data-checkbox="true"></th>
                     <th data-field="dictId">字典id</th>
                     <th data-field="dictName">字典名称</th>
-                    <th data-field="dictValueCount" data-formatter="dictValueCountFormatter">选项数量</th>
+                    <th data-field="dictItemCount" data-formatter="dictItemCountFormatter">选项数量</th>
                 </tr>
             </thead>
         </table>

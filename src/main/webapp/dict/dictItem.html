@@ -28,9 +28,9 @@ XJL.bindCloseWindowEvent();
 $(function () {
 	$("#dictNamePanel").text("字典名称:" + dictName);
     //1、初始化表格
-    XJL.initTable("tb_dictValue","../rest/dictValue",3);
+    XJL.initTable("tb_dictItem","../rest/dictItem",3);
     //2、注册增删改事件
-    XJL.initOperate("../rest/dictValue",{dictId:ko.observable(),dictValueId:ko.observable(),dictValueCode:ko.observable(),dictValueName:ko.observable()});
+    XJL.initOperate("../rest/dictItem",{dictId:ko.observable(),dictItemId:ko.observable(),dictItemCode:ko.observable(),dictItemName:ko.observable()});
 });
 //添加查询参数
 XJL.queryParams=function(params){
@@ -58,12 +58,12 @@ XJL.beforeSubmit = function(oViewModel){
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
             </button>
         </div>
-       <table id="tb_dictValue" data-bind="myBootstrapTable:$root">
+       <table id="tb_dictItem" data-bind="myBootstrapTable:$root">
             <thead>
                 <tr>
                     <th data-checkbox="true"></th>
-                    <th data-field="dictValueCode">字典值代码</th>
-                    <th data-field="dictValueName" >字典值名称</th>
+                    <th data-field="dictItemCode">字典项代码</th>
+                    <th data-field="dictItemName" >字典项名称</th>
                 </tr>
             </thead>
         </table>
@@ -78,12 +78,12 @@ XJL.beforeSubmit = function(oViewModel){
                     </div>
                     <div class="modal-body">
 <div class="form-group">
-                            <label for="txt_dictValueCode">字典值代码</label>
-                            <input type="text" name="txt_dictValueCode" data-bind="value:dictValueCode" class="form-control" id="txt_dictValueCode" placeholder="字典名称">
+                            <label for="txt_dictItemCode">字典项代码</label>
+                            <input type="text" name="txt_dictItemCode" data-bind="value:dictItemCode" class="form-control" id="txt_dictItemCode" placeholder="字典名称">
                         </div>
                         <div class="form-group">
-                            <label for="txt_dictValueName">字典值名称</label>
-                            <input type="text" name="txt_dictValueName" data-bind="value:dictValueName" class="form-control" id="txt_dictValueName" placeholder="字典名称">
+                            <label for="txt_dictItemName">字典项名称</label>
+                            <input type="text" name="txt_dictItemName" data-bind="value:dictItemName" class="form-control" id="txt_dictItemName" placeholder="字典名称">
                         </div>
                     </div>
                     <div class="modal-footer">

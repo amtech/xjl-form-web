@@ -66,7 +66,7 @@ function tableFieldCountFormatter(value, row, index) {
         </table>
         
 	</div>
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div data-backdrop="false" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -75,7 +75,7 @@ function tableFieldCountFormatter(value, row, index) {
                     </div>
                     <div class="modal-body">
 
-                        <div class="form-group">
+                        <div class="form-horizontal form-group">
                             <label for="txt_tableName">表名称</label>
                             <input type="text" name="txt_tableName" data-bind="value:tableName" class="form-control" id="txt_tableName" placeholder="表名称">
                        		<label for="txt_tableDesc">描述</label>
