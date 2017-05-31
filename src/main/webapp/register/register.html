@@ -65,9 +65,9 @@ $(function(){
     			showMsg("警告","请输入正确的手机号");
     			return;
     		} 
-    		var data="";
+    		var data={"phoneno":phone};
     		$.restPost({
-    			 url:'../rest/user/sendMsg?phoneno='+phone,
+    			 url:'../rest/user/sendMsg',
     			 data:data,
     			 success:function(data){
     				 if(data.success){
