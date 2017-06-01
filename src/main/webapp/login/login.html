@@ -12,6 +12,8 @@
 <script  type="text/javascript"  src="../js/xjl/js/custom.js"></script>
 <script>
 var code;
+var SIGN_CITY="diffcity";
+var SIGN_IP="diffip";
 $(function(){
 	code = createCode();
 	/*tab切换*/
@@ -43,25 +45,47 @@ $(function(){
 			showMsg("警告","请输入有效的验证码!");
 			return ;
 		}
+		//做登录验证
 		var data={"loginId":loginId,"loginPwd":loginPwd};
 		$.restPost({
-			 url:'../rest/user/login',
-			 data:data,
-			 success:function(data){
-				 if(data.success){
-					 //登录成功跳转
-					  $("#myAlert").attr("class","alert alert-success");
-					 showMsg("提示","登录成功!");
-				 }else{
+			url:'../rest/user/loginVerify',
+			data:data,
+			success:function(data){
+				if(data.success){
+					doLogin(data);
+				}else{
+					 //在不同城市(手机验证)
+					 if(SIGN_CITY == data.errorMsg){
+						window.location.href="./noteverify.html";
+					 }
+					 //不同ip(验证码验证现在登录有验证码暂不修改)
+					 if(SIGN_IP == data.errorMsg){}
 					 showMsg("警告",data.errorMsg);
 					 code = createCode();
 					 return;
-				 }
-			 }
+				}
+			}
 		});
 	});
-	
 });
+/*登录*/
+function doLogin(data){
+	$.restPost({
+		 url:'../rest/user/login',
+		 data:data,
+		 success:function(data){
+			 if(data.success){
+				 //登录成功跳转
+				  $("#myAlert").attr("class","alert alert-success");
+				 showMsg("提示","登录成功!");
+			 }else{
+				 showMsg("警告",data.errorMsg);
+				 code = createCode();
+				 return;
+			 }
+		 }
+	});
+}
 </script>
 </head>
 <body>
