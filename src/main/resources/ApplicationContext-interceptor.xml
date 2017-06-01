@@ -23,5 +23,6 @@
  			<mvc:mapping path="/**"/>
  			<bean class="com.xjl.pt.form.interceptor.loginInterceptor"></bean>
  	</mvc:interceptor>
- </mvc:interceptors> 
+ </mvc:interceptors>
+  
 </beans>  
