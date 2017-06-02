@@ -22,11 +22,55 @@ jQuery.extend(XJL,{
 	        ko.applyBindings(this.tableViewModel, document.getElementById(tableDiv));
 	    },
 	    initOperate:function (baseURL,domainModel) {
+	    	this.operateButtonStatus();
 	        this.operateAdd(baseURL,jQuery.extend({}, domainModel));
 	        this.operateUpdate(baseURL,jQuery.extend({}, domainModel));
 	        this.operateDelete(baseURL);
-	        
+	        this.operateSelect();
+	        this.operateBack();
 	        //this.domainModel =  jQuery.extend(true, {}, domainModel);
+	    },
+	    operateSelect:function(){
+	    	$('#btn_select').on("click", function () {
+	        	var arrselectedData = XJL.tableViewModel.getSelections();
+	            if (!XJL.operateCheck(arrselectedData)) { 
+	            	return; 
+	            }
+	            XJL.executeBindCloseWindow = false;
+	            if (window.opener && XJL.getUrlParam("parentEvent")){
+					var parentEvent = XJL.getUrlParam("parentEvent");
+					eval("window.opener."+parentEvent+"({deptId:'"+arrselectedData[0].deptId+"',deptName:'"+arrselectedData[0].deptName+"'})");
+					window.close();
+					
+				}
+	    	});
+	    },
+	    operateBack:function(){
+	    	$('#btn_back').on("click", function () {
+				window.close();
+	    	});
+	    },
+	    operateButtonStatus:function(){
+	    	if (XJL.getUrlParam("editFlag") == "true"){
+	    		$('#btn_add').show();
+	    		$('#btn_edit').show();
+	    		$('#btn_delete').show();
+	    	} else {
+	    		$('#btn_add').hide();
+	    		$('#btn_edit').hide();
+	    		$('#btn_delete').hide();
+	    	}
+	    	if (XJL.getUrlParam("selectFlag")=="true"){
+	        	//如果只是选择，隐藏增删改按钮
+	    		$('#btn_select').show();
+	        } else {
+	        	$('#btn_select').hide();
+	        }
+	    	if (window.opener){
+	    		$('#btn_back').show();
+	    	} else {
+	    		$('#btn_back').hide();
+	    	}
 	    },
 	    initOperate2:function (baseURL,fieldList) {
 	    	var fieldNameList = fieldList.split(",");

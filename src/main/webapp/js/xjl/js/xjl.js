@@ -19,15 +19,20 @@ var XJL = {
 			return this.urlParams[name];
 		},
 		bindCloseWindowEvent:function(){
+			console.log("executeBindCloseWindow",this.executeBindCloseWindow);
 			console.log("绑定关闭窗口事件");
 			console.log("父窗口",window.opener);
 			console.log("parentEvent", this.getUrlParam("parentEvent"));
 			if (window.opener && this.getUrlParam("parentEvent")){
 				console.log("父窗口不为空，并且父窗口事件也不为空")
 				$(window).bind('beforeunload',function(){
-					var parentEvent = XJL.getUrlParam("parentEvent");
-					eval("window.opener."+parentEvent+"()");
+					if (this.executeBindCloseWindow){
+						var parentEvent = XJL.getUrlParam("parentEvent");
+						eval("window.opener."+parentEvent+"({deptId:'123',deptName:'name123'})");
+					}
 				});
 			}
-		}
+		},
+		executeBindCloseWindow : true
 }
+XJL.bindCloseWindowEvent();
