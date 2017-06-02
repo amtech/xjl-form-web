@@ -130,6 +130,7 @@ function photo(){
 function doFlash(){
 	var MyCan= thisMovie("My_Cam");
 	var base64Data = MyCan.GetBase64Code();
+	alert(base64Data);
 	var data={"base64Face":base64Data};
 	 $.restPost({
 		 type:'post',
@@ -164,15 +165,16 @@ function thisMovie(movieName) {
 function tabkePhotoForHtml5(){
 	var video=document.getElementById("video");
 	//拍照画在画布上
-	//context.drawImage(video,0,0,500,400);
-	var canvas = document.getElementById("canvas"); 
 	
+	var canvas = document.getElementById("canvas"); 
+	var ctx = canvas.getContext("2d");
+	ctx.drawImage(video,0,0,500,400);
 	//从画布上获取照片数据
 	var imgData = canvas.toDataURL();
-	//将图片转换为Base64
+	//将图片转换为Base64,并去除data%3Aimage%2Fpng%3Bbase64%2C的开头
 	var base64Data = imgData.substr(22);
 	var data={"base64Face":base64Data};
-  //执行确定操作
+  	//执行确定操作
 	$.restPost({
 		 type:'post',
 		 dataType: 'json',
@@ -185,7 +187,7 @@ function tabkePhotoForHtml5(){
 	    			window.location.href="terminalphoneNumber.html?userid="+userid;
 	    	 }else{
 	    			showMsg("操作失败","请重试");
-	    	 }	
+	    	 }
 		 }
 	});
 }
@@ -200,7 +202,7 @@ function getQueryString(name) {
 </script>
 </head>
 <body style="text-align: center; background: #f7f8fa;">
-<form id="imageForm" method="post" enctype="multipart/form-data" class="text-center" style="text-align:center;">
+<form id="imageForm" method="post"  class="text-center" style="text-align:center;">
 	
 <!-- HTML5调用 -->
 
