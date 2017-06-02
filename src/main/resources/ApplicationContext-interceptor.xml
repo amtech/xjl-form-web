@@ -17,12 +17,23 @@
     </mvc:interceptor>  
 </mvc:interceptors> 
  -->
- <!-- 登录拦截器 -->
+ 
  <mvc:interceptors>
+ 	<!-- 登录拦截器 -->
  	<mvc:interceptor>
- 			<mvc:mapping path="/**"/>
- 			<bean class="com.xjl.pt.form.interceptor.loginInterceptor"></bean>
+ 			<!-- 要拦截的地址 -->
+             <mvc:mapping path="/**"/>
+             <!-- 排除拦截的地址 -->
+             <mvc:exclude-mapping path="/css/**"/>
+             <mvc:exclude-mapping path="/js/**"/>
+             <mvc:exclude-mapping path="/images/**"/>
+ 			<bean class="com.xjl.pt.form.interceptor.LoginInterceptor"></bean>
+ 	</mvc:interceptor>
+ 	<!-- 日志记录 -->
+ 	<mvc:interceptor>
+ 			<!-- 要拦截的地址 -->
+             <mvc:mapping path="/**"/>
+ 			<bean class="com.xjl.pt.form.interceptor.LogInterceptor"></bean>
  	</mvc:interceptor>
  </mvc:interceptors>
-  
 </beans>  
