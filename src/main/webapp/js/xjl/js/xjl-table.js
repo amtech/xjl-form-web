@@ -36,10 +36,10 @@ jQuery.extend(XJL,{
 	            if (!XJL.operateCheck(arrselectedData)) { 
 	            	return; 
 	            }
-	            XJL.executeBindCloseWindow = false;
-	            if (window.opener && XJL.getUrlParam("parentEvent")){
-					var parentEvent = XJL.getUrlParam("parentEvent");
-					eval("window.opener."+parentEvent+"({deptId:'"+arrselectedData[0].deptId+"',deptName:'"+arrselectedData[0].deptName+"'})");
+	            //XJL.executeBindCloseWindow = false;
+	            if (window.opener && XJL.getUrlParam("parentSelectEvent")){
+					var parentSelectEvent = XJL.getUrlParam("parentSelectEvent");
+					eval("window.opener."+parentSelectEvent+"({deptId:'"+arrselectedData[0].deptId+"',deptName:'"+arrselectedData[0].deptName+"'})");
 					window.close();
 					
 				}

@@ -32,8 +32,8 @@ $(function () {
 });
 function setParentDeptId(parentDept){
 	if (parentDept){
-		$('#txt_parentDeptId').val(parentDept.deptId);
-		$('[id="txt_parentDeptId$name"]').val(parentDept.deptName);
+		$('#txt_parentDeptId').val(parentDept.deptId).change();
+		$('[id="txt_parentDeptId$name"]').val(parentDept.deptName).change();
 	}
 }
 </script>
@@ -85,7 +85,7 @@ function setParentDeptId(parentDept){
                         <label for="txt_deptName">部门名称</label>
                         <input type="text" name="txt_deptName" data-bind="value:deptName" class="form-control" id="txt_deptName" placeholder="部门名称">
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" style="display: none">
                         <label for="txt_parentDeptId">上级部门Id</label>
                         <input type="text" name="txt_parentDeptId" data-bind="value:parentDeptId" class="form-control" id="txt_parentDeptId" placeholder="上级部门id">
                     </div>
@@ -93,7 +93,7 @@ function setParentDeptId(parentDept){
                         <label for="txt_parentDeptId$name">上级部门</label>
                         <input type="text" name="txt_parentDeptId$name" data-bind="value:parentDeptId$name" class="form-control" id="txt_parentDeptId$name" placeholder="上级部门">
                         <span class="input-group-btn">
-                        	<button id="btn_parentDeptId_select" type="button" class="btn btn-default" onclick="window.open('dept.html?parentEvent=setParentDeptId&selectFlag=true')">选择</button>
+                        	<button id="btn_parentDeptId_select" type="button" class="btn btn-default" onclick="window.open('dept.html?parentSelectEvent=setParentDeptId&selectFlag=true')">选择</button>
     					</span>
                     </div>
                     

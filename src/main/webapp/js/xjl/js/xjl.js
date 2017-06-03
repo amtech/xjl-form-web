@@ -28,7 +28,7 @@ var XJL = {
 				$(window).bind('beforeunload',function(){
 					if (this.executeBindCloseWindow){
 						var parentEvent = XJL.getUrlParam("parentEvent");
-						eval("window.opener."+parentEvent+"({deptId:'123',deptName:'name123'})");
+						eval("window.opener."+parentEvent+"()");
 					}
 				});
 			}
