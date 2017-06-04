@@ -30,6 +30,15 @@ jQuery.extend(XJL,{
 	        this.operateBack();
 	        //this.domainModel =  jQuery.extend(true, {}, domainModel);
 	    },
+	    //支持字段列表模式
+	    initOperate2:function (baseURL,fieldList) {
+	    	var fieldNameList = fieldList.split(",");
+	    	var domainModel = {};
+	    	$.each(fieldNameList,function(key,val){
+	    		domainModel[val]=ko.observable();
+	    	});
+	        this.initOperate(baseURL,domainModel);
+	    },
 	    operateSelect:function(){
 	    	$('#btn_select').on("click", function () {
 	        	var arrselectedData = XJL.tableViewModel.getSelections();
@@ -39,7 +48,7 @@ jQuery.extend(XJL,{
 	            //XJL.executeBindCloseWindow = false;
 	            if (window.opener && XJL.getUrlParam("parentSelectEvent")){
 					var parentSelectEvent = XJL.getUrlParam("parentSelectEvent");
-					eval("window.opener."+parentSelectEvent+"({deptId:'"+arrselectedData[0].deptId+"',deptName:'"+arrselectedData[0].deptName+"'})");
+					eval("window.opener."+parentSelectEvent+"(arrselectedData[0])");
 					window.close();
 					
 				}
@@ -72,14 +81,7 @@ jQuery.extend(XJL,{
 	    		$('#btn_back').hide();
 	    	}
 	    },
-	    initOperate2:function (baseURL,fieldList) {
-	    	var fieldNameList = fieldList.split(",");
-	    	var domainModel = {};
-	    	$.each(fieldNameList,function(key,val){
-	    		domainModel[val]=ko.observable();
-	    	});
-	        this.initOperate(baseURL,domainModel);
-	    },
+	    
 	    //新增
 	    operateAdd: function(baseURL,domainModel){
 	        $('#btn_add').on("click", function () {
@@ -173,18 +175,18 @@ jQuery.extend(XJL,{
 	        return true;
 	    },
 	    beforeSubmit:function(oViewModel){
-	    	
+	    	//编辑模态窗口提交之前
 	    },
 	    queryParams:function(params){
 	    	return params;
 	    },
 	    beforeShowAdd:function(){
-	    	
+	    	//新增窗口显示之前
 	    },
 	    beforeShowUpdate:function(oDataModel){
-	    	
+	    	//编辑窗口显示之前
 	    },
 	    afterHiddenModal:function(){
-	    	
+	    	//编辑窗口隐藏后出发的事件
 	    }
 })

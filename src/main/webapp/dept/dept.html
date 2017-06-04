@@ -22,18 +22,19 @@
 <script src="../js/xjl/js/xjl.js"></script>
 <script src="../js/xjl/js/xjl-table.js"></script>
 <script>
+XJL.bindCloseWindowEvent();
 //初始化
 $(function () {
    //1、初始化表格
     XJL.initTable("tb_dept","../rest/dept",10);
     //2、注册增删改事件
-    XJL.initOperate("../rest/dept",{deptName:ko.observable(),deptId:ko.observable(),parentDeptId:ko.observable(),parentDeptId$name:ko.observable()});
-    
+    XJL.initOperate2("../rest/dept","deptName,deptId,parentDeptId,parentDeptId$name");
 });
-function setParentDeptId(parentDept){
-	if (parentDept){
-		$('#txt_parentDeptId').val(parentDept.deptId).change();
-		$('[id="txt_parentDeptId$name"]').val(parentDept.deptName).change();
+
+function setParentDeptId(dept){
+	if (dept){
+		$('#txt_parentDeptId').val(dept.deptId).change();
+		$('[id="txt_parentDeptId$name"]').val(dept.deptName).change();
 	}
 }
 </script>
@@ -42,8 +43,8 @@ function setParentDeptId(parentDept){
 
 <div class="panel-body" style="padding-bottom:0px;">
 <div id="toolbar" class="btn-group">
-    <button id="btn_add" type="button" class="btn btn-default" style="display: none">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+    <button id="btn_add" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true" style="display: none"></span>新增
     </button>
     <button id="btn_edit" type="button" class="btn btn-default" style="display: none">
         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
@@ -51,7 +52,7 @@ function setParentDeptId(parentDept){
     <button id="btn_delete" type="button" class="btn btn-default" style="display: none">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
     </button>
-    <button id="btn_select" type="button" class="btn btn-default" style="display: none" >
+	    <button id="btn_select" type="button" class="btn btn-default" style="display: none" >
         <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>选择
     </button>
     <button id="btn_back" type="button" class="btn btn-default" style="display: none">
@@ -63,7 +64,6 @@ function setParentDeptId(parentDept){
         <tr>
             <th data-checkbox="true"></th>
             <th data-field="deptName">部门名称</th>
-            <th data-field="deptId">部门id</th>
             <th data-field="parentDeptId$name">上级部门</th>
         </tr>
     </thead>
@@ -71,7 +71,7 @@ function setParentDeptId(parentDept){
 
 </div>
 
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div data-backdrop="false" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -85,17 +85,18 @@ function setParentDeptId(parentDept){
                         <input type="text" name="txt_deptName" data-bind="value:deptName" class="form-control" id="txt_deptName" placeholder="部门名称">
                     </div>
                     <div class="input-group" style="display: none">
-                        <label for="txt_parentDeptId">上级部门Id</label>
-                        <input type="text" name="txt_parentDeptId" data-bind="value:parentDeptId" class="form-control" id="txt_parentDeptId" placeholder="上级部门id">
+                        <label for="txt_parentDeptId">上级部门</label>
+                        <input type="text" name="txt_parentDeptId" data-bind="value:parentDeptId" class="form-control" id="txt_parentDeptId" placeholder="上级部门">
                     </div>
-                    <div class="input-group">
+                    <div>
                         <label for="txt_parentDeptId$name">上级部门</label>
-                        <input type="text" name="txt_parentDeptId$name" data-bind="value:parentDeptId$name" class="form-control" id="txt_parentDeptId$name" placeholder="上级部门">
-                        <span class="input-group-btn">
-                        	<button id="btn_parentDeptId_select" type="button" class="btn btn-default" onclick="window.open('dept.html?parentSelectEvent=setParentDeptId&selectFlag=true')">选择</button>
-    					</span>
+                        <div class="input-group">
+                            <input type="text" name="txt_parentDeptId$name" data-bind="value:parentDeptId$name" class="form-control" id="txt_parentDeptId$name" placeholder="上级部门">
+                            <span class="input-group-btn">
+                                <button id="btn_parentDeptId_select" type="button" class="btn btn-default" onclick="window.open('dept.html?parentSelectEvent=setParentDeptId&selectFlag=true')">选择</button>
+                	            </span>
+                        </div>
                     </div>
-                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>

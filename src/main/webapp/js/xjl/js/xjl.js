@@ -23,7 +23,7 @@ var XJL = {
 			console.log("绑定关闭窗口事件");
 			console.log("父窗口",window.opener);
 			console.log("parentEvent", this.getUrlParam("parentEvent"));
-			if (window.opener && this.getUrlParam("parentEvent")){
+			if (window.opener && XJL.getUrlParam("parentEvent")){
 				console.log("父窗口不为空，并且父窗口事件也不为空")
 				$(window).bind('beforeunload',function(){
 					if (this.executeBindCloseWindow){
