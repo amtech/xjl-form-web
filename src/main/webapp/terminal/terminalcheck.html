@@ -37,10 +37,14 @@ $(function(){
 	
 	
 	$("#check").click(function(){
-		if($('#checkForm').data('bootstrapValidator').isValid()){
+			
 			var phoneNumber=getphoneNumber();
 			var userid=getuserid();
 			var verify=$("#verifyCode").val();
+			if(verify.length==0){
+				showMsg("警告","请输入验证码");
+				return;
+			}
 			$.restPost({
 				type:'post',
 				url:'../rest/user/check',
@@ -60,9 +64,7 @@ $(function(){
 					}
 				}
 			});
-		}else{
-			showMsg("警告","请将信息填写完整");
-		}
+		
 	});
 	
 	
@@ -76,16 +78,28 @@ $(function(){
 	</div>
 	<form id="checkForm" role="form">
 		<div class = "form-group">
-			<label for="verifyCode">请输入验证码</label>
-			<input type = "text" class = "form-control" id = "verifyCode"  name="verifyCode" placeholder = "请输入验证码"></input> 
+		<table id="checktable" style="text-align:center;border-collapse:   separate;   border-spacing:   20px;   " width="100%">
+			<tr>
+				<td>
+					<label for="verifyCode">请输入验证码</label>
+				</td>
+			</tr>
+			<tr height="20%">
+				<td align="center">
+					<input type = "text" class = "form-control" style="width:50%"id = "verifyCode"  name="verifyCode" placeholder = "请输入验证码"></input> 
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button type = "button" id="check" class="btn-info btn-lg btn-primary"  data-toggle="button"  >提交验证</button>
+				</td>
+			</tr>
+		</table>
 		</div>
-		<div class="form-group"> 
-	     <button type = "button" id="check" class="btn-info btn-lg btn-primary"  data-toggle="button"  >提交验证</button> 
-	     
-	    </div> 
 	</form>
 	</div>
 <script type="text/javascript">
+/*
 $(function(){
 	$("#checkForm").bootstrapValidator({
 		message: 'This value is not valid',
@@ -107,6 +121,7 @@ $(function(){
 	
 	
 });
+*/
 </script>
 </body>
 </html>

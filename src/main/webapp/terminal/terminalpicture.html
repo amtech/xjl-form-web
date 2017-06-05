@@ -212,12 +212,12 @@ function getQueryString(name) {
 		
 		
 		<tr>
-		<td colspan="2" style="font:50">照片采集:
+		<td colspan="2" style="font-size:100">照片采集:
 		</td>
 		</tr>
 		<tr>
 			<td align="right">
-				<div id="FalshDiv"  style="text-align:center;display:line;">
+				<div id="FalshDiv"  style="text-align:center;display:display;">
 					<object style="z-index: 100" id="My_Cam" align="middle" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
 	                codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
 	                height="400" viewastext="在线拍照" width="500">
@@ -231,12 +231,12 @@ function getQueryString(name) {
 	                    src="../js/MyCamera.swf" type="application/x-shockwave-flash" width="500"></embed>
 	   				</object>
 				</div>
-				<div id="HTML5Div" style="text-align:center;display:none;">
+				<div id="HTML5Div" style="text-align:center;display:display;">
 					<video id="video" width="500" height="400" autoplay ></video>
 					<canvas id="canvas" width="500" height="400" style="display:none;"></canvas>
 				</div>
 			</td>
-			<td rowspan="2">
+			<td >
 				<div style="padding-right:50%">
 					注意：手持身份证照片内的证件文字信息<br/>
 					必须完整清晰，否则您的认证将<br/>肯定不通过,
@@ -246,12 +246,14 @@ function getQueryString(name) {
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center">
+			<td  colspan="2">
 				  <button type = "button" id="takePhoto" class="btn-info btn-lg btn-primary" onclick="photo();" >确定</button> 
 			</td>
-			<td colspan="2" align="center">
+			<!-- 
+			<td  style="margin-left:10%;">
 				  <button type = "button" id="cancel" class="btn-info btn-lg btn-primary" >取消</button>
 			</td>
+			 -->
 		</tr>
 	</table>
 </form>
