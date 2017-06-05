@@ -19,7 +19,8 @@
     float: none;  
     display: block;  
     margin-left: auto;  
-    margin-right: auto;  
+    margin-right: auto; 
+    margin-top:250px; 
 }  
 </style>
 <script type="text/javascript" >
@@ -36,28 +37,32 @@ $(function(){
 	
 	
 	$("#check").click(function(){
-		var phoneNumber=getphoneNumber();
-		var userid=getuserid();
-		var verify=$("#verifyCode").val();
-		$.restPost({
-			type:'post',
-			url:'../rest/user/check',
-			data:{
-				"phoneno":phoneNumber,
-				"verify":verify,
-				"userid":userid,
-			},
-			dataType:'json',
-			success:function(data){
-				if(data.success){
-					$("#myAlert").attr("class","alert alert-success");
-					 showMsg("成功","验证码正确");
-					 window.location.href = "terminalpassword.html?userid="+userid;
-				}else{
-					showMsg("警告","验证码错误");
+		if($('#checkForm').data('bootstrapValidator').isValid()){
+			var phoneNumber=getphoneNumber();
+			var userid=getuserid();
+			var verify=$("#verifyCode").val();
+			$.restPost({
+				type:'post',
+				url:'../rest/user/check',
+				data:{
+					"phoneno":phoneNumber,
+					"verify":verify,
+					"userid":userid,
+				},
+				dataType:'json',
+				success:function(data){
+					if(data.success){
+						$("#myAlert").attr("class","alert alert-success");
+						 showMsg("成功","验证码正确");
+						 window.location.href = "terminalpassword.html?userid="+userid;
+					}else{
+						showMsg("警告","验证码错误");
+					}
 				}
-			}
-		});
+			});
+		}else{
+			showMsg("警告","请将信息填写完整");
+		}
 	});
 	
 	
@@ -75,10 +80,33 @@ $(function(){
 			<input type = "text" class = "form-control" id = "verifyCode"  name="verifyCode" placeholder = "请输入验证码"></input> 
 		</div>
 		<div class="form-group"> 
-	     <button type = "button" id="check" class="btn-info btn-lg btn-primary"  data-toggle="button"  >验证</button> 
-	     <button type = "button" class="btn-info btn-lg">取消</button> 
+	     <button type = "button" id="check" class="btn-info btn-lg btn-primary"  data-toggle="button"  >提交验证</button> 
+	     
 	    </div> 
 	</form>
 	</div>
+<script type="text/javascript">
+$(function(){
+	$("#checkForm").bootstrapValidator({
+		message: 'This value is not valid',
+ 	 	feedbackIcons: {
+             valid: 'glyphicon glyphicon-ok',
+             invalid: 'glyphicon glyphicon-remove',
+             validating: 'glyphicon glyphicon-refresh'
+        },
+        fields:{
+        	verifyCode:{
+     	  		 validators: {
+     	  			notEmpty: {
+                         message: '验证码不能为空'
+                   	}
+     	  		 }
+     	  	}
+        }
+	});
+	
+	
+});
+</script>
 </body>
 </html>
