@@ -14,15 +14,6 @@
 <script src="../js/bootstrap/js/bootstrap.min.js"></script>
 <script src="../js/bootstrapvalidator/js/bootstrapValidator.js"></script>
 <script src="../js/xjl/js/custom.js"></script>
-<style type="text/css">
-.col-center-block {  
-    float: none;  
-    display: block;  
-    margin-left: auto;  
-    margin-right: auto; 
-    margin-top:250px; 
-}  
-</style>
 <script type="text/javascript" >
 $(function(){
 	/*获得号码*/
@@ -72,13 +63,12 @@ $(function(){
 </script>
 </head>
 <body>
-<div class="col-xs-6 col-md-4 col-center-block" > 
-  <div id="myAlert" class="alert alert-warning" style="display: none;">
+  <div id="myAlert" class="alert alert-warning" style="display: none; margin-top:0px;">
 	<a href="#" class="close" data-dismiss="alert">&times;</a>
 	</div>
 	<form id="checkForm" role="form">
 		<div class = "form-group">
-		<table id="checktable" style="text-align:center;border-collapse:   separate;   border-spacing:   20px;   " width="100%">
+		<table id="checktable" class="cd-form floating-labels" border="0" width="100%" style="text-align:center;border-collapse:separate;   border-spacing:20px;  margin-top:250px; ">
 			<tr>
 				<td>
 					<label for="verifyCode">请输入验证码</label>
@@ -86,7 +76,7 @@ $(function(){
 			</tr>
 			<tr height="20%">
 				<td align="center">
-					<input type = "text" class = "form-control" style="width:50%"id = "verifyCode"  name="verifyCode" placeholder = "请输入验证码"></input> 
+					<input type = "text" class = "form-control" style="width:20%"id = "verifyCode"  name="verifyCode" placeholder = "请输入验证码"></input> 
 				</td>
 			</tr>
 			<tr>
@@ -97,7 +87,6 @@ $(function(){
 		</table>
 		</div>
 	</form>
-	</div>
 <script type="text/javascript">
 /*
 $(function(){

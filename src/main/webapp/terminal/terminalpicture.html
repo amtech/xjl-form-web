@@ -17,13 +17,6 @@
 <script src="../js/bootstrapvalidator/js/bootstrapValidator.js"></script>
 <script src="../js/xjl/js/custom.js"></script>
 <style type="text/css">
-.col-center-block {  
-    float: none;  
-    display: block;  
-    margin-left: auto;  
-    margin-right: auto; 
-     
-}  
 </style>
 <script type="text/javascript">
 /**
@@ -212,12 +205,11 @@ function getQueryString(name) {
 		
 		
 		<tr>
-		<td colspan="2" style="font-size:100">照片采集:
-		</td>
+		<td colspan="2" ><span style="font-size:25px;">照片采集:</span></td>
 		</tr>
 		<tr>
 			<td align="right">
-				<div id="FalshDiv"  style="text-align:center;display:display;">
+				<div id="FalshDiv"  style="text-align:center;display:block;">
 					<object style="z-index: 100" id="My_Cam" align="middle" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
 	                codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
 	                height="400" viewastext="在线拍照" width="500">
@@ -231,13 +223,13 @@ function getQueryString(name) {
 	                    src="../js/MyCamera.swf" type="application/x-shockwave-flash" width="500"></embed>
 	   				</object>
 				</div>
-				<div id="HTML5Div" style="text-align:center;display:display;">
+				<div id="HTML5Div" style="text-align:center;display:none;">
 					<video id="video" width="500" height="400" autoplay ></video>
 					<canvas id="canvas" width="500" height="400" style="display:none;"></canvas>
 				</div>
 			</td>
 			<td >
-				<div style="padding-right:50%">
+				<div style="padding-right:50% ;">
 					注意：手持身份证照片内的证件文字信息<br/>
 					必须完整清晰，否则您的认证将<br/>肯定不通过,
 					如下图示例：<br/>
