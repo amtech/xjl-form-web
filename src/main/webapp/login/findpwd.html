@@ -89,6 +89,10 @@
 				 data:data,
 				 success:function(data){
 					 if(data.success){
+						 //登录成功跳转
+						  $("#myAlert").attr("class","alert alert-success");
+						 showMsg("提示","密码修改成功!");
+						 window.location.href="./login.html";
 					 }else{
 						 showMsg("警告","密码修改失败");
 					 }
@@ -117,7 +121,7 @@
 			<td><button type = "button" id="sendCode" class="btn-info btn-lg btn-primary"  >发送验证码</button></td>
 	</tr>
 	<tr>
-			<td>已有账号，<a href="#" >现在登录</a></td>
+			<td>已有账号，<a href="./login.html" >现在登录</a></td>
 	</tr>
 </table>
 <!-- 审核手机验证码 -->
@@ -135,7 +139,7 @@
 			<td><button type = "button" id="subVerify" class="btn-info btn-lg btn-primary"  >提交验证</button></td>
 	</tr>
 	<tr>
-			<td>已有账号，<a href="#" >现在登录</a></td>
+			<td>已有账号，<a href="./login.html" >现在登录</a></td>
 	</tr>
 </table>
 <!-- 修改新密码 -->
@@ -159,7 +163,7 @@
 			<td><button type = "button" id="updatePwd" class="btn-info btn-lg btn-primary"  >确认修改</button></td>
 	</tr>
 	<tr>
-			<td>已有账号，<a href="#" >现在登录</a></td>
+			<td>已有账号，<a href="./login.html" >现在登录</a></td>
 	</tr>
 </table>
 </body>
