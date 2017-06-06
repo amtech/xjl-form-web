@@ -10,8 +10,7 @@
 <script type="text/javascript" src="../js/jquery/js/jquery-2.2.2.js"></script>
 <script type="text/javascript" src="../js/jquery/js/jquery-ui.js"></script>
 
-<script type="text/javascript" src="../js/jquery/js/jquery-rest.js"></script>
-<script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+
 <script type="text/javascript" src="../js/jquery/js/jquery-rest.js"></script>
 <script src="../js/bootstrap/js/bootstrap.min.js"></script>
 <script src="../js/bootstrapvalidator/js/bootstrapValidator.js"></script>
@@ -30,10 +29,6 @@ $(function(){
       .click(function( event ) {
         event.preventDefault();
       });
-    $("#cancel").button()
-    .click(function( event ) {
-      event.preventDefault();
-    });
 	//判断浏览器
 	isBrowser = doVerificationBrowser();
 	//根据浏览器不同使用不同方法调用摄像头
@@ -73,42 +68,44 @@ function doVerificationBrowser(){
 /**
  * 使用HTML5调用摄像头拍摄照片(适用于非IE浏览器)
  */
-var canvas,context,video,videoObj,errBack;
-function doHtml5(){
-	//Put event listeners into place
-	window.addEventListener("DOMContentLoaded", function() {
-		// Grab elements, create settings, etc.
-		    canvas = document.getElementById("canvas"),
-			context = canvas.getContext("2d"),
-			video = document.getElementById("video"),
-			videoObj = { "video": true },
-			errBack = function(error) {
-				console.log("Video capture error: ", error.code); 
-			};
-		// Put video listeners into place
-		if(navigator.getUserMedia) { // Standard
-			navigator.getUserMedia(videoObj, function(stream) {
-				video.src = stream;
-				video.play();
-			}, errBack);
-		} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-			navigator.webkitGetUserMedia(videoObj, function(stream){
-				video.src = window.webkitURL.createObjectURL(stream);
-				video.play();
-			}, errBack);
-		}
-		else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-			navigator.mozGetUserMedia(videoObj, function(stream){
-				video.src = window.URL.createObjectURL(stream);
-				video.play();
-			}, errBack);
-		}
-	}, false); 
-}
+ var canvas,context,video,videoObj,errBack;
+ function doHtml5(){
+ 	//Put event listeners into place
+ 	window.addEventListener("DOMContentLoaded", function() {
+ 		// Grab elements, create settings, etc.
+ 		    canvas = document.getElementById("canvas"),
+ 			context = canvas.getContext("2d"),
+ 			video = document.getElementById("video"),
+ 			videoObj = { "video": true },
+ 			errBack = function(error) {
+ 				console.log("Video capture error: ", error.code); 
+ 			};
+ 		// Put video listeners into place
+ 		if(navigator.getUserMedia) { // Standard
+ 			navigator.getUserMedia(videoObj, function(stream) {
+ 				video.src = stream;
+ 				video.play();
+ 			}, errBack);
+ 		} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+ 			navigator.webkitGetUserMedia(videoObj, function(stream){
+ 				video.src = window.webkitURL.createObjectURL(stream);
+ 				video.play();
+ 			}, errBack);
+ 		}
+ 		else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+ 			navigator.mozGetUserMedia(videoObj, function(stream){
+ 				video.src = window.URL.createObjectURL(stream);
+ 				video.play();
+ 			}, errBack);
+ 		}
+ 	}, false); 
+ }
+
 /**
  * 拍照
  */
 function photo(){
+	isBrowser = doVerificationBrowser();
 	//IE
 	if(isBrowser){
 		doFlash();
@@ -123,7 +120,6 @@ function photo(){
 function doFlash(){
 	var MyCan= thisMovie("My_Cam");
 	var base64Data = MyCan.GetBase64Code();
-	alert(base64Data);
 	var data={"base64Face":base64Data};
 	 $.restPost({
 		 type:'post',
@@ -160,12 +156,14 @@ function tabkePhotoForHtml5(){
 	//拍照画在画布上
 	
 	var canvas = document.getElementById("canvas"); 
-	var ctx = canvas.getContext("2d");
-	ctx.drawImage(video,0,0,500,400);
+//	var ctx = canvas.getContext("2d");
+	var context=canvas.getContext("2d");
+	context.drawImage(video,0,0,500,400);
 	//从画布上获取照片数据
 	var imgData = canvas.toDataURL();
 	//将图片转换为Base64,并去除data%3Aimage%2Fpng%3Bbase64%2C的开头
 	var base64Data = imgData.substr(22);
+//	alert(base64Data);
 	var data={"base64Face":base64Data};
   	//执行确定操作
 	$.restPost({
@@ -201,15 +199,15 @@ function getQueryString(name) {
 
 	
 	
-	<table id="from_table" border="0"  width="99%">
+	<table id="from_table" border="0"  width="99%" style="text-align:center;border-collapse:   separate;   border-spacing:   20px;   ">
 		
 		
 		<tr>
 		<td colspan="2" ><span style="font-size:25px;">照片采集:</span></td>
 		</tr>
-		<tr>
-			<td align="right">
-				<div id="FalshDiv"  style="text-align:center;display:block;">
+		<tr style="margin-top:100px;">
+			<td align="right" >
+				<div id="FalshDiv"  style="text-align:center;display:none;">
 					<object style="z-index: 100" id="My_Cam" align="middle" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
 	                codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
 	                height="400" viewastext="在线拍照" width="500">
@@ -228,8 +226,8 @@ function getQueryString(name) {
 					<canvas id="canvas" width="500" height="400" style="display:none;"></canvas>
 				</div>
 			</td>
-			<td >
-				<div style="padding-right:50% ;">
+			<td>
+				<div style="text-align:center;">
 					注意：手持身份证照片内的证件文字信息<br/>
 					必须完整清晰，否则您的认证将<br/>肯定不通过,
 					如下图示例：<br/>
@@ -238,8 +236,8 @@ function getQueryString(name) {
 			</td>
 		</tr>
 		<tr>
-			<td  colspan="2">
-				  <button type = "button" id="takePhoto" class="btn-info btn-lg btn-primary" onclick="photo();" >确定</button> 
+			<td  colspan="2" height="20%">
+				  <button type = "button" id="takePhoto" class="btn-info btn-lg btn-primary" onclick="photo();" style="margin-top:50px;" >拍照</button> 
 			</td>
 			<!-- 
 			<td  style="margin-left:10%;">
