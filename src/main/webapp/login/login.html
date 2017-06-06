@@ -50,45 +50,23 @@ $(function(){
 		//做登录验证
 		var data={"loginId":loginId,"loginPwd":loginPwd};
 		$.restPost({
-			url:'../rest/user/loginVerify',
-			data:data,
-			success:function(data){
-				if(data.success){
-					doLogin(loginId,loginPwd);
-				}else{
-					 //在不同城市(手机验证)
-					/*  if(SIGN_CITY == data.errorMsg){
-						window.location.href="./noteverify.html";
-						return;
-					 } */
-					 //不同ip(验证码验证现在登录有验证码暂不修改)
+			 url:'../rest/user/login',
+			 data:data,
+			 success:function(data){
+				 if(data.success){
+					 //登录成功跳转
+					  $("#myAlert").attr("class","alert alert-success");
+					 showMsg("提示","登录成功!");
+					 window.location.href="../manage/index.html";
+				 }else{
 					 showMsg("警告",data.errorMsg);
 					 code = createCode();
 					 return;
-				}
-			}
+				 }
+			 }
 		});
 	});
 });
-/*登录*/
-function doLogin(loginId,loginPwd){
-	var data1={"loginId":loginId,"loginPwd":loginPwd};
-	$.restPost({
-		 url:'../rest/user/login',
-		 data:data1,
-		 success:function(data){
-			 if(data.success){
-				 //登录成功跳转
-				  $("#myAlert").attr("class","alert alert-success");
-				 showMsg("提示","登录成功!");
-			 }else{
-				 showMsg("警告",data.errorMsg);
-				 code = createCode();
-				 return;
-			 }
-		 }
-	});
-}
 </script>
 </head>
 <body>

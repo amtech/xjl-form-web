@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Xenon Boostrap Admin Panel" />
+	<meta name="author" content="" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
+	<link rel="stylesheet" href="../js/assets/css/fonts/linecons/css/linecons.css">
+	<link rel="stylesheet" href="../js/assets/css/fonts/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../js/assets/css/bootstrap.css">
+	<link rel="stylesheet" href="../js/assets/css/xenon-core.css">
+	<link rel="stylesheet" href="../js/assets/css/xenon-forms.css">
+	<link rel="stylesheet" href="../js/assets/css/xenon-components.css">
+	<link rel="stylesheet" href="../js/assets/css/xenon-skins.css">
+	<link rel="stylesheet" href="../js/assets/css/custom.css">
+	
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	
+</head>
+<body class="page-body">
+	<div class="settings-pane">
+		<a href="#" data-toggle="settings-pane" data-animate="true">
+			&times;
+		</a>
+		<!-- head -->
+		<div class="settings-pane-inner">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="user-info">
+						<div class="user-image">
+							<a href="extra-profile.html">
+								<img src="../js/assets/images/user.jpeg" class="img-responsive img-circle" />
+							</a>
+						</div>
+						<div class="user-details">
+							<h3>
+								<a href="#" id="loginName">XJL</a>
+								<!-- Available statuses: is-online, is-idle, is-busy and is-offline -->
+								<span class="user-status is-online"></span>
+							</h3>
+							<p class="user-title">角色：互联网+政务服务</p>
+							<div class="user-links">
+								<a href="#" class="btn btn-primary">编辑</a>
+								<a href="#" class="btn btn-success">个人信息</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 信息 -->
+				<div class="col-md-8 link-blocks-env">
+					<div class="links-block left-sep">
+						<h4>
+							<span>通知通告</span>
+						</h4>
+						<ul class="list-unstyled">
+							<li>
+								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk1" />
+								<label for="sp-chk1"></label>
+							</li>
+							<li>
+								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk2" />
+								<label for="sp-chk2"></label>
+							</li>
+							<li>
+								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk3" />
+								<label for="sp-chk3"></label>
+							</li>
+							<li>
+								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk4" />
+								<label for="sp-chk4"></label>
+							</li>
+						</ul>
+					</div>
+					<!-- 求助台 -->
+					<div class="links-block left-sep">
+						<h4>
+							<a href="#">
+								<span>帮助</span>
+							</a>
+						</h4>
+						<ul class="list-unstyled">
+							<li>
+								<a href="#">
+									<i class="fa-angle-right"></i>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa-angle-right"></i>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa-angle-right"></i>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa-angle-right"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+			
+		<!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
+		<!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
+		<!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
+		<div class="sidebar-menu toggle-others fixed">
+			<div class="sidebar-menu-inner">	
+				<header class="logo-env">
+					<!-- logo -->
+					<div class="logo">
+						<a href="#" class="logo-expanded">
+							<img src="../js/assets/images/logo@2x.png" width="130" alt="" />
+						</a>
+					</div>
+					
+					<!-- This will toggle the mobile menu and will be visible only on mobile devices -->
+					<div class="mobile-menu-toggle visible-xs">
+						<a href="#" data-toggle="user-info-menu">
+							<i class="fa-bell-o"></i>
+							<span class="badge badge-success"></span>
+						</a>
+						<a href="#" data-toggle="mobile-menu">
+							<i class="fa-bars"></i>
+						</a>
+					</div>
+					<!-- This will open the popup with user profile settings, you can use for any purpose, just be creative -->
+					<div class="settings-icon">
+						<a href="#" data-toggle="settings-pane" data-animate="true">
+							<i class="linecons-cog"></i>
+						</a>
+					</div>
+				</header>
+				<ul id="main-menu" class="main-menu">
+					<!-- add class "multiple-expanded" to allow multiple submenus to open -->
+					<!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
+					<li class="active opened active">
+						<a href="dashboard-1.html">
+							<i class="linecons-cog"></i>
+							<span class="title">系统设置</span>
+						</a>
+						<ul>
+							<li class="active">
+								<a href="#">
+									<span class="title">系统日志</span>
+								</a>
+							</li>
+							<li>
+								<a href="skin-generator.html">
+									<span class="title">系统皮肤</span> 
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 主页面 -->
+		<div class="main-content">
+			<!-- User Info, Notifications and Menu Bar -->
+			<nav class="navbar user-info-navbar" role="navigation">
+				<!-- Left links for user info navbar -->
+				<ul class="user-info-menu left-links list-inline list-unstyled">
+					<li class="hidden-sm hidden-xs">
+						<a href="#" data-toggle="sidebar">
+							<i class="fa-bars"></i>
+						</a>
+					</li>
+					<!-- 消息提示 -->
+					<li class="dropdown hover-line">
+						<a href="#" data-toggle="dropdown">
+							<i class="fa-bell-o"></i>
+							<span class="badge badge-purple">0</span>
+						</a>
+						<ul class="dropdown-menu notifications">
+							<li class="external">
+								<a href="#">
+									<span>View all notifications</span>
+									<i class="fa-link-ext"></i>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<!-- 检索框 -->
+				<!-- Right links for user info navbar -->
+				<ul class="user-info-menu right-links list-inline list-unstyled">
+					<li class="search-form"><!-- You can add "always-visible" to show make the search input visible -->
+						<form method="get" action="extra-search.html">
+							<input type="text" name="s" class="form-control search-field" placeholder="Type to search..." />
+							<button type="submit" class="btn btn-link">
+								<i class="linecons-search"></i>
+							</button>
+						</form>
+					</li>
+					<li class="dropdown user-profile">
+						<a href="#" data-toggle="dropdown">
+							<img src="../js/assets/images/user.jpeg" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
+							<span >
+								<p id="loginNameSpan">XJL BACK</p>
+								<i class="fa-angle-down"></i>
+							</span>
+						</a>
+						
+						<ul class="dropdown-menu user-profile-menu list-unstyled">
+							<li>
+								<a href="#edit-profile">
+									<i class="fa-edit"></i>
+									个人信息
+								</a>
+							</li>
+							<li>
+								<a href="#settings">
+									<i class="fa-wrench"></i>
+									修改密码
+								</a>
+							</li>
+							<li>
+								<a href="#profile">
+									<i class="fa-user"></i>
+									手机号码
+								</a>
+							</li>
+							<li>
+								<a href="#help">
+									<i class="fa-info"></i>
+									帮助
+								</a>
+							</li>
+							<li class="last">
+								<a href="extra-lockscreen.html">
+									<i class="fa-lock"></i>
+									退出
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<!-- 主界面 -->
+			<div class="row">
+				<div class="col-sm-3">
+				</div>
+				<div class="col-sm-6">
+				</div>
+				<div class="col-sm-3">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+				</div>
+				<div class="col-sm-6">
+				</div>
+			</div>
+			<!-- Main Footer -->
+			<!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
+			<!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) -->
+			<!-- Or class "fixed" to  always fix the footer to the end of page -->
+			<footer class="main-footer sticky footer-type-1">
+				<div class="footer-inner">
+					<!-- Add your copyright text here -->
+					<div class="footer-text">
+						&copy; 2017 
+						<strong>XJL</strong> 
+						theme by <a href="#" target="_blank">Laborator</a>
+					</div>
+					<!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
+					<div class="go-up">
+						<a href="#" rel="go-top">
+							<i class="fa-angle-up"></i>
+						</a>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script src="../js/assets/js/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery/js/jquery-rest.js"></script>
+	<!-- Bottom Scripts -->
+	<script src="../js/assets/js/bootstrap.min.js"></script>
+	<script src="../js/assets/js/TweenMax.min.js"></script>
+	<script src="../js/assets/js/resizeable.js"></script>
+	<script src="../js/assets/js/joinable.js"></script>
+	<script src="../js/assets/js/xenon-api.js"></script>
+	<script src="../js/assets/js/xenon-toggles.js"></script>
+	<!-- Imported scripts on this page -->
+	<script src="../js/assets/js/xenon-widgets.js"></script>
+	<script src="../js/assets/js/devexpress-web-14.1/js/globalize.min.js"></script>
+	<script src="../js/assets/js/devexpress-web-14.1/js/dx.chartjs.js"></script>
+	<script src="../js/assets/js/toastr/toastr.min.js"></script>
+	<!-- JavaScripts initializations and stuff -->
+	<script src="../js/assets/js/xenon-custom.js"></script>
+	<script type="text/javascript">
+		/*初始化*/
+		$(function(){
+			var data={};
+			$.restPost({
+				 url:'../rest/user/showUser',
+				 data:data,
+				 success:function(data){
+					if(data){
+						$("#loginName").html(data.userName);
+						$("#loginNameSpan").html(data.userName);
+					}
+				 }
+			});
+		});
+	</script>
+</body>
+</html>

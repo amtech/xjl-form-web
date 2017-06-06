@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="xjl-form-web">
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+        <dependent-module archiveName="xjl-pt-security.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/xjl-pt-security/xjl-pt-security">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="xjl-webController.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/xjl-webController/xjl-webController">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="xjl-form-controller.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/xjl-form-controller/xjl-form-controller">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="xjl-notification-verifyCode.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/xjl-notification-verifyCode/xjl-notification-verifyCode">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="xjl-sms-aliyun.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/xjl-sms-aliyun/xjl-sms-aliyun">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="xjl_pt_core.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/xjl_pt_core/xjl_pt_core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="xjl-sql-processor.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/xjl-sql-processor/xjl-sql-processor">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="xjl-form-core.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/xjl-form-core/xjl-form-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="xjl-notification-sms.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/xjl-notification-sms/xjl-notification-sms">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="xjl-form-web"/>
+        <property name="java-output-path" value="/xjl-form-web/target/classes"/>
+    </wb-module>
+</project-modules>
