@@ -59,6 +59,7 @@ $(function(){
 					 //在不同城市(手机验证)
 					 if(SIGN_CITY == data.errorMsg){
 						window.location.href="./noteverify.html";
+						return;
 					 }
 					 //不同ip(验证码验证现在登录有验证码暂不修改)
 					 showMsg("警告",data.errorMsg);
