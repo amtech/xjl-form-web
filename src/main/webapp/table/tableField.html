@@ -32,7 +32,7 @@ $(function () {
     //1、初始化表格
     XJL.initTable("tb_tableField","../rest/tableField",10);
     //2、注册增删改事件
-    XJL.initOperate2("../rest/tableField","fieldId,fieldName,fieldDesc,fieldType,dictId,tableId,foreignTableId,fieldLength");
+    XJL.initOperate2("../rest/tableField","fieldId,fieldName,fieldDesc,fieldComment,fieldType,dictId,tableId,foreignTableId,fieldLength");
     XJL.loadSelectOption({selectId:"txt_dictId",url: "../rest/dict/query/1/1000",valueName:"dictId",textName:"dictName"});
     XJL.loadSelectOption({selectId:"txt_foreignTableId",url: "../rest/table/query/1/1000",valueName:"tableId",textName:"tableName"});
     /**
@@ -116,6 +116,7 @@ XJL.beforeSubmit = function(oDataModel){
                     <th data-field=fieldId>表id</th>
                     <th data-field="fieldName">名称</th>
                     <th data-field="fieldDesc">描述</th>
+                    <th data-field="fieldComment">备注</th>
                     <th data-field="fieldType$name">类型</th>
                     <th data-field="fieldLength" >长度</th>
                     <th data-field="dictId$name" >字典名称</th>
@@ -140,6 +141,8 @@ XJL.beforeSubmit = function(oDataModel){
                             <input type="text" name="txt_" data-bind="value:fieldName" class="form-control" id="txt_fieldName" placeholder="名称">
                        		<label for="txt_fieldDesc">描述</label>
                             <input type="text" name="txt_fieldDesc" data-bind="value:fieldDesc" class="form-control" id="txt_fieldDesc" placeholder="描述">
+                       		<label for="txt_fieldComment">备注</label>
+                            <input type="text" name="txt_fieldComment" data-bind="value:fieldComment" class="form-control" id="txt_fieldComment" placeholder="备注">
                        		<label for="txt_fieldType">类型</label>
                        		<select name="txt_fieldType" data-bind="value:fieldType" class="selectpicker show-tick form-control" id="txt_fieldType" data-live-search="true">
                        			<option selected>空</option>
