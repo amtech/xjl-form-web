@@ -21,7 +21,7 @@
 <script src="../js/xjl/js/xjl.js"></script>
 <script src="../js/xjl/js/xjl-table.js"></script>
 <script>
-XJL.bindCloseWindowEvent();
+var editFlag = XJL.getUrlParam("editFlag")
 //初始化
 $(function () {
     //1、初始化表格
@@ -32,9 +32,9 @@ $(function () {
 
 function dictItemCountFormatter(item, row, index) {
 	if (item > 0){
-		return '<a href="dictItem.html?parentEvent=XJL.tableViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="点击查看值列表">'+row.dictItemCount+'个</a>';
+		return '<a href="dictItem.html?parentEvent=XJL.tableViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'&editFlag='+editFlag+'" target="_blank" title="点击查看值列表">'+row.dictItemCount+'个</a>';
 	} else {
-		return '<a href="dictItem.html?parentEvent=XJL.tableViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'" target="_blank" title="添加一个字典值">添加一个</a>';
+		return '<a href="dictItem.html?parentEvent=XJL.tableViewModel.refresh&dictId='+row.dictId +'&dictName='+row.dictName+'&editFlag='+editFlag+'" target="_blank" title="添加一个字典值">添加一个</a>';
 	}
 }
 </script>

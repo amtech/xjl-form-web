@@ -23,12 +23,11 @@
 <script>
 var dictId = XJL.getUrlParam("dictId");
 var dictName = XJL.getUrlParam("dictName");
-XJL.bindCloseWindowEvent();
 //初始化
 $(function () {
 	$("#dictNamePanel").text("字典名称:" + dictName);
     //1、初始化表格
-    XJL.initTable("tb_dictItem","../rest/dictItem",3);
+    XJL.initTable("tb_dictItem","../rest/dictItem",10);
     //2、注册增删改事件
     XJL.initOperate("../rest/dictItem",{dictId:ko.observable(),dictItemId:ko.observable(),dictItemCode:ko.observable(),dictItemName:ko.observable()});
 });
