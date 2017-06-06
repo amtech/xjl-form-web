@@ -41,6 +41,8 @@ $(function(){
 			showMsg("警告","请输入密码!");
 			return ;
 		}
+		verify = verify.toLowerCase();
+		code = code.toLowerCase();
 		if(verify != code){
 			showMsg("警告","请输入有效的验证码!");
 			return ;
