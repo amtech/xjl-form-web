@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Xenon Boostrap Admin Panel" />
+	<meta name="author" content="" />
+	<title>XJl - 系统皮肤</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arimo:400,700,400italic">
+	<link rel="stylesheet" href="../js/assets/css/fonts/linecons/css/linecons.css">
+	<link rel="stylesheet" href="../js/assets/css/fonts/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../js/assets/css/bootstrap.css">
+	<link rel="stylesheet" href="../js/assets/css/xenon-core.css">
+	<link rel="stylesheet" href="../js/assets/css/xenon-forms.css">
+	<link rel="stylesheet" href="../js/assets/css/xenon-components.css">
+	<link rel="stylesheet" href="../js/assets/css/xenon-skins.css">
+	<link rel="stylesheet" href="../js/assets/css/custom.css">
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body class="page-body">
+	<div class="settings-pane">
+		<a href="#" data-toggle="settings-pane" data-animate="true">
+			&times;
+		</a>
+		<div class="settings-pane-inner">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="user-info">
+						<div class="user-image">
+							<a href="extra-profile.html">
+								<img src="../js/assets/images/user.jpeg" class="img-responsive img-circle" />
+							</a>
+						</div>
+						<div class="user-details">
+							<h3>
+								<a href="#"  id="loginName">XJL</a>
+								<!-- Available statuses: is-online, is-idle, is-busy and is-offline -->
+								<span class="user-status is-online"></span>
+							</h3>
+							<p class="user-title">互联网+政务服务</p>
+							<div class="user-links">
+								<a href="#" class="btn btn-primary">编辑</a>
+								<a href="#" class="btn btn-success">个人信息</a>
+							</div>
+						</div>
+					</div>
+				</div>
+						<!-- 信息 -->
+				<div class="col-md-8 link-blocks-env">
+					<div class="links-block left-sep">
+						<h4>
+							<span>通知通告</span>
+						</h4>
+						<ul class="list-unstyled">
+							<li>
+								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk1" />
+								<label for="sp-chk1"></label>
+							</li>
+							<li>
+								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk2" />
+								<label for="sp-chk2"></label>
+							</li>
+							<li>
+								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk3" />
+								<label for="sp-chk3"></label>
+							</li>
+							<li>
+								<input type="checkbox" class="cbr cbr-primary" checked="checked" id="sp-chk4" />
+								<label for="sp-chk4"></label>
+							</li>
+						</ul>
+					</div>
+					<!-- 求助台 -->
+					<div class="links-block left-sep">
+						<h4>
+							<a href="#">
+								<span>帮助</span>
+							</a>
+						</h4>
+						<ul class="list-unstyled">
+							<li>
+								<a href="#">
+									<i class="fa-angle-right"></i>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa-angle-right"></i>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa-angle-right"></i>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<i class="fa-angle-right"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+		<!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
+		<!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
+		<!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
+		<div class="sidebar-menu toggle-others fixed">
+			<div class="sidebar-menu-inner">	
+				<header class="logo-env">
+					<!-- logo -->
+					<div class="logo">
+						<a href="dashboard-1.html" class="logo-expanded">
+							<img src="../js/assets/images/logo@2x.png" width="120" alt="" />
+						</a>
+					</div>
+					<!-- This will toggle the mobile menu and will be visible only on mobile devices -->
+					<div class="mobile-menu-toggle visible-xs">
+						<a href="#" data-toggle="user-info-menu">
+							<i class="fa-bell-o"></i>
+							<span class="badge badge-success"></span>
+						</a>
+						<a href="#" data-toggle="mobile-menu">
+							<i class="fa-bars"></i>
+						</a>
+					</div>
+					<!-- This will open the popup with user profile settings, you can use for any purpose, just be creative -->
+					<div class="settings-icon">
+						<a href="#" data-toggle="settings-pane" data-animate="true">
+							<i class="linecons-cog"></i>
+						</a>
+					</div>
+				</header>
+						
+				<ul id="main-menu" class="main-menu">
+					<!-- add class "multiple-expanded" to allow multiple submenus to open -->
+					<!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
+					<li class="opened active">
+						<a href="#">
+							<i class="linecons-cog"></i>
+							<span class="title">系统设置</span>
+						</a>
+						<ul>
+							<li >
+								<a href="#">
+									<span class="title">系统日志</span>
+								</a>
+							</li>
+							<li class="active">
+								<a href="skin-generator.html">
+									<span class="title">系统皮肤</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+			</div>
+		</div>
+		<!-- 主页面 -->
+		<div class="main-content">
+			<!-- User Info, Notifications and Menu Bar -->
+			<nav class="navbar user-info-navbar" role="navigation">
+				<!-- Left links for user info navbar -->
+				<ul class="user-info-menu left-links list-inline list-unstyled">
+					<li class="hidden-sm hidden-xs">
+						<a href="#" data-toggle="sidebar">
+							<i class="fa-bars"></i>
+						</a>
+					</li>
+					<!-- 消息提示 -->
+					<li class="dropdown hover-line">
+						<a href="#" data-toggle="dropdown">
+							<i class="fa-bell-o"></i>
+							<span class="badge badge-purple"></span>
+						</a>
+						<ul class="dropdown-menu notifications">
+							<li class="external">
+								<a href="#">
+									<span>View all notifications</span>
+									<i class="fa-link-ext"></i>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+					<!-- 检索框 -->
+				<!-- Right links for user info navbar -->
+				<ul class="user-info-menu right-links list-inline list-unstyled">
+					<li class="search-form"><!-- You can add "always-visible" to show make the search input visible -->
+						<form method="get" action="extra-search.html">
+							<input type="text" name="s" class="form-control search-field" placeholder="Type to search..." />
+							<button type="submit" class="btn btn-link">
+								<i class="linecons-search"></i>
+							</button>
+						</form>
+					</li>
+					
+					<li class="dropdown user-profile">
+						<a href="#" data-toggle="dropdown">
+							<img src="../js/assets/images/user.jpeg" alt="user-image" class="img-circle img-inline userpic-32" width="28" />
+							<span>
+							    <p id="loginNameSpan">XJL BACK</p>
+								<i class="fa-angle-down"></i>
+							</span>
+						</a>
+						<ul class="dropdown-menu user-profile-menu list-unstyled">
+							<li>
+								<a href="#edit-profile">
+									<i class="fa-edit"></i>
+									个人信息
+								</a>
+							</li>
+							<li>
+								<a href="#settings">
+									<i class="fa-wrench"></i>
+									修改密码
+								</a>
+							</li>
+							<li>
+								<a href="#profile">
+									<i class="fa-user"></i>
+										手机号码
+								</a>
+							</li>
+							<li>
+								<a href="#help">
+									<i class="fa-info"></i>
+									帮助
+								</a>
+							</li>
+							<li class="last">
+								<a href="extra-lockscreen.html">
+									<i class="fa-lock"></i>
+									退出
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<!-- 主界面 -->
+			<div class="page-title">
+				<div class="title-env">
+					<h1 class="title">皮肤选择</h1>
+					<p class="description">选择工具栏的皮肤从预定义的调色板</p>
+				</div>
+					<div class="breadcrumb-env">
+								<ol class="breadcrumb bc-1">
+									<li>
+							<a href="index.html"><i class="fa-home"></i>Home</a>
+						</li>
+						<li class="active">
+								<strong>皮肤更换</strong>
+						</li>
+						</ol>
+				</div>
+			</div>
+			<script type="text/javascript">
+			jQuery(document).ready(function($)
+			{
+				$("[data-skin]").each(function(i, el)
+				{
+					var $el = $(el),
+						skin = $el.data('skin');
+					
+					$el.find('a').attr('data-set-skin', skin).attr('href', '#setSkin:' + skin);
+				});
+				
+				$("[data-skin-horizontal]").each(function(i, el)
+				{
+					var $el = $(el),
+						skin = $el.data('skin-horizontal');
+					
+					$el.find('a').attr('data-set-skin-horizontal', skin).attr('href', '#setHorizontalSkin:' + skin);
+				});
+				
+				$('[data-set-skin]').on('click', function(ev)
+				{
+					ev.preventDefault();
+					
+					var skin = $(this).data('set-skin'),
+						skin_name = skin ? (' skin-'+skin) : '';
+					
+					var body_classes = public_vars.$body.attr('class').replace(/skin-[a-z]+/i, '');
+					
+					public_vars.$body.attr('class', body_classes).addClass(skin_name);
+					
+					Cookies.set('current-skin', skin);
+					
+					if($(this).is('.is-login'))
+					{
+						window.open('extra-login.html');
+					}
+				});
+				
+				$('[data-set-skin-horizontal]').on('click', function(ev)
+				{
+					ev.preventDefault();
+					
+					var skin = $(this).data('set-skin-horizontal'),
+						horizontal_skin_name = skin ? (' horizontal-menu-skin-'+skin) : '',
+						user_info_navbar_skin_name = skin ? (' user-info-navbar-skin-'+skin) : '';
+					
+					var body_classes = public_vars.$body.attr('class').replace(/horizontal-menu-skin-[a-z]+/i, '').replace(/user-info-navbar-skin-[a-z]+/i, '');
+					
+					
+					if($(this).is('.is-userinfo'))
+					{
+						Cookies.set('current-user-info-navbar-skin', skin);
+						public_vars.$body.attr('class', body_classes).addClass(user_info_navbar_skin_name);
+						
+						$('[rel="go-top"]').click();
+					}
+					else
+					{
+						Cookies.set('current-horizontal-skin', skin);
+						window.open('layout-horizontal-menu.html');
+					}
+				});
+				
+				$(".reset-skin").on('click', function(ev)
+				{
+					ev.preventDefault();
+					
+					var body_classes = public_vars.$body.attr('class').replace(/(\sskin-[a-z]+)/gi, '').replace(/(\shorizontal-menu-skin-[a-z]+)/gi, '').replace(/(\suser-info-navbar-skin-[a-z]+)/gi, '');
+					
+					public_vars.$body.attr('class', body_classes);
+					
+					Cookies.set('current-skin', '');
+					Cookies.set('current-horizontal-skin', '');
+					Cookies.set('current-user-info-navbar-skin', '');
+				});
+			});
+			</script>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-options">
+						<a href="#" data-toggle="panel">
+							<span class="collapse-icon">&ndash;</span>
+							<span class="expand-icon">+</span>
+						</a>
+						<a href="#" data-toggle="remove">
+							&times;
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">
+				
+					<table class="table table-hover middle-align">
+						<thead>
+							<tr>
+								<th>皮肤名称</th>
+								<th width="300">调色板</th>
+								<th width="300">活化肌肤</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-skin="">
+								<td>
+									<a href="#" class="skin-name-link">默认皮肤</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette" data-set-skin="">
+										<span style="background-color: #2c2e2f"></span>
+										<span style="background-color: #EEE"></span>
+										<span style="background-color: #FFFFFF"></span>
+										<span style="background-color: #68b828"></span>
+										<span style="background-color: #27292a"></span>
+										<span style="background-color: #323435"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="aero">
+								<td>
+									<a href="#" class="skin-name-link">Aero</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #558C89"></span>
+										<span style="background-color: #ECECEA"></span>
+										<span style="background-color: #FFFFFF"></span>
+										<span style="background-color: #5F9A97"></span>
+										<span style="background-color: #558C89"></span>
+										<span style="background-color: #255E5b"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="navy">
+								<td>
+									<a href="#" class="skin-name-link">Navy</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #2c3e50"></span>
+										<span style="background-color: #a7bfd6"></span>
+										<span style="background-color: #FFFFFF"></span>
+										<span style="background-color: #34495e"></span>
+										<span style="background-color: #2c3e50"></span>
+										<span style="background-color: #ff4e50"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="facebook">
+								<td>
+									<a href="#" class="skin-name-link">Facebook</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #3b5998"></span>
+										<span style="background-color: #8b9dc3"></span>
+										<span style="background-color: #FFFFFF"></span>
+										<span style="background-color: #4160a0"></span>
+										<span style="background-color: #3b5998"></span>
+										<span style="background-color: #8b9dc3"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="turquoise">
+								<td>
+									<a href="#" class="skin-name-link">Turquise</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #16a085"></span>
+										<span style="background-color: #96ead9"></span>
+										<span style="background-color: #FFFFFF"></span>
+										<span style="background-color: #1daf92"></span>
+										<span style="background-color: #16a085"></span>
+										<span style="background-color: #0f7e68"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="lime">
+								<td>
+									<a href="#" class="skin-name-link">Lime</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #8cc657"></span>
+										<span style="background-color: #ffffff"></span>
+										<span style="background-color: #FFFFFF"></span>
+										<span style="background-color: #95cd62"></span>
+										<span style="background-color: #8cc657"></span>
+										<span style="background-color: #70a93c"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="green">
+								<td>
+									<a href="#" class="skin-name-link">Green</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #27ae60"></span>
+										<span style="background-color: #a2f9c7"></span>
+										<span style="background-color: #FFFFFF"></span>
+										<span style="background-color: #2fbd6b"></span>
+										<span style="background-color: #27ae60"></span>
+										<span style="background-color: #1c954f"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="purple">
+								<td>
+									<a href="#" class="skin-name-link">Purple</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #795b95"></span>
+										<span style="background-color: #c2afd4"></span>
+										<span style="background-color: #FFFFFF"></span>
+										<span style="background-color: #795b95"></span>
+										<span style="background-color: #27ae60"></span>
+										<span style="background-color: #5f3d7e"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="white">
+								<td>
+									<a href="#" class="skin-name-link">White</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #FFF"></span>
+										<span style="background-color: #666"></span>
+										<span style="background-color: #95cd62"></span>
+										<span style="background-color: #EEE"></span>
+										<span style="background-color: #95cd62"></span>
+										<span style="background-color: #555"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="concrete">
+								<td>
+									<a href="#" class="skin-name-link">Concrete</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #a8aba2"></span>
+										<span style="background-color: #666"></span>
+										<span style="background-color: #a40f37"></span>
+										<span style="background-color: #b8bbb3"></span>
+										<span style="background-color: #a40f37"></span>
+										<span style="background-color: #323232"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="watermelon">
+								<td>
+									<a href="#" class="skin-name-link">Watermelon</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #b63131"></span>
+										<span style="background-color: #f7b2b2"></span>
+										<span style="background-color: #FFF"></span>
+										<span style="background-color: #c03737"></span>
+										<span style="background-color: #b63131"></span>
+										<span style="background-color: #32932e"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+							<tr data-skin="lemonade">
+								<td>
+									<a href="#" class="skin-name-link">Lemonade</a>
+								</td>
+								<td>
+									<a href="#" class="skin-color-palette">
+										<span style="background-color: #f5c150"></span>
+										<span style="background-color: #ffeec9"></span>
+										<span style="background-color: #FFF"></span>
+										<span style="background-color: #ffcf67"></span>
+										<span style="background-color: #f5c150"></span>
+										<span style="background-color: #d9a940"></span>
+									</a>
+								</td>
+								<td>
+									<a href="#" class="btn btn-sm btn-secondary">试试这个皮肤</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			
+			
+			
+			<!-- Main Footer -->
+			<!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
+			<!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) -->
+			<!-- Or class "fixed" to  always fix the footer to the end of page -->
+			<footer class="main-footer sticky footer-type-1">
+				<div class="footer-inner">
+					<!-- Add your copyright text here -->
+					<div class="footer-text">
+						&copy; 2017 
+						<strong>XJL</strong> 
+						theme by <a href="#" target="_blank">Laborator</a>
+					</div>
+					<!-- Go to Top Link, just add rel="go-top" to any link to add this functionality -->
+					<div class="go-up">
+					
+						<a href="#" rel="go-top">
+							<i class="fa-angle-up"></i>
+						</a>
+					</div>
+					
+				</div>
+				
+			</footer>
+		</div>
+		
+			
+		<!-- start: Chat Section -->
+		<div id="chat" class="fixed">
+			
+			<div class="chat-inner">
+			
+				
+				<h2 class="chat-header">
+					<a href="#" class="chat-close" data-toggle="chat">
+						<i class="fa-plus-circle rotate-45deg"></i>
+					</a>
+					
+					Chat
+					<span class="badge badge-success is-hidden">0</span>
+				</h2>
+			</div>
+		</div>
+		<!-- end: Chat Section -->
+	</div>
+	<script src="../js/assets/js/jquery-1.11.1.min.js"></script>
+	<script src="../js/jquery/js/jquery-rest.js"></script>
+	<!-- Bottom Scripts -->
+	<script src="../js/assets/js/bootstrap.min.js"></script>
+	<script src="../js/assets/js/TweenMax.min.js"></script>
+	<script src="../js/assets/js/resizeable.js"></script>
+	<script src="../js/assets/js/joinable.js"></script>
+	<script src="../js/assets/js/xenon-api.js"></script>
+	<script src="../js/assets/js/xenon-toggles.js"></script>
+	<!-- JavaScripts initializations and stuff -->
+	<script src="../js/assets/js/xenon-custom.js"></script>
+<script type="text/javascript">
+		/*初始化*/
+		$(function(){
+			var data={};
+			$.restPost({
+				 url:'../rest/user/showUser',
+				 data:data,
+				 success:function(data){
+					if(data){
+						$("#loginName").html(data.userName);
+						$("#loginNameSpan").html(data.userName);
+					}
+				 }
+			});
+		});
+	</script>
+</body>
+</html>
