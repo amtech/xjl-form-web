@@ -49,6 +49,24 @@ XJL.afterHiddenModal = function(){
     //清除下拉框
     XJL.clearSelectPicker("txt_itemType");
 }
+function deployDirItem(dirItemId){
+	$.restPost({
+        url: "../rest/sxDirItem/deploy/"+dirItemId,
+        data: {},
+        success: function (data, status) {
+        	console.log("data",data);
+        	console.log("status",status);
+            XJL.tableViewModel.refresh();
+        }
+    });
+}
+function itemStateFormatter(item, row, index) {
+	if (item != '2'){
+		return '<a href="#" onclick="deployDirItem(\''+row.itemId+'\')">点击发布</a>';
+	} else {
+		return '已发布';
+	}
+}
 </script>
 </head>
 <body>
@@ -79,7 +97,7 @@ XJL.afterHiddenModal = function(){
             <th data-field="according">设定依据</th>
             <th data-field="baseCode">基本编码</th>
             <th data-field="itemName">事项名称</th>
-            <th data-field="itemState">事项状态</th>
+            <th data-field="itemState" data-formatter="itemStateFormatter">事项状态</th>
             <th data-field="itemVersion">版本号</th>
         </tr>
     </thead>
