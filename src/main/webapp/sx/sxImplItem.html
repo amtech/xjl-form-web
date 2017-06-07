@@ -46,6 +46,19 @@ $(function () {
     XJL.loadSelectOption({selectId:"txt_runSystemLevel",url: "../rest/dictItem/query/1/1000?dictId=803ce77b-9a31-4715-b8dd-6d754edb4b31",valueName:"dictItemCode",textName:"dictItemName"});
 });
 
+XJL.beforeSubmit = function(oDataModel){
+    //重新对字典进行赋值
+    oDataModel.itemType = $("#txt_itemType").val().toString();
+    oDataModel.implLevel = $("#txt_implLevel").val().toString();
+    oDataModel.implOrg = $("#txt_implOrg").val().toString();
+    oDataModel.implOrgType = $("#txt_implOrgType").val().toString();
+    oDataModel.joinOrg = $("#txt_joinOrg").val().toString();
+    oDataModel.serviceObject = $("#txt_serviceObject").val().toString();
+    oDataModel.officeType = $("#txt_officeType").val().toString();
+    oDataModel.openScope = $("#txt_openScope").val().toString();
+    oDataModel.serviceType = $("#txt_serviceType").val().toString();
+    oDataModel.runSystemLevel = $("#txt_runSystemLevel").val().toString();
+}
 XJL.beforeShowAdd = function(){
     //初始化下拉框
     $("#txt_itemType").selectpicker("val",'');
@@ -60,15 +73,25 @@ XJL.beforeShowAdd = function(){
     $("#txt_runSystemLevel").selectpicker("val",'');
 }
 XJL.beforeShowUpdate = function(oDataModel){
+    oDataModel.itemType=oDataModel.itemType.split(",");
     $('#txt_itemType').selectpicker("val",oDataModel.itemType);
+    oDataModel.implLevel=oDataModel.implLevel.split(",");
     $('#txt_implLevel').selectpicker("val",oDataModel.implLevel);
+    oDataModel.implOrg=oDataModel.implOrg.split(",");
     $('#txt_implOrg').selectpicker("val",oDataModel.implOrg);
+    oDataModel.implOrgType=oDataModel.implOrgType.split(",");
     $('#txt_implOrgType').selectpicker("val",oDataModel.implOrgType);
+    oDataModel.joinOrg=oDataModel.joinOrg.split(",");
     $('#txt_joinOrg').selectpicker("val",oDataModel.joinOrg);
+    oDataModel.serviceObject=oDataModel.serviceObject.split(",");
     $('#txt_serviceObject').selectpicker("val",oDataModel.serviceObject);
+    oDataModel.officeType=oDataModel.officeType.split(",");
     $('#txt_officeType').selectpicker("val",oDataModel.officeType);
+    oDataModel.openScope=oDataModel.openScope.split(",");
     $('#txt_openScope').selectpicker("val",oDataModel.openScope);
+    oDataModel.serviceType=oDataModel.serviceType.split(",");
     $('#txt_serviceType').selectpicker("val",oDataModel.serviceType);
+    oDataModel.runSystemLevel=oDataModel.runSystemLevel.split(",");
     $('#txt_runSystemLevel').selectpicker("val",oDataModel.runSystemLevel);
 }
 XJL.afterHiddenModal = function(){
@@ -257,7 +280,7 @@ XJL.afterHiddenModal = function(){
                     </div>
                     <div class="form-group">
                         <label for="txt_serviceObject">服务对象</label>
-                        <select name="txt_serviceObject" data-bind="value:serviceObject" class="selectpicker show-tick form-control" id="txt_serviceObject" data-live-search="true">
+                        <select multiple name="txt_serviceObject" data-bind="value:serviceObject" class="selectpicker show-tick form-control" id="txt_serviceObject" data-live-search="true">
                             <option selected>空</option>
                         </select>
                     </div>

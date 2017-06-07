@@ -35,6 +35,12 @@ $(function () {
     XJL.initOperate2("../rest/tableField","fieldId,fieldName,fieldDesc,fieldComment,fieldType,dictId,tableId,foreignTableId,fieldLength");
     XJL.loadSelectOption({selectId:"txt_dictId",url: "../rest/dict/query/1/1000",valueName:"dictId",textName:"dictName"});
     XJL.loadSelectOption({selectId:"txt_foreignTableId",url: "../rest/table/query/1/1000",valueName:"tableId",textName:"tableName"});
+    $("#txt_fieldType").on("changed.bs.select",function(e,clickedIndex, newValue, oldValue){
+    	if (clickedIndex==4){
+    		//如果选择字典，默认长度是100
+    		$("#txt_fieldLength").val("100");
+    	}
+    });
     /**
     $("#txt_dictId").on("changed.bs.select",function(e,clickedIndex, newValue, oldValue){
     	console.log("clickedIndex",clickedIndex);
@@ -127,7 +133,7 @@ XJL.beforeSubmit = function(oDataModel){
             </thead>
         </table>
 	</div>
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div data-backdrop="false" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
