@@ -156,8 +156,13 @@
 						</a>
 						<ul>
 							<li >
-								<a href="#">
-									<span class="title">系统日志</span>
+								<a id="system_html" href="#" onclick="javascript:switchModel('http://123.57.4.104:9998/springmvc_hello/showUploaded.do','system_html');">
+									<span class="title">发布原型</span>
+								</a>
+							</li>
+							<li >
+								<a id="system_dict" href="#" onclick="javascript:switchModel('../dict/dict.html?selectFlag=true&editFlag=true','system_html');">
+									<span class="title">系统字典</span>
 								</a>
 							</li>
 							<li>
@@ -255,7 +260,7 @@
 			<!-- 主界面 -->
 			<div class="row">
 			 	<div class="embed-responsive embed-responsive-16by9">  
-            			<iframe class="embed-responsive-item" src="http://www.shydzc.com/home"></iframe>  
+            			<iframe id="mainIframe" class="embed-responsive-item" src=""></iframe>  
         			</div> 
 				<!-- <div class="embed-responsive embed-responsive-4by3">  
 			            <embed class="embed-responsive-item" src="http://player.youku.com/player.php/sid/XMTI3NjI2MzQ2MA==/v.swf"  
@@ -317,6 +322,11 @@
 				 }
 			});
 		});
+		/*简单的切换嵌入页面*/
+		function switchModel(url,id){
+			$("#mainIframe").attr("src",url);
+			$("#"+id).addClass("active");
+		}
 	</script>
 </body>
 </html>
