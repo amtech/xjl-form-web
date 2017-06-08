@@ -15,6 +15,7 @@
 	<link rel="stylesheet" href="../js/assets/css/xenon-components.css">
 	<link rel="stylesheet" href="../js/assets/css/xenon-skins.css">
 	<link rel="stylesheet" href="../js/assets/css/custom.css">
+	<link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css">
 	
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -224,9 +225,9 @@
 						
 						<ul class="dropdown-menu user-profile-menu list-unstyled">
 							<li>
-								<a href="#edit-profile">
-									<i class="fa-edit"></i>
-									用户空间
+								<a id="userInfo" href="#edit-profile">
+									<i class="fa-user"></i>
+									个人信息维护
 								</a>
 							</li>
 							<li>
@@ -237,7 +238,7 @@
 							</li>
 							<li>
 								<a href="#profile">
-									<i class="fa-user"></i>
+									<i class="fa-th"></i>
 									手机号码
 								</a>
 							</li>
@@ -248,7 +249,7 @@
 								</a>
 							</li>
 							<li class="last">
-								<a href="extra-lockscreen.html">
+								<a href="javascript:loginOut()">
 									<i class="fa-lock"></i>
 									退出
 								</a>
@@ -291,6 +292,91 @@
 			</footer>
 		</div>
 	</div>
+	<!-- 用户空间 信息维护 start-->
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			 <div id="userInfomyAlert" class="alert alert-warning" style="display: none;">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+			</div>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							个人信息维护
+						</h4>
+					</div>
+					<div class="modal-body">
+						  <div class="form-group">
+						  		<label  for="inputfile">姓名：</label>
+						  		<label id="username"></label>
+						  </div>
+						  <div class="form-group">
+						  		<label  for="inputfile">身份证号：</label>
+						  		<label id="cardno"></label>
+						  </div>
+						  <div class="form-group">
+						  		<label  for="inputfile">电话：</label>
+						  		<label id="iphoneno"></label>
+						  		<input id="newiphone" type="hidden"/>
+						  		<button id="iphoneBtn" type="button" class="btn   btn-xs" style="margin-left: 5%">修改</button>
+						  </div>
+						  <div class="form-group">
+						  		<label  for="inputfile">邮箱：</label>
+						  		<label id="emailUpdate" ><input id="email" type="text" class="form-control"style="width:150%"  value=""></label>
+						  </div>
+						  <div class="form-group">
+						  		<label  for="inputfile">地址：</label>
+			  		 			<label id="addUpdate" ><input  id="address" type="text" class="form-control" style="width:150%" id="name"  value=""></label>
+						  </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭 </button>
+						<button id="userInfoSubmit" type="button" class="btn btn-primary"> 提交更改 </button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		<!-- 手机验证码 -->
+		<div class="modal fade" id="setIphone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			<div id="myAlert" class="alert alert-warning" style="display: none;">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+			</div>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							更换手机号<font color="red"style="font-size:12px;">(注意：验证码会发送到之前绑定手机号)</font>
+						</h4>
+					</div>
+					<div class="modal-body">
+					 <div class="form-group">
+								<label  for="inputfile">手机号：</label>
+						  		<label id="oldiphone"></label>
+						  </div>
+						  <div class="form-group">
+						  		<label  for="inputfile">输入验证码：</label>
+						  		<label><input id="code" type="text" class="form-control"style="width:100%" ></label>
+						  		<button id="sendCode" type="button" class="btn   btn-xs" style="margin-left: 9%">发送验证码</button>
+						  </div>
+						  <div class="form-group">
+						  		<label  for="inputfile">绑定新号码：</label>
+						  		<label><input id="newIphone" type="text" class="form-control"style="width:100%" ></label>
+						  </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭 </button>
+						<button id="iphoneSubmit" type="button" class="btn btn-primary"> 提交更改 </button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+	<!-- 用户空间 信息维护 end -->
 	<script src="../js/assets/js/jquery-1.11.1.min.js"></script>
 	<script src="../js/jquery/js/jquery-rest.js"></script>
 	<!-- Bottom Scripts -->
@@ -307,25 +393,145 @@
 	<script src="../js/assets/js/toastr/toastr.min.js"></script>
 	<!-- JavaScripts initializations and stuff -->
 	<script src="../js/assets/js/xenon-custom.js"></script>
+	<script src="../js/xjl/js/custom.js"></script>
 	<script type="text/javascript">
 		/*初始化*/
+		var userId;
+		var iphoneNo;
+		var sendCode;
 		$(function(){
+			/*展示登录用户*/
 			var data={};
 			$.restPost({
 				 url:'../rest/user/showUser',
 				 data:data,
 				 success:function(data){
 					if(data){
+						userId = data.userId;
 						$("#loginName").html(data.userName);
 						$("#loginNameSpan").html(data.userName);
 					}
 				 }
 			});
+			/*弹出模式框*/
+			$("#userInfo").click(function(){
+				var data={"userId":userId};
+				$.restPost({
+					url:'../rest/user/queryUserInfo',
+					data:data,
+					success:function(data){
+						if(data){
+							if("" !=data.cardName){
+								$("#username").html(data.cardName);
+							}else{
+								$("#username").html("<input id='userName' type='' class='form-control'style='width:150%' >")
+							}
+							if("" !=data.cardNo){
+								$("#cardno").html(data.cardNo);
+							}else{
+								$("#cardno").html("<input id='cardNo' type='' class='form-control'style='width:150%' >")
+							}
+							$("#iphoneno").html(data.phoneNo);
+							iphoneNo = data.phoneNo;
+							$('#userInfoModal').modal({
+								keyboard: true
+							})
+						}
+					}
+				});
+			});
+			/*修改按钮*/
+			$("#iphoneBtn").click(function(){
+				$("#oldiphone").html(iphoneNo);
+				$('#setIphone').modal({});
+			});
+			/*发送短信*/
+			$("#sendCode").click(function(){
+				var data={"phoneno":iphoneNo};
+				$.restPost({
+					 url:'../rest/user/sendMsg',
+					 data:data,
+					 success:function(data){
+						 if(data.success){
+							 $("#myAlert").attr("class","alert alert-success");
+							 showMsg("成功","短信息发送成功");
+							 sendCode = data.showMsg;
+						 }else{
+							 $("#myAlert").attr("class","alert alert-warning");
+							 showMsg("警告","短信息发送失败");
+						 }
+					 }
+				});
+			});
+			/*提交手机号*/
+			$("#iphoneSubmit").click(function(){
+				var code = $("#code").val();
+				var iphoneNo = $("#newIphone").val();
+				 $("#myAlert").attr("class","alert alert-warning");
+				if(sendCode != code){
+					 showMsg("警告","验证码输入失败");
+					 return;
+				}
+				if(iphoneNo.length == 0){
+					 showMsg("警告","请输入手机号码");
+					 return;
+				}
+				if(iphoneNo.length<11){
+					showMsg("警告","请输入正确的手机号");
+					return;
+				} 
+				if(iphoneNo.length>11){
+					showMsg("警告","请输入正确的手机号");
+					return;
+				} 
+				$("#iphoneno").html(iphoneNo);
+				$("#newiphone").val(iphoneNo);
+				//增加验证码判断
+				hideModel('setIphone');
+			});
+			/*提交用户信息*/
+			$("#userInfoSubmit").click(function(){
+				var data={"iphoneNo":$("#newiphone").val(),"userId":userId,"userName":$("#userName").val(),"cardNo":$("#cardNo").val()};
+				$.restPost({
+					 url:'../rest/user/modifyUserInfo',
+					 data:data,
+					 success:function(data){
+						 if(data.success){
+							 $("#myAlert").attr("class","alert alert-success");
+							 showMsg("成功","操作成功");
+							 setTimeout("hideModel('userInfoModal')",5000);
+						 }else{
+							 $("#myAlert").attr("class","alert alert-warning");
+							 showMsg("警告","操作失败");
+						 }
+						 sendCode="";
+					 }
+				});
+			});
 		});
+		/*隐藏魔术框*/
+		function hideModel(id){
+			$('#'+id).modal('hide');
+		}
+		
 		/*简单的切换嵌入页面*/
 		function switchModel(url,id){
 			$("#mainIframe").attr("src",url);
 			$("#"+id).addClass("active");
+		}
+		/*退出*/
+		function loginOut(){
+			var data={};
+			$.restPost({
+				 url:'../rest/user/loginOut',
+				 data:data,
+				 success:function(data){
+					 if(data.success){
+						 window.location.href="../login/login.html";
+					 }else{
+					 }
+				 }
+			});
 		}
 	</script>
 </body>
