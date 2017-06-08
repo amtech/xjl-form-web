@@ -107,6 +107,26 @@ XJL.afterHiddenModal = function(){
     XJL.clearSelectPicker("txt_serviceType");
     XJL.clearSelectPicker("txt_runSystemLevel");
 }
+function deployItem(itemId){
+	$.restPost({
+        url: "../rest/sxImplItem/deploy/"+itemId,
+        data: {},
+        success: function (data, status) {
+        	console.log("data",data);
+        	console.log("status",status);
+            XJL.tableViewModel.refresh();
+        }
+    });
+}
+function itemStateFormatter(item, row, index) {
+	if (item == '2'){
+		return '已发布';
+	} else if (item == '1'){
+		return '<a href="#" onclick="deployItem(\''+row.itemId+'\')">点击发布</a>';
+	} else {
+		return '<a href="#" onclick="deployItem(\''+row.itemId+'\')">点击批准</a>';
+	}
+}
 </script>
 </head>
 <body>
@@ -133,42 +153,13 @@ XJL.afterHiddenModal = function(){
     <thead>
         <tr>
             <th data-checkbox="true"></th>
-            <th data-field="baseCode">基本编码</th>
             <th data-field="itemName">事项名称</th>
             <th data-field="itemType$name">事项类型</th>
-            <th data-field="according">设定依据</th>
-            <th data-field="implLevel$name">行使层级</th>
-            <th data-field="permission">权限划分</th>
-            <th data-field="implContent">实施内容</th>
             <th data-field="implOrg$name">实施机构</th>
-            <th data-field="implOrgType$name">实施主体性质</th>
-            <th data-field="legalTimeLimit">法定办结时限</th>
-            <th data-field="acceptanceConditions">受理条件</th>
-            <th data-field="applicationMaterials">申请材料</th>
-            <th data-field="joinOrg$name">联办机构</th>
-            <th data-field="intermediaryService">中介服务</th>
-            <th data-field="progress">办理流程</th>
-            <th data-field="quantitativeLimit">数量限制</th>
             <th data-field="resultName">结果名称</th>
-            <th data-field="resultSample">结果样本</th>
             <th data-field="chargeFlag">是否收费</th>
-            <th data-field="chargeStandard">收费标准</th>
-            <th data-field="chargeAccording">收费依据</th>
-            <th data-field="serviceObject$name">服务对象</th>
             <th data-field="officeType$name">办件类型</th>
-            <th data-field="commitmentTimeLimit">承诺办结时限</th>
-            <th data-field="openScope$name">通办范围</th>
-            <th data-field="serviceType$name">办理形式</th>
-            <th data-field="appointmentFlag">预约办理</th>
-            <th data-field="onlinePaymentFlag">网上支付</th>
-            <th data-field="logisticsExpressFlag">物流快递</th>
-            <th data-field="runSystemLevel$name">运行系统</th>
-            <th data-field="servicePoint">办理地点</th>
-            <th data-field="serviceTime">办理时间</th>
-            <th data-field="consultingTelephone">咨询电话</th>
-            <th data-field="faq">常见问题</th>
-            <th data-field="complaintCall">监督电话</th>
-            <th data-field="itemState">事项状态</th>
+            <th data-field="itemState" data-formatter="itemStateFormatter">事项状态</th>
         </tr>
     </thead>
 </table>
