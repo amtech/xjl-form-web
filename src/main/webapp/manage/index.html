@@ -557,12 +557,12 @@
 					 data:data,
 					 success:function(data){
 						 if(data.success){
-							 $("#userPwdModal").attr("class","alert alert-success");
-							 showCustomMsg('userPwdModal',"成功","短信息发送成功");
+							 $("#userPwdAlert").attr("class","alert alert-success");
+							 showCustomMsg('userPwdAlert',"成功","短信息发送成功");
 							 sendCode = data.showMsg;
 						 }else{
-							 $("#userPwdModal").attr("class","alert alert-warning");
-							 showCustomMsg('userPwdModal',"警告","短信息发送失败");
+							 $("#userPwdAlert").attr("class","alert alert-warning");
+							 showCustomMsg('userPwdAlert',"警告","短信息发送失败");
 						 }
 					 }
 				});
