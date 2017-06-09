@@ -53,6 +53,15 @@ function showMsg(title,msg){
 		$("#myAlert").css('display',"none");
 	},3000);
 }
+
+/*警告框*/
+function showCustomMsg(id,title,msg){
+	$("#"+id).css('display',"block");
+	$("#"+id).html("<strong>"+title+"！</strong>"+msg);
+	window.setTimeout(function(){
+		$("#"+id).css('display',"none");
+	},3000);
+}
 /*获取参数*/
 function GetQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
