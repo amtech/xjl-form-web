@@ -238,12 +238,6 @@
 								</a>
 							</li>
 							<li>
-								<a href="#profile">
-									<i class="fa-th"></i>
-									手机号码
-								</a>
-							</li>
-							<li>
 								<a href="#help">
 									<i class="fa-info"></i>
 									帮助
@@ -297,6 +291,9 @@
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
+			<div id="userInfoAlert" class="alert alert-warning" style="display: none;">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+			</div>
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -340,6 +337,9 @@
 		<!-- 绑定手机 -->
 		<div class="modal fade" id="setIphone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
+			 <div id="userPhoneAlert" class="alert alert-warning" style="display: none;">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+			</div>
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -374,8 +374,8 @@
 		<!-- 修改密码-->
 	<div class="modal fade" id="userPwdModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-		 <div id="myAlert" class="alert alert-warning" style="display: none;">
-		<a href="#" class="close" data-dismiss="alert">&times;</a>
+		 <div id="userPwdAlert" class="alert alert-warning" style="display: none;">
+			<a href="#" class="close" data-dismiss="alert">&times;</a>
 		</div>
 			<div class="modal-content">
 				<div class="modal-header">
@@ -484,27 +484,45 @@
 			});
 			/*发送短信*/
 			$("#sendCode").click(function(){
-				sendMsg();
+				var data={"phoneno":iphoneNo};
+				$.restPost({
+					 url:'../rest/user/sendMsg',
+					 data:data,
+					 success:function(data){
+						 if(data.success){
+							 $("#userPhoneAlert").attr("class","alert alert-success");
+							 showCustomMsg('userPhoneAlert',"成功","短信息发送成功");
+							 sendCode = data.showMsg;
+						 }else{
+							 $("#userPhoneAlert").attr("class","alert alert-warning");
+							 showCustomMsg('userPhoneAlert',"警告","短信息发送失败");
+						 }
+					 }
+				});
 			});
 			/*提交手机号*/
 			$("#iphoneSubmit").click(function(){
 				var code = $("#code").val();
 				var iphoneNo = $("#newIphone").val();
-				 $("#myAlert").attr("class","alert alert-warning");
+				 $("#userPhoneAlert").attr("class","alert alert-warning");
+				 if(code.length == 0){
+						showCustomMsg('userPhoneAlert',"警告","请输入验证码");
+						 return;
+					}
 				if(sendCode != code){
-					 showMsg("警告","验证码输入失败");
+					showCustomMsg('userPhoneAlert',"警告","验证码输入失败");
 					 return;
 				}
 				if(iphoneNo.length == 0){
-					 showMsg("警告","请输入手机号码");
+					showCustomMsg('userPhoneAlert',"警告","请输入手机号码");
 					 return;
 				}
 				if(iphoneNo.length<11){
-					showMsg("警告","请输入正确的手机号");
+					showCustomMsg('userPhoneAlert',"警告","请输入正确的手机号");
 					return;
 				} 
 				if(iphoneNo.length>11){
-					showMsg("警告","请输入正确的手机号");
+					showCustomMsg('userPhoneAlert',"警告","请输入正确的手机号");
 					return;
 				} 
 				$("#iphoneno").html(iphoneNo);
@@ -520,12 +538,12 @@
 					 data:data,
 					 success:function(data){
 						 if(data.success){
-							 $("#myAlert").attr("class","alert alert-success");
-							 showMsg("成功","操作成功");
+							 $("#userInfoAlert").attr("class","alert alert-success");
+							 showCustomMsg('userInfoAlert',"成功","操作成功");
 							 setTimeout("hideModel('userInfoModal')",3000);
 						 }else{
-							 $("#myAlert").attr("class","alert alert-warning");
-							 showMsg("警告","操作失败");
+							 $("#userInfoAlert").attr("class","alert alert-warning");
+							 showCustomMsg('userInfoAlert',"警告","操作失败");
 						 }
 						 sendCode="";
 					 }
@@ -533,8 +551,23 @@
 			});
 			/*发送短信*/
 			$("#sendCodePwd").click(function(){
-				sendMsg();
+				var data={"phoneno":iphoneNo};
+				$.restPost({
+					 url:'../rest/user/sendMsg',
+					 data:data,
+					 success:function(data){
+						 if(data.success){
+							 $("#userPwdModal").attr("class","alert alert-success");
+							 showCustomMsg('userPwdModal',"成功","短信息发送成功");
+							 sendCode = data.showMsg;
+						 }else{
+							 $("#userPwdModal").attr("class","alert alert-warning");
+							 showCustomMsg('userPwdModal',"警告","短信息发送失败");
+						 }
+					 }
+				});
 			});
+			
 			/*修改密码*/
 			$("#userPwd").click(function(){
 				var data={"userId":userId};
@@ -555,23 +588,27 @@
 				var code_pwd = $("#code_pwd").val();
 				var password = $("#password").val();
 				var reppwd = $("#reppwd").val();
-				 $("#myAlert").attr("class","alert alert-warning");
+				 $("#userPwdAlert").attr("class","alert alert-warning");
+			     if(code_pwd.length == 0){
+					 showCustomMsg('userPwdAlert',"警告","请输入验证码");
+					 return;
+				 }
 				if(sendCode != code_pwd){
-					 showMsg("警告","验证码输入错误");
+					 showCustomMsg('userPwdAlert',"警告","验证码输入错误");
 					 return;
 				}
 				if(password.length == 0){
-					 showMsg("警告","请输入密码");
+					 showCustomMsg('userPwdAlert',"警告","请输入密码");
 					 return;
 				}
 				if(reppwd.length == 0){
-					showMsg("警告","请输入确认密码");
+					 showCustomMsg('userPwdAlert',"警告","请输入确认密码");
 					 return;
 				}
 				if(password != reppwd){
-					showMsg("警告","两次密码输入不符");
+					 showCustomMsg('userPwdAlert',"警告","两次密码输入不符");
 					 return;
-				}
+				} 
 				var data={"phoneNo":iphoneNo,"password":password};
 				$.restPost({
 					 url:'../rest/user/updatePwd',
@@ -580,38 +617,20 @@
 						 if(data.success){
 							 //登录成功跳转
 							  $("#myAlert").attr("class","alert alert-success");
-							 showMsg("提示","密码修改成功!");
+							  showCustomMsg('userPwdAlert',"提示","密码修改成功!");
 							 setTimeout("hideModel('userPwdModal')",3000);
 						 }else{
-							 showMsg("警告","密码修改失败");
+							 $("#myAlert").attr("class","alert alert-warning");
+							 showCustomMsg('userPwdAlert',"警告","密码修改失败");
 						 }
 					 }
-				});
+				}); 
 			});
 		});
 		/*隐藏魔术框*/
 		function hideModel(id){
 			$('#'+id).modal('hide');
 		}
-		/*发送短信*/
-		function sendMsg(){
-			var data={"phoneno":iphoneNo};
-			$.restPost({
-				 url:'../rest/user/sendMsg',
-				 data:data,
-				 success:function(data){
-					 if(data.success){
-						 $("#myAlert").attr("class","alert alert-success");
-						 showMsg("成功","短信息发送成功");
-						 sendCode = data.showMsg;
-					 }else{
-						 $("#myAlert").attr("class","alert alert-warning");
-						 showMsg("警告","短信息发送失败");
-					 }
-				 }
-			});
-		}
-	 
 		/*简单的切换嵌入页面*/
 		function switchModel(url,id){
 			$("#mainIframe").attr("src",url);
