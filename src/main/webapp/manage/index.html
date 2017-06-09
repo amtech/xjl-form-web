@@ -16,6 +16,7 @@
 	<link rel="stylesheet" href="../js/assets/css/xenon-skins.css">
 	<link rel="stylesheet" href="../js/assets/css/custom.css">
 	<link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../js/bootstrapvalidator/css/bootstrapValidator.css">  
 	
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -231,7 +232,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="#settings">
+								<a id="userPwd" href="#settings">
 									<i class="fa-wrench"></i>
 									修改密码
 								</a>
@@ -296,9 +297,6 @@
 		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
-			 <div id="userInfomyAlert" class="alert alert-warning" style="display: none;">
-				<a href="#" class="close" data-dismiss="alert">&times;</a>
-			</div>
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -339,12 +337,9 @@
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal -->
 		</div>
-		<!-- 手机验证码 -->
+		<!-- 绑定手机 -->
 		<div class="modal fade" id="setIphone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
-			<div id="myAlert" class="alert alert-warning" style="display: none;">
-				<a href="#" class="close" data-dismiss="alert">&times;</a>
-			</div>
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -355,14 +350,14 @@
 						</h4>
 					</div>
 					<div class="modal-body">
-					 <div class="form-group">
+					 	  <div class="form-group">
 								<label  for="inputfile">手机号：</label>
 						  		<label id="oldiphone"></label>
+						  		<button id="sendCode" type="button" class="btn   btn-xs" style="margin-left: 9%">发送验证码</button>
 						  </div>
 						  <div class="form-group">
 						  		<label  for="inputfile">输入验证码：</label>
 						  		<label><input id="code" type="text" class="form-control"style="width:100%" ></label>
-						  		<button id="sendCode" type="button" class="btn   btn-xs" style="margin-left: 9%">发送验证码</button>
 						  </div>
 						  <div class="form-group">
 						  		<label  for="inputfile">绑定新号码：</label>
@@ -376,9 +371,51 @@
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal -->
 		</div>
+		<!-- 修改密码-->
+	<div class="modal fade" id="userPwdModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		 <div id="myAlert" class="alert alert-warning" style="display: none;">
+		<a href="#" class="close" data-dismiss="alert">&times;</a>
+		</div>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						修改登录密码
+					</h4>
+				</div>
+				<div id="'pwd_body" class="modal-body">
+					  <div class="form-group">
+								<label  for="inputfile">手机号：</label>
+						  		<label id="userPwdPhone"></label>
+						  		<button id="sendCodePwd" type="button" class="btn   btn-xs" style="margin-left: 9%">发送验证码</button>
+						 </div>
+					  <div class="form-group">
+						  		<label  for="inputfile">输入验证码：</label>
+						  		<label><input id="code_pwd" name="code_pwd" type="text" class="form-control"style="width:100%" ></label>
+					  </div>
+					  <div class="form-group">
+						  		<label  for="inputfile">输入新密码：</label>
+						  		<label><input id="password" type="password" class="form-control"style="width:100%" ></label>
+					  </div>
+					  <div class="form-group">
+						  		<label  for="inputfile">确认新密码：</label>
+						  		<label><input id="reppwd" type="password" class="form-control"style="width:100%" ></label>
+					  </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭 </button>
+					<button id="pwdSubmit" type="button" class="btn btn-primary"> 提交更改 </button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
 	<!-- 用户空间 信息维护 end -->
 	<script src="../js/assets/js/jquery-1.11.1.min.js"></script>
 	<script src="../js/jquery/js/jquery-rest.js"></script>
+	<script src="../js/bootstrapvalidator/js/bootstrapValidator.js"></script>
 	<!-- Bottom Scripts -->
 	<script src="../js/assets/js/bootstrap.min.js"></script>
 	<script src="../js/assets/js/TweenMax.min.js"></script>
@@ -398,7 +435,7 @@
 		/*初始化*/
 		var userId;
 		var iphoneNo;
-		var sendCode;
+		var sendCode="";
 		$(function(){
 			/*展示登录用户*/
 			var data={};
@@ -447,21 +484,7 @@
 			});
 			/*发送短信*/
 			$("#sendCode").click(function(){
-				var data={"phoneno":iphoneNo};
-				$.restPost({
-					 url:'../rest/user/sendMsg',
-					 data:data,
-					 success:function(data){
-						 if(data.success){
-							 $("#myAlert").attr("class","alert alert-success");
-							 showMsg("成功","短信息发送成功");
-							 sendCode = data.showMsg;
-						 }else{
-							 $("#myAlert").attr("class","alert alert-warning");
-							 showMsg("警告","短信息发送失败");
-						 }
-					 }
-				});
+				sendMsg();
 			});
 			/*提交手机号*/
 			$("#iphoneSubmit").click(function(){
@@ -499,7 +522,7 @@
 						 if(data.success){
 							 $("#myAlert").attr("class","alert alert-success");
 							 showMsg("成功","操作成功");
-							 setTimeout("hideModel('userInfoModal')",5000);
+							 setTimeout("hideModel('userInfoModal')",3000);
 						 }else{
 							 $("#myAlert").attr("class","alert alert-warning");
 							 showMsg("警告","操作失败");
@@ -508,12 +531,87 @@
 					 }
 				});
 			});
+			/*发送短信*/
+			$("#sendCodePwd").click(function(){
+				sendMsg();
+			});
+			/*修改密码*/
+			$("#userPwd").click(function(){
+				var data={"userId":userId};
+				$.restPost({
+					url:'../rest/user/queryUserInfo',
+					data:data,
+					success:function(data){
+						if(data){
+							iphoneNo = data.phoneNo;
+							$("#userPwdPhone").html(data.phoneNo);
+							$("#userPwdModal").modal({ })
+						}
+					}
+				});
+			});
+			/*修改密码提交*/
+			$("#pwdSubmit").click(function(){
+				var code_pwd = $("#code_pwd").val();
+				var password = $("#password").val();
+				var reppwd = $("#reppwd").val();
+				 $("#myAlert").attr("class","alert alert-warning");
+				if(sendCode != code_pwd){
+					 showMsg("警告","验证码输入错误");
+					 return;
+				}
+				if(password.length == 0){
+					 showMsg("警告","请输入密码");
+					 return;
+				}
+				if(reppwd.length == 0){
+					showMsg("警告","请输入确认密码");
+					 return;
+				}
+				if(password != reppwd){
+					showMsg("警告","两次密码输入不符");
+					 return;
+				}
+				var data={"phoneNo":iphoneNo,"password":password};
+				$.restPost({
+					 url:'../rest/user/updatePwd',
+					 data:data,
+					 success:function(data){
+						 if(data.success){
+							 //登录成功跳转
+							  $("#myAlert").attr("class","alert alert-success");
+							 showMsg("提示","密码修改成功!");
+							 setTimeout("hideModel('userPwdModal')",3000);
+						 }else{
+							 showMsg("警告","密码修改失败");
+						 }
+					 }
+				});
+			});
 		});
 		/*隐藏魔术框*/
 		function hideModel(id){
 			$('#'+id).modal('hide');
 		}
-		
+		/*发送短信*/
+		function sendMsg(){
+			var data={"phoneno":iphoneNo};
+			$.restPost({
+				 url:'../rest/user/sendMsg',
+				 data:data,
+				 success:function(data){
+					 if(data.success){
+						 $("#myAlert").attr("class","alert alert-success");
+						 showMsg("成功","短信息发送成功");
+						 sendCode = data.showMsg;
+					 }else{
+						 $("#myAlert").attr("class","alert alert-warning");
+						 showMsg("警告","短信息发送失败");
+					 }
+				 }
+			});
+		}
+	 
 		/*简单的切换嵌入页面*/
 		function switchModel(url,id){
 			$("#mainIframe").attr("src",url);
