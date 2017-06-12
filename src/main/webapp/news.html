@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <head>
-<title>互联网+政务服务门户</title>
+<title>互联网+政务服务门户 政务公开</title>
 <style type='text/css'>
 	body {
 	     background-color: #CCC;
@@ -28,23 +28,18 @@
 <script src="js/xjl/js/xjl.js"></script>
 <script src="js/xjl/js/xjl-table.js"></script>
 <script type="text/javascript">
-var search = XJL.getUrlParam("search");
 $(function () {
-	$("#txt_search").val(search);
-
-	XJL.search = function(){
-		console.log("search invoke")
-		search = $("#txt_search").val();
-		console.log("search",search);
+	XJL.news = function(){
+		console.log("news invoke")
 		$.restGet({
-            url: 'rest/sxImplItem/query/1/20?search='+search,
+            url: 'rest/newsGovernmentAffairsOpenness/query/1/20',
             success: function (data, status) {
             	if (data.rows.length>0){
             		$("#listDiv").empty();
 	            	$.each(data.rows, function (index, row) {  
-	            		var aItem = $("<a href=\"sx/guide.html?itemId="+row.itemId+"\" target='_blank' class=\"list-group-item\"></a>");
-	            		var hItem = $("<h4 class=\"list-group-item-heading\">" + row.itemName + "</h4>");
-	            	    var pItem = $("<p class=\"list-group-item-text\">" + row.itemType$name + "  "+row.implOrg$name+ "  "+row.resultName+ "  "+row.officeType$name + "</p>");
+	            		var aItem = $("<a href=\"news/newsGovernmentAffairsOpenness.html?opennessId="+row.opennessId+"\" target='_blank' class=\"list-group-item\"></a>");
+	            		var hItem = $("<h4 class=\"list-group-item-heading\">" + row.opennessTitle + "  【" + row.categoryId$name + "】</h4>");
+	            	    var pItem = $("<p class=\"list-group-item-text\">" + row.opennessSummary + "</p>");
 	            	    aItem.append(hItem).append(pItem);
 	            	    $("#listDiv").append(aItem);
 	            	});
@@ -54,7 +49,7 @@ $(function () {
             }
         });
 	}
-	XJL.search();
+	XJL.news();
 });
 </script>
 </head>
@@ -77,8 +72,8 @@ $(function () {
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="index.html">首页 <span class="sr-only">(current)</span></a></li>
-        <li><a href="index.html">网上大厅</a></li>
-        <li><a href="news.html">政务公开</a></li>
+        <li><a href="#">网上大厅</a></li>
+        <li  class="active"><a href="#">政务公开</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">南京 <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -94,12 +89,12 @@ $(function () {
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-      <form action="#" class="navbar-form navbar-left">
+       <form action="search.html" method="get" class="navbar-form navbar-left">
         <div class="form-group">
-          <input id="txt_search" type="text" class="form-control" placeholder="Search">
+          <input type="text" name="search" class="form-control" placeholder="Search">
         </div>
-        <button type="submit" class="btn btn-default" onclick="XJL.search();">搜索</button>
-        </form>
+        <button type="submit" class="btn btn-default">搜索</button>
+      </form>
         <li><p class="navbar-text"><a href="#" class="navbar-link">登录/注册</a></p></li>
         <li>
 	        <a href="#">消息 <span class="badge">4</span></a>
@@ -111,7 +106,6 @@ $(function () {
   </div><!-- /.container-fluid -->
 </nav>
 <div class="container">
-需要改用solr 搜索引擎
 <div class="list-group" id="listDiv">
   
 </div>

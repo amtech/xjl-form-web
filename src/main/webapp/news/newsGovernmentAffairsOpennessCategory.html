@@ -1,0 +1,94 @@
+
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css" >
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap-theme.min.css" >
+<link rel="stylesheet" href="../js/bootstraptable/css/bootstrap-table.min.css">
+<link rel="stylesheet" href="../js/bootstrapselect/css/bootstrap-select.min.css">
+<script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery/js/jquery-rest.js"></script>
+<script src="../js/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/bootstraptable/js/tableExport.js"></script>
+<script src="../js/bootstraptable/js/bootstrap-table.js"></script>
+<script src="../js/bootstraptable/js/bootstrap-table-export.js"></script>
+<script src="../js/knockout/js/knockout-3.4.2.js"></script>
+<script src="../js/knockout/js/knockout.mapping-latest.js"></script>
+<script src="../js/bootstraptable/js/knockout.bootstraptable.js"></script>
+<script src="../js/bootstrapselect/js/bootstrap-select.min.js"></script>
+<script src="../js/bootstrapselect/js/i18n/defaults-zh_CN.min.js"></script>
+<script src="../js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
+<script src="../js/xjl/js/xjl.js"></script>
+<script src="../js/xjl/js/xjl-table.js"></script>
+<script src="../js/xjl/js/xjl-select.js"></script>
+<script>
+/**
+ * 政务公开类别页面
+ * @author PageCoderTools lilisheng
+ *
+ */
+//初始化
+$(function () {
+    //1、初始化表格
+    XJL.initTable("tb_newsGovernmentAffairsOpennessCategory","../rest/newsGovernmentAffairsOpennessCategory",10);
+    //2、注册增删改事件
+    XJL.initOperate2("../rest/newsGovernmentAffairsOpennessCategory","categoryId,categoryName");
+});
+
+</script>
+</head>
+<body>
+
+<div class="panel-body" style="padding-bottom:0px;">
+<div id="toolbar" class="btn-group">
+    <button id="btn_add" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true" style="display: none"></span>新增
+    </button>
+    <button id="btn_edit" type="button" class="btn btn-default" style="display: none">
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+    </button>
+    <button id="btn_delete" type="button" class="btn btn-default" style="display: none">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+    </button>
+	    <button id="btn_select" type="button" class="btn btn-default" style="display: none" >
+        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>选择
+    </button>
+    <button id="btn_back" type="button" class="btn btn-default" style="display: none">
+        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>返回
+    </button>
+</div>
+<table id="tb_newsGovernmentAffairsOpennessCategory" data-bind="myBootstrapTable:$root">
+    <thead>
+        <tr>
+            <th data-checkbox="true"></th>
+            <th data-field="categoryName">名称</th>
+        </tr>
+    </thead>
+</table>
+
+</div>
+
+		<div data-backdrop="false" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <h4 class="modal-title" id="myModalLabel">操作</h4>
+                </div>
+                <div class="modal-body">
+                		
+                    <div class="form-group">
+                        <label for="txt_categoryName">名称</label>
+                        <input type="text" name="txt_categoryName" data-bind="value:categoryName" class="form-control" id="txt_categoryName" placeholder="名称">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+                    <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
