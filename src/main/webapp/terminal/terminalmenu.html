@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>目录管理</title>
+<meta name="description" content="">
+<meta http-equiv="cleartype" content="on">
+<link href="../js/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="../js/bootstrap/css/bootstrap-treeview.css" rel="stylesheet">
+<script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/bootstrap/js/bootstrap-treeview.js"></script>
+<style type="text/css">
+	.list-group-item{
+		cursor:pointer;
+		border:0;
+		margin-right:2px;  
+	    background:url(../images/uploadify-cancel.png) no-repeat scroll 0 0 transparent;  
+	    vertical-align:top;  
+	    background-position: -45px -117px;   
+	    vertical-align:top;  
+	    *vertical-align:middle
+	}
+	.img-rounder{
+		border-radius:6px;
+	
+	}
+</style>
+<script type="text/javascript">
+		$(function(){
+			//用于分割页面的虚线画法
+			 var div1=document.getElementById("tree");  
+			  var div11=document.getElementById("btn");
+			  var div12=document.getElementById("content");
+			    
+			  var h1=div1.offsetHeight;  
+			  var h2=div11.offsetHeight+div12.offsetHeight;  
+			
+			    if(h1>h2){  
+			        div1.style.borderRight="1px dashed #B6AEA3";  
+			           
+			  
+			    }else{  
+			  		div11.style.borderLeft="1px dashed #B6AEA3";
+			        div12.style.borderLeft="1px dashed #B6AEA3";  
+			  }  
+			
+			//构建bootstrap的treeview
+			var defaultData = [{
+                text: "类型",
+                id:"1",
+                nodes: [{ text: "常用", id: '10', nodes:[{text:"身份证",id:'11',nodeId:''},{text:"毕业证",id:'12',nodeId:''}] }, { text: "重要", id: '20',nodes:[{text:"开户许可证",id:'21',nodeId:''}]}]
+
+            }]
+			$("#tree").treeview({
+				data:defaultData
+			});
+			
+			$("#btn_add").click(function(){
+				var arr = $('#tree').treeview('getSelected');
+
+	            alert(JSON.stringify(arr));
+	            for (var key in arr) {
+	                alert(arr[key].id);
+	            } 
+			});
+			$("#btn_modify").click(function(){
+				var arr=$().treeview('getSelected');
+				alert(JSON.stringify(arr));
+				for(var key in arr){
+					alert(arr[key].id);
+				}
+			});
+			$("#btn_delete").click(function(){
+				var arr=$().treeview('getSelected');
+				alert(JSON.stringify(arr));
+				for(var key in arr){
+					alert(arr[key].id);
+				}
+			});
+		
+			
+			
+		});
+	
+</script>
+</head>
+<body>
+<table class="cd-form floating-labels" border="0" width="100%" style="valign:top;border-collapse:separate;   border-spacing:20px;  margin-top:0px; " >
+	<tr>
+		<td style="width:30%;position:absolute;">
+			<div id="tree" class="menu" style="width:100%;margin-top:0px;text-align:center;"></div>
+		</td>
+		<td style="width:70%;">
+				<div id="btn" style="margin-top:0px;text-align:center;">
+	    			<button type = "button" id="btn_add" class="btn-info btn btn-primary"  data-toggle="button">新增</button>
+	    			<button type = "button" id="btn_modify" class="btn-info btn btn-primary"  data-toggle="button">修改</button>
+	    			<button type = "button" id="btn_delete" class="btn-info btn btn-primary"  data-toggle="button"  >删除</button>
+	    		</div>
+	    		<div id="content" style="margin-top:20px;text-align:center; margin-left:0%">
+		    		<div>
+		    			<h id="file" style="color:red;text-align:center;">身份证</h>
+		   			</div>
+		   			<div id="container" style="padding:20px;">
+		 				<img src="../images/u30.png" class="img-rounder">
+					</div>
+					<div style="height:50%;">
+						文件状态 :<h id="filestate" style="color:red;">使用中</h>
+		    		</div>				
+				</div>
+	    </td>
+	    
+	</tr>
+</table>
+</body>
+</html>
