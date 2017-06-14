@@ -37,7 +37,7 @@ $(function () {
             	if (data.rows.length>0){
             		$("#listDiv").empty();
 	            	$.each(data.rows, function (index, row) {  
-	            		var aItem = $("<a href=\"news/newsGovernmentAffairsOpenness.html?opennessId="+row.opennessId+"\" target='_blank' class=\"list-group-item\"></a>");
+	            		var aItem = $("<a href=\"news/newsGovernmentAffairsOpennessView.html?id="+row.opennessId+"\" target='_blank' class=\"list-group-item\"></a>");
 	            		var hItem = $("<h4 class=\"list-group-item-heading\">" + row.opennessTitle + "  【" + row.categoryId$name + "】</h4>");
 	            	    var pItem = $("<p class=\"list-group-item-text\">" + row.opennessSummary + "</p>");
 	            	    aItem.append(hItem).append(pItem);

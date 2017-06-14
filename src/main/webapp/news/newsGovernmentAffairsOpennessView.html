@@ -1,0 +1,110 @@
+
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css" >
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap-theme.min.css" >
+<link rel="stylesheet" href="../js/bootstraptable/css/bootstrap-table.min.css">
+<link rel="stylesheet" href="../js/bootstrapselect/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="../js/summernote/0.8.4/summernote.css">
+
+<script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery/js/jquery-rest.js"></script>
+<script src="../js/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/bootstraptable/js/tableExport.js"></script>
+<script src="../js/bootstraptable/js/bootstrap-table.js"></script>
+<script src="../js/bootstraptable/js/bootstrap-table-export.js"></script>
+<script src="../js/knockout/js/knockout-3.4.2.js"></script>
+<script src="../js/knockout/js/knockout.mapping-latest.js"></script>
+<script src="../js/bootstraptable/js/knockout.bootstraptable.js"></script>
+<script src="../js/bootstrapselect/js/bootstrap-select.min.js"></script>
+<script src="../js/bootstrapselect/js/i18n/defaults-zh_CN.min.js"></script>
+<script src="../js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
+<script src="../js/summernote/0.8.4/summernote.js"></script>
+<script src="../js/xjl/js/xjl.js"></script>
+<script src="../js/xjl/js/xjl-table.js"></script>
+<script src="../js/xjl/js/xjl-select.js"></script>
+<script>
+
+$(function () {
+	$.restGet({
+		url: "../rest/newsGovernmentAffairsOpenness/query/"+XJL.getUrlParam("id"),
+        data: {},
+        success: function (data, status) {
+        	$("#newsTitle").append(data.opennessTitle);
+        	$("#newsSummary").append(data.opennessSummary);
+        	$("#newsContent").append(data.opennessContent);
+        }
+	})
+    
+});
+
+</script>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <img class="navbar-brand" src="../images/xjl.png" height="30px">
+      <label class="navbar-brand">互联网+政务服务</label>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">首页 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">网上大厅</a></li>
+        <li  class="active"><a href="#">政务公开</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">南京 <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">鼓楼</a></li>
+            <li><a href="#">玄武</a></li>
+            <li><a href="#">江宁</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">江北新区</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">溧水</a></li>
+          </ul>
+        </li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+       <form action="search.html" method="get" class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" name="search" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">搜索</button>
+      </form>
+        <li><p class="navbar-text"><a href="#" class="navbar-link">登录/注册</a></p></li>
+        <li>
+	        <a href="#">消息 <span class="badge">4</span></a>
+		</li>
+        <li><a href="#">互动</a></li>
+        
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+<div align="center">
+	<h3 id="newsTitle"></h3>
+</div>
+<div align="center">
+	<h5  id="newsSummary"></h5>
+</div>
+<div id="newsContent">
+</div>
+</div>
+</body>
+</html>
+</body>
+</html>
