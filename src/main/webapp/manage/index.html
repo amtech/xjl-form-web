@@ -530,9 +530,9 @@
 				//增加验证码判断
 				hideModel('setIphone');
 			});
-			/*提交用户信息*/
+			/*维护个人基本信息--提交*/
 			$("#userInfoSubmit").click(function(){
-				var data={"iphoneNo":$("#newiphone").val(),"userId":userId,"userName":$("#userName").val(),"cardNo":$("#cardNo").val()};
+				var data={"iphoneNo":$("#newiphone").val(),"userId":userId,"userName":$("#userName").val(),"cardNo":$("#cardNo").val(),"email":$("#email").val(),"address":$("#address").val()};
 				$.restPost({
 					 url:'../rest/user/modifyUserInfo',
 					 data:data,
