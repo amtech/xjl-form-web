@@ -27,16 +27,54 @@
 <script src="js/bootstrapselect/js/i18n/defaults-zh_CN.min.js"></script>
 <script src="js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
 <script src="js/summernote/0.8.4/summernote.js"></script>
+<script src="js/summernote/0.8.4/lang/summernote-zh-CN.js"></script>
 <script src="js/xjl/js/xjl.js"></script>
 <script src="js/xjl/js/xjl-table.js"></script>
 <script type="text/javascript">
 
 $(function () {
-	var content = XJL.getUrlParam("id")
-	$('#summernote').summernote('code',window.opener.$('#' + content + '').val());
+	var content = XJL.getUrlParam("id");
+	$('#summernote').summernote({
+		lang : 'zh-CN',
+		minHeight : 300,
+		callbacks: {  
+	        onImageUpload: function(files) { //the onImageUpload API  
+	        	var $files = $(files);
+	        	var i = 0;
+                $files.each(function() {
+                	console.log("i:" + i++);
+                	var file = this;
+                	console.log("len:",file.length);
+                	var data = new FormData();
+                    data.append("file", file);
+
+                    $.ajax({
+                        data : data,
+                        type : "POST",
+                        processData: false,
+                        contentType: false,
+                        url : 'rest/file/uploadEditBox',
+                    	
+                        success : function(response) {
+                        	console.log("response",response);
+                        	$('#summernote').summernote('insertImage', response, function($image) {
+                        		
+                        	});
+                        }
+                    });
+                });
+	        }
+	    }  
+	});
+	if (window.opener){
+		$('#summernote').summernote('code',window.opener.$('#' + content + '').val());
+	}
+	
 	$('#btn_edit').on("click", function () {
-		var content = XJL.getUrlParam("id")
-		window.opener.$('#' + content + '').val($('#summernote').summernote('code')).change();
+		var content = XJL.getUrlParam("id");
+		if (window.opener){
+			window.opener.$('#' + content + '').val($('#summernote').summernote('code')).change();
+		}
 		window.close();
 	});
 
@@ -44,7 +82,6 @@ $(function () {
 		window.close();
    	});  
 });
-
 </script>
 </head>
 <body>
