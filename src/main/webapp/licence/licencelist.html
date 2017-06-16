@@ -21,16 +21,41 @@
 <script src="../js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
 <script src="../js/xjl/js/xjl.js"></script>
 <script src="../js/xjl/js/xjl-table.js"></script>
+<style type="text/css">
+a:link {
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    color: #515151;
+}
+a:active {
+    text-decoration: none;
+}
+</style>
 <script type="text/javascript">
 //初始化
 $(function(){
 	 //1、初始化表格
-    XJL.initTable("tb_license","../rest/license",10);
+    XJL.initTable("tb_licence","../rest/licence",10);
     //2、注册增删改事件
-    XJL.initOperate2("../rest/license");
-    
-
+    XJL.initOperate2("../rest/licence");
 });
+function licenceShowLight(item, row, index){
+	var ftpURL="<a href='#' onclick='showLicenceImg(\""+row.licenceFileUrl+"\")'>"+row.licenceName+"</a>";
+	return ftpURL;
+}
+/*证照操作*/
+function licenceItemOperation(item, row, index){
+}
+function showLicenceImg(ftpURL){
+	 $("#licenceImg").attr("src",ftpURL);
+	 $('#licenceImgModal').modal({
+		keyboard: true
+	})
+}
 </script>
 </head>
 <body>
@@ -46,15 +71,32 @@ $(function(){
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
             </button>
         </div>
-         <table id="tb_license" data-bind="myBootstrapTable:$root">
+         <table id="tb_licence" data-bind="myBootstrapTable:$root">
             <thead>
                 <tr>
                     <th data-checkbox="true"></th>
                     <th data-field="licenceId">证照Id</th>
-                    <th data-field="licenceName">证照名称</th>
+                    <th data-field="licenceName" data-formatter="licenceShowLight">证照名称</th>
+                    <th data-field="licenceStatus$name">文件状态</th>
+                    <th data-field="licenceSourceType$name">证照来源</th>
+                    <th data-field="licenceItemCount" data-formatter="licenceItemOperation">选项数量</th>
                 </tr>
             </thead>
         </table>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="licenceImgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">证照展示</h4>
+            </div>
+            <div class="modal-body" style="text-align:center;">
+            	<img id="licenceImg" src="" class="img-rounded">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 </body>
 </html>
