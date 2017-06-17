@@ -1,0 +1,50 @@
+
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css" >
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap-theme.min.css" >
+<link rel="stylesheet" href="../js/bootstraptable/css/bootstrap-table.min.css">
+<link rel="stylesheet" href="../js/bootstrapselect/css/bootstrap-select.min.css">
+<script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery/js/jquery-rest.js"></script>
+<script src="../js/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/bootstraptable/js/tableExport.js"></script>
+<script src="../js/bootstraptable/js/bootstrap-table.js"></script>
+<script src="../js/bootstraptable/js/bootstrap-table-export.js"></script>
+<script src="../js/knockout/js/knockout-3.4.2.js"></script>
+<script src="../js/knockout/js/knockout.mapping-latest.js"></script>
+<script src="../js/bootstraptable/js/knockout.bootstraptable.js"></script>
+<script src="../js/bootstrapselect/js/bootstrap-select.min.js"></script>
+<script src="../js/bootstrapselect/js/i18n/defaults-zh_CN.min.js"></script>
+<script src="../js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
+<script src="../js/xjl/js/xjl.js"></script>
+<script src="../js/xjl/js/xjl-table.js"></script>
+<script src="../js/xjl/js/xjl-select.js"></script>
+<script>
+/**
+ * 表单页面
+ * @author PageCoderTools lilisheng
+ *
+ */
+ var formId = XJL.getUrlParam("id");
+//初始化
+$(function () {
+	$.restGet({
+        url: '../rest/form/query/'+formId,
+        success: function (data, status) {
+        		$("#formDiv").empty();
+            	$("#formDiv").append($(data.formHtml));
+        }
+    });
+});
+</script>
+</head>
+<body>
+
+	<div class="panel-body" style="padding-bottom:0px;">
+		<div id="formDiv"></div>
+    </div>
+</body>
+</html>
