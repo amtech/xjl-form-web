@@ -318,7 +318,7 @@ $("#btn_sublicence").click(function(){
    }
 	var data={"licencename":$("#licencename").val(),"startDate":startDate,"endDate":endDate,"ftpURL":$("#ftpURL").val(),"fileName":fileName};
 	$.restPost({
-		 url:'../rest/licence/modify',
+		 url:'../rest/licence/add',
 		 data:data,
 		 success:function(data){
 			if(data.success){
