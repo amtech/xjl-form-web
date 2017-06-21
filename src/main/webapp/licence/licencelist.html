@@ -332,8 +332,9 @@ $("#btn_sublicence").click(function(){
 });
 /*打开新增页面*/
 $("#btn_insert").click(function(){
-	$('#addLicenceModal').modal({
-	})
+	$('#addLicenceModal').modal({}).on("hidden.bs.modal", function() {
+	   $(this).find("input").val(' ');
+	});
 });
 /*打开修改页面*/
 $("#btn_update").click(function(){
