@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="zh-CN">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,6 +31,7 @@
 <script src="js/summernote/0.8.4/lang/summernote-zh-CN.js"></script>
 <script src="js/xjl/js/xjl.js"></script>
 <script src="js/xjl/js/xjl-table.js"></script>
+<script src="js/xjl/js/xjl-select.js"></script>
 <script type="text/javascript">
 var HelloButton = function (context) {
 	  var ui = $.summernote.ui;
@@ -67,11 +69,42 @@ var InputButton = function (context) {
 
 	return button.render();   // return button as jquery object 
 }
+/**
+ * 选择字段插入
+ */
+var FieldButton = function (context) {
+	  var ui = $.summernote.ui;
+	  
+	  // create button
+	  var button = ui.button({
+	    contents: '<i class="fa fa-child"/> 插入字段',
+	    tooltip: '插入数据库字段',
+	    click: function () {
+	      var button = $("<input>")[0];
+	      context.invoke('editor.insertNode', button);
+	    }
+	  });
+
+	return button.render();   // return button as jquery object 
+}
+/**
+ * 添加一个字段
+ */
+function addField(field){
+	var formGroup=$('<div class="form-group">');
+    var label = $('<label for="'+field.tableName+'::'+field.fieldName+'">'+field.fieldDesc+'</label>');
+    var fieldTag = $('<input type="text" name="'+field.tableName+'::'+field.fieldName+'" class="form-control" id="'+field.tableName+'::'+field.fieldName+'" placeholder="'+field.fieldDesc+'">');
+    //div.append(formGroup);
+    formGroup.append(label);
+    formGroup.append(fieldTag);
+	$('#summernote').summernote('insertNode', formGroup[0]);
+}
 var content = XJL.getUrlParam("id");
 $(function () {
 	$('#summernote').summernote({
 		lang : 'zh-CN',
 		minHeight : 300,
+		
 		toolbar: [
 			['style', ['bold', 'italic', 'underline', 'clear']],
 		    ['font', ['strikethrough', 'superscript', 'subscript']],
@@ -81,10 +114,10 @@ $(function () {
 		    ['height', ['height']],
 		    ['insert',['picture','link','table','hr']],
 		    ['misc',['fullscreen','codeview','undo','redo','help']],
-		    ['mybutton', ['hello','input']]
+		    ['mybutton', ['hello','input','FieldButton']]
 		  ],
 		buttons: {
-		    hello: HelloButton,input:InputButton
+		    hello: HelloButton,input:InputButton,FieldButton:FieldButton
 		  },
 		  callbacks: {  
 		        onImageUpload: function(files) { //the onImageUpload API  
@@ -130,6 +163,33 @@ $(function () {
    	$('#btn_back').on("click", function () {
 		window.close();
    	}); 
+   	//初始化表选项
+   	$.restGet({
+   		url: 'rest/table/queryAll',  
+        contentType: 'application/json',
+        success: function (data) {  
+            $.each(data.rows, function (index, row) {  
+            	$("#tableList").append($("<option title='"+row.tableName+"' value='"+row.tableId+"' data-tokens='"+row.tableName+"'>" + row.tableDesc + "</option>"));  
+            });  
+            $("#tableList").selectpicker('render');
+            $("#tableList").selectpicker('refresh');
+        }  
+   	});
+   	$('#tableList').on("change", function () {
+   		$.restGet({
+   	   		url: 'rest/tableField/queryAll?tableId='+$('#tableList').val(),  
+   	        contentType: 'application/json',
+   	        success: function (data) {  
+   	        	var option = $('#tableList option[value="'+$('#tableList').val()+'"]');
+   	    		console.log("option",option);
+   	    		var tableName = option[0].title;
+   	        	$("#fieldListGroup").empty();
+   	            $.each(data.rows, function (index, row) {  
+   	            	$("#fieldListGroup").append($('<a href="#" class="list-group-item" onclick="addField({tableName:\''+tableName+'\',fieldName:\''+row.fieldName+'\',fieldDesc:\''+row.fieldDesc+'\'})">'+row.fieldDesc+'</a>'));
+   	            });  
+   	        }  
+   	   	});
+   	});
 });
 </script>
 </head>
@@ -145,8 +205,24 @@ $(function () {
 		        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>取消
 		    </button>
 		</div>
-		<div  id="summernote">
-		  
+		<div class="row">
+  			<div class="col-xs-6 col-md-10">
+				<div id="summernote">
+				  
+				</div>
+			</div>
+			<div class="col-xs-6 col-md-2">
+				<div class="form-group">
+                    <label for="tableList">表名称</label>
+                    <select name="tableList"  class="selectpicker show-tick form-control" id="tableList" data-live-search="true" title="请选择表">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="txt_field">字段</label>
+                    <div class="list-group" id="fieldListGroup">
+					</div>
+                </div>
+			</div>
 		</div>
 	</div>
 </div>
