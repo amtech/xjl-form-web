@@ -22,8 +22,14 @@
 <script src="../js/bootstrapselect/js/i18n/defaults-zh_CN.min.js"></script>
 <script src="../js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
 <script src="../js/bootstrapdatetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../js/xjl/js/xjl.js"></script>
+<script src="../js/xjl/js/xjl-table.js"></script>
+<script src="../js/xjl/js/xjl-select.js"></script>
 <script type="text/javascript">
 $(function(){
+	//初始化下拉框
+	XJL.loadSelectOption({selectId:"update_licenceCategory",url: "../rest/dictItem/query/1/1000?dictId=eeea77c6-9eb6-4705-92fb-3516ba6ae6c5",valueName:"dictItemCode",textName:"dictItemName"});
+	XJL.loadSelectOption({selectId:"update_licenceFileType",url: "../rest/dictItem/query/1/1000?dictId=e16933ed-6cbe-4464-9420-60bdfae85ca2",valueName:"dictItemCode",textName:"dictItemName"});
    $("#tb_errorLicence").bootstrapTable({  
           url: "../rest/licence/queryForError/1/10",  
           sidePagination: "server",//服务器分页  
@@ -58,6 +64,20 @@ $(function(){
           $("#tb_errorLicence").bootstrapTable("refresh", nullparamss);  
       }); 
 });
+
+XJL.beforeShowAdd = function(){
+    //初始化下拉框
+    $("#txt_itemType").selectpicker("val",'');
+}
+XJL.beforeShowUpdate = function(oDataModel){
+	console.log("itemType",oDataModel.itemType);
+    $('#txt_itemType').selectpicker("val",$.trim(oDataModel.itemType));
+}
+XJL.afterHiddenModal = function(){
+    //清除下拉框
+    XJL.clearSelectPicker("txt_itemType");
+}
+
 //默认加载时携带参数  
 function getParams(params) {  
     var searchKey = $("#searchKey").val();  
@@ -116,6 +136,7 @@ function showLicenceImg(ftpURL,licenceName,startDate,endDate,licenceId,errorCont
 				     <label for = "licenceName">截止时间：</label> 
 				     <label id="show_endDate"></label>
 			    </div>
+			    
             	<img id="licenceImg" src="" class="img-thumbnail">
             	<div class="form-group">
 					<label for="name">纠错信息：</label>
@@ -156,6 +177,18 @@ function showLicenceImg(ftpURL,licenceName,startDate,endDate,licenceId,errorCont
 		                    </span>        
 		      			</div>            
 	            </div>
+	            <div class = "form-group"> 
+				     <label for = "licenceCategory">证件类型：</label> 
+					 <select id="update_licenceCategory" class="selectpicker show-tick form-control" data-live-search="true">
+					 	<option selected="请选择证照类型">空</option>
+					 </select>
+			    </div>
+			    <div class = "form-group"> 
+				     <label for = "licenceFileType">证照文件类型：</label> 
+					 <select id="update_licenceFileType" class="selectpicker show-tick form-control" data-live-search="true">
+					 	<option selected="请选择文件类型">空</option>
+					 </select>
+				</div>
 			     <div class="form-group">
 		       		<input id="licence_upload_update" type="file"  multiple class="file" data-overwrite-initial="false" data-min-file-count="1">
 		       		<input type="hidden" id="update_ftpURL" name="licenceFileUrl">

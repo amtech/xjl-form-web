@@ -26,6 +26,7 @@
 <script  type="text/javascript"  src="../js/xjl/js/custom.js"></script>
 <script src="../js/xjl/js/xjl.js"></script>
 <script src="../js/xjl/js/xjl-table.js"></script>
+<script src="../js/xjl/js/xjl-select.js"></script>
 <style type="text/css">
 a:link {
     text-decoration: none;
@@ -49,7 +50,26 @@ $(function(){
     //2、注册增删改事件
     XJL.initOperate("../rest/licence");
     if(editFlag){$("#btn_insert").css("display","block");$("#btn_update").css("display","block");}
+    //初始化下拉框
+    XJL.loadSelectOption({selectId:"update_licenceCategory",url: "../rest/dictItem/query/1/1000?dictId=eeea77c6-9eb6-4705-92fb-3516ba6ae6c5",valueName:"dictItemCode",textName:"dictItemName"});
+	XJL.loadSelectOption({selectId:"update_licenceFileType",url: "../rest/dictItem/query/1/1000?dictId=e16933ed-6cbe-4464-9420-60bdfae85ca2",valueName:"dictItemCode",textName:"dictItemName"});
+	XJL.loadSelectOption({selectId:"add_licenceCategory",url: "../rest/dictItem/query/1/1000?dictId=eeea77c6-9eb6-4705-92fb-3516ba6ae6c5",valueName:"dictItemCode",textName:"dictItemName"});
+	XJL.loadSelectOption({selectId:"add_licenceFileType",url: "../rest/dictItem/query/1/1000?dictId=e16933ed-6cbe-4464-9420-60bdfae85ca2",valueName:"dictItemCode",textName:"dictItemName"});
 });
+
+XJL.beforeShowAdd = function(){
+    //初始化下拉框
+    $("#txt_itemType").selectpicker("val",'');
+}
+XJL.beforeShowUpdate = function(oDataModel){
+	console.log("itemType",oDataModel.itemType);
+    $('#txt_itemType').selectpicker("val",$.trim(oDataModel.itemType));
+}
+XJL.afterHiddenModal = function(){
+    //清除下拉框
+    XJL.clearSelectPicker("txt_itemType");
+}
+
 //展示证照图片
 function licenceShowLight(item, row, index){
 	var ftpURL="<a href='#' onclick='showLicenceImg(\""+row.licenceFileUrl+"\",\""+row.licenceName+"\",\""+row.issuingDateStr+"\",\""+row.exirationDateStr+"\",\""+row.licenceSourceType+"\",\""+row.licenceId+"\")'>"+row.licenceName+"</a>";
@@ -166,6 +186,18 @@ function showLicenceImg(ftpURL,licenceName,startDate,endDate,sourceType,licenceI
 	                    </span>        
 	      			</div>            
 	           </div>
+	           <div class = "form-group"> 
+					     <label for = "licenceCategory">证件类型：</label> 
+						 <select id="add_licenceCategory" class="selectpicker show-tick form-control" data-live-search="true">
+						 	<option selected="请选择证照类型">空</option>
+						 </select>
+				    </div>
+				    <div class = "form-group"> 
+					     <label for = "licenceFileType">证照文件类型：</label> 
+						 <select id="add_licenceFileType" class="selectpicker show-tick form-control" data-live-search="true">
+						 	<option selected="请选择文件类型">空</option>
+						 </select>
+				</div>
 		     <div class="form-group">
 	       		<input id="licence_upload" type="file"  multiple class="file" data-overwrite-initial="false" data-min-file-count="1">
 	       		<input type="hidden" id="ftpURL">
@@ -216,6 +248,18 @@ function showLicenceImg(ftpURL,licenceName,startDate,endDate,sourceType,licenceI
 	                    </span>        
 	      			</div>            
 	           </div>
+	           <div class = "form-group"> 
+					     <label for = "licenceCategory">证件类型：</label> 
+						 <select id="update_licenceCategory" class="selectpicker show-tick form-control" data-live-search="true">
+						 	<option selected="请选择证照类型">空</option>
+						 </select>
+				    </div>
+				    <div class = "form-group"> 
+					     <label for = "licenceFileType">证照文件类型：</label> 
+						 <select id="update_licenceFileType" class="selectpicker show-tick form-control" data-live-search="true">
+						 	<option selected="请选择文件类型">空</option>
+						 </select>
+				</div>
 		     <div class="form-group">
 	       		<input id="licence_upload_update" type="file"  multiple class="file" data-overwrite-initial="false" data-min-file-count="1">
 	       		<input type="hidden" id="update_ftpURL" name="licenceFileUrl">

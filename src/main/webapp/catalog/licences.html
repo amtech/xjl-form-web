@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>目录下证照</title>
+<link rel="stylesheet" href="../js/jquery/css/jquery-ui.css">
+<script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/xjl/js/custom.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	function getcatalogId(){
+		var catalogId = decodeURI(decodeURI(GetQueryString('catalogId')));
+		return catalogId;
+	}
+	var catalogId=getcatalogId();
+	$.ajax({
+		url:'../rest/catalog/showcataloglicence',
+		type:'POST',
+		data:{
+			"catalogId":catalogId,
+		},
+		success:function(data){
+			var str="";
+			for(var i=0;i<data.length;i++){
+				$("p").html(data[i].catalog.catalogName);//将文件夹名称显示在页面上
+				//将证照展示在页面上
+				
+			}
+		}
+		
+	});
+	
+});
+</script>
+<div  class="alldom">
+<div class="htmleaf-container">
+<div class="container gallery-container">
+			<div class="tz-gallery">
+	<div class="item_container">
+		<div class="item_content" >
+		<p style="text-align:center;"></p>
+			<ul id="divall">
+
+    		</ul>
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>
+</div>
+</head>
+<body>
+	
+</body>
+</html>

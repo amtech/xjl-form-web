@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>证照展示</title>
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css" >
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap-theme.min.css" >
+<link rel="stylesheet" href="../js/bootstraptable/css/bootstrap-table.min.css">
+<link rel="stylesheet" href="../js/bootstrapselect/css/bootstrap-select.min.css">
+<link href="../css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+<link href="../js/bootstrapdatetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" media="screen">
+<script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery/js/jquery-rest.js"></script>
+<script src="../js/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/bootstraptable/js/tableExport.js"></script>
+<script src="../js/bootstraptable/js/bootstrap-table.js"></script>
+<script src="../js/bootstraptable/js/bootstrap-table-export.js"></script>
+<script src="../js/knockout/js/knockout-3.4.2.js"></script>
+<script src="../js/knockout/js/knockout.mapping-latest.js"></script>
+<script src="../js/xjl/js/fileinput.js" type="text/javascript"></script>
+<script src="../js/bootstraptable/js/knockout.bootstraptable.js"></script>
+<script src="../js/bootstrapselect/js/bootstrap-select.min.js"></script>
+<script src="../js/bootstrapselect/js/i18n/defaults-zh_CN.min.js"></script>
+<script src="../js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
+<script src="../js/bootstrapdatetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script  type="text/javascript"  src="../js/xjl/js/custom.js"></script>
+<script src="../js/xjl/js/xjl.js"></script>
+<script src="../js/xjl/js/xjl-table.js"></script>
+<script src="../js/xjl/js/xjl-select.js"></script>
+
+<style>
+	.contain{
+		float:left;
+		width:50%;
+		height:100%;
+		
+	}
+	#info ul{
+		list-style:none;
+	}
+	#info ul li{
+		margin-top:30px;
+		margin-left:40%;
+	}
+	img{
+		width:500px;
+		height:500px;
+	}
+	#opra{
+		color:blue;
+	}
+	#modify{
+		margin-right:30px;
+	}
+	
+</style>
+<script>
+$(function(){
+	//初始化下拉框
+	XJL.loadSelectOption({selectId:"update_licenceCategory",url: "../rest/dictItem/query/1/1000?dictId=eeea77c6-9eb6-4705-92fb-3516ba6ae6c5",valueName:"dictItemCode",textName:"dictItemName"});
+	XJL.loadSelectOption({selectId:"update_licenceFileType",url: "../rest/dictItem/query/1/1000?dictId=e16933ed-6cbe-4464-9420-60bdfae85ca2",valueName:"dictItemCode",textName:"dictItemName"});
+	
+	function showInfo(licenceName,issuingDateStr,licenceCategory,licenceStatus,licenceTrustLevel,licenceFileType,licenceFileUrl){
+		$("#licenceName").append(licenceName);
+		$("#issuingDateStr").append(issuingDateStr);
+		$("#licenceCategory").append(licenceCategory);
+		$("#licenceStatus").append(licenceStatus);
+		$("#licenceTrustLevel").append(licenceTrustLevel);
+		$("#licenceFileType").append(licenceFileType);
+		$("img").attr("src",licenceFileUrl);
+	}
+	function getlicenceId(){
+		var licenceId = decodeURI(decodeURI(GetQueryString('licenceId')));
+		return licenceId;
+	}
+	var licenceId=getlicenceId();
+	var licenceSourceType="";//数据来源
+	var licenceStatus="";//证照状态
+	$.ajax({
+		url:'../rest/catalog/query/',
+		type:'GET',
+		data:{
+			"licenceId":licenceId,
+		},
+		success:function(json){
+			var data=json[0].licence;
+			var licenceName=data.licenceName;
+			var issuingDateStr=data.issuingDateStr;
+			var licenceCategory=data.licenceCategory;
+			var licenceStatus=data.LicenceStatus$name;
+			var licenceTrustLevel=data.licenceTrustLevel;
+			var licenceFileType=data.licenceFileType;
+			var licenceFileUrl=data.licenceFileUrl;
+			showInfo(licenceName,issuingDateStr,licenceCategory,licenceStatus,licenceTrustLevel,licenceFileType,licenceFileUrl);
+			licenceSourceType=data.LicenceSourceType$name;
+			licenceStatus=data.licenceStatus;
+		}
+	});
+	//点击修改按钮
+	$("#modify").click(function(){
+		$("#updateLicenceModal").modal({});
+	});
+	//点击删除操作
+	$("#delete").click(function(){
+		$.restPost({
+			url:'../rest/licence/delete',
+			type:'POST',
+			data:{
+				"licenceId":licenceId,
+			},
+			success:function(data){
+				if(data.success==true){
+					alert("成功删除");
+				}
+			}
+		});
+	});
+	
+	//修改保存
+	$("#btn_sublicence").click(function(){
+		var licenceName=$("#update_licenceName").val();
+		var startDate=$("#update_startDate").val();
+		var endDate=$("#update_endDate").val();
+		var licenceCategory=$("#update_licenceCategory").val();
+		var licenceFileType=$("#update_licenceFileType").val();
+		var fileName=$("#update_fileName").val();
+		var ftpURL=$("#update_ftpURL").val();
+		var data={"licenceId":licenceId,"licencename":licenceName,"startDate":startDate,"endDate":endDate,"licenceStatus":licenceStatus,"licenceCategory":licenceCategory,"licenceFileType":licenceFileType,"fileName":fileName,"ftpURL":ftpURL};
+		$.restPost({
+			url:'../rest/licence/modify',
+			type:'POST',
+			data:data,
+			success:function(json){
+				alert("修改成功");
+			}
+		});
+		
+	});
+	
+});
+XJL.beforeShowAdd = function(){
+    //初始化下拉框
+    $("#txt_itemType").selectpicker("val",'');
+}
+XJL.beforeShowUpdate = function(oDataModel){
+	console.log("itemType",oDataModel.itemType);
+    $('#txt_itemType').selectpicker("val",$.trim(oDataModel.itemType));
+}
+XJL.afterHiddenModal = function(){
+    //清除下拉框
+    XJL.clearSelectPicker("txt_itemType");
+}
+</script>
+</head>
+<body>
+<div id="Alert" class="alert alert-warning" style="display: none;">
+	<a href="#" class="close" data-dismiss="alert">&times;</a>
+</div>
+	<div class="contain" id="info">
+		<ul>
+			<li id="licenceName">证照名称:</li>
+			<li id="issuingDateStr">有效期:</li>
+			<li id="licenceCategory">证照分类:</li>
+			<li id="licenceStatus">证照状态:</li>
+			<li id="licenceTrustLevel">可信等级:</li>
+			<li id="licenceFileType">文件类型:</li>
+			<li id="opra">
+				<a id="modify">修改</a>
+				<a id="delete">删除</a>
+			</li>
+		</ul>
+	</div>
+	<div class="contain" id="licence">
+		<img src=""></img>
+	</div>
+	<!-- 修改页面 -->
+	<div class="modal fade" id="updateLicenceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+	 		<div id="myAlert" class="alert alert-warning" style="display: none;">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+			</div>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class = "form-group"> 
+					     <label for = "licenceName">证照名称：</label> 
+					     <input type = "text" class = "form-control" id ="update_licenceName" data-bind="value:licenceName"  name="licenceName" placeholder = "请输入证照名称"></input> 
+				    </div>
+				    <div class = "form-group"> 
+		    			<label class="control-label">成立日期 ：</label>        
+		         		<div class='input-group date' id='update_datetimepicker1'>            
+		              	 <input type='text' class="form-control"   data-bind="value:issuingDateStr" name="start_date" id="update_startDate">        
+		                 <span class="input-group-addon">            
+		                   <span class="glyphicon glyphicon-calendar"></span>        
+		                 </span>        
+		         		</div>
+				    </div>
+				    <div class = "form-group">
+	               	 <label class="control-label">截止日期：</label>
+	               	 <div class='input-group date' id='update_datetimepicker2'>            
+	               	   <input type='text' class="form-control"   data-bind="value:exirationDateStr"  name="exirationDate"   name="end_date"  id="update_endDate"/>                
+	                    <span class="input-group-addon">                    
+	                      	 <span class="glyphicon glyphicon-calendar"></span>                
+	                    </span>        
+	      			</div>
+				    	 
+				    </div>
+				    <div class = "form-group"> 
+					     <label for = "licenceCategory">证件类型：</label> 
+						 <select id="update_licenceCategory" class="selectpicker show-tick form-control" data-live-search="true">
+						 	<option selected="请选择证照类型">空</option>
+						 </select>
+				    </div>
+				    <div class = "form-group"> 
+					     <label for = "licenceFileType">证照文件类型：</label> 
+						 <select id="update_licenceFileType" class="selectpicker show-tick form-control" data-live-search="true">
+						 	<option selected="请选择文件类型">空</option>
+						 </select>
+				    </div>
+				    <div class="form-group">
+			      		<input id="licence_upload_update" type="file"  multiple class="file" data-overwrite-initial="false" data-min-file-count="1">
+			      		<input type="hidden" id="update_ftpURL" name="licenceFileUrl">
+			      		<input type="hidden" id="update_fileName">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button  type="button" class="btn btn-default" data-dismiss="modal">关闭 </button>
+					<button id="btn_sublicence" type="button" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<script>
+$('#update_datetimepicker1').datetimepicker({
+	minView: "month",
+	format: 'yyyy-mm-dd',
+	language: 'zh-CN',
+    autoclose:true
+});
+$("#update_datetimepicker2").datetimepicker({
+	minView: "month",
+	format:'yyyy-mm-dd',
+	language: 'zh-CN',
+   	autoclose:true
+});
+/*控制时间插件*/
+$("#update_datetimepicker1").on("changeDate", function (ev) {
+	$('#update_datetimepicker2').datetimepicker('setStartDate', ev.date);
+});        
+$("#update_datetimepicker2").on("changeDate", function (ev) {
+	 $("#update_datetimepicker1").datetimepicker("setEndDate",ev.date);
+});
+/* 上传文件*/
+$("#licence_upload_update").fileinput({
+       uploadUrl: '../rest/licence/upload',  
+       overwriteInitial: false
+}).on("fileuploaded", function (event, data, previewId, index) {
+	  if(data.response){
+		  $("#fileName").val(data.response.fileName);
+		  $("#ftpURL").val(data.response.ftpURL);
+	  }
+}).on("filesuccessremove",function(event, id){
+	  $("#fileName").val('');
+	  $("#ftpURL").val('');
+});
+</script>
+</body>
+</html>
