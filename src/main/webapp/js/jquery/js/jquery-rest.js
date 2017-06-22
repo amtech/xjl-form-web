@@ -61,6 +61,10 @@ jQuery.extend({
 		}
 	},
 	restError : function (XMLHttpRequest, textStatus, errorThrown){
-		alert(JSON.parse(XMLHttpRequest.responseText).msg);
+		if (!XMLHttpRequest.responseText){
+			console.log("没有返回值");
+			return;
+		}
+		alert(this.parseJSON(XMLHttpRequest.responseText).msg);
 	}
 });
