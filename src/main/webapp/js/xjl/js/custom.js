@@ -116,23 +116,30 @@ function initMove(){
 					(currentItem.pointer.x < this.box.offset().left + this.box.width()) &&
 					(currentItem.pointer.y < this.box.offset().top + this.box.height()) 
 				){	
+					
 					var s=currentItem.childNodes[0].childNodes[0].getAttribute("alt");//currentItem是起始的div
+					var licenceId=currentItem.childNodes[0].getAttribute("name");//获取要证照的id
 //					this.box.each(function(){
 //						alert($(this).find("img").alt);
 //					});
-					
-					var e="";
-					
+					var e=$(this).find("a").find("img").attr("alt");
+					var catalogId=$(this).find("a").attr("name");//获取要存入证照的目录id
 					if(s=="image"&& e=="file"){
+						if(!confirm("确定执行添加操作吗?")){
+							return;
+						};
 						$(currentItem).remove();
 						$.ajax({
 							type:'POST',
 							url:'../rest/catalog/saveToCatalog',
 							data:{
-								
+								"licenceId":licenceId,
+								"catalogId":catalogId
 							},
 							success:function(data){
-								
+								if(data.success==true){
+									alert("添加成功");
+								}
 							}
 							
 						});
