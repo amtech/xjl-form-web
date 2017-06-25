@@ -16,17 +16,14 @@
 *{margin:0;padding:0;}
 .alldom{width:100%;height:100%;}
 ul{padding:0;list-style:none;}
-ul li.picture{overflow:hidden;width:220px;height:167px;float:left;margin-left:55px;margin-top:55px;border:1px solid #fff;position:relative;transition:all 0.2s ease-in 0.1s;}
-ul li.bgclocrc{border:1px solid #a7aae3;background-color:blue;}
-ul li:hover{border:1px solid #a7aae3;}
-a:hover{background-color:blue;}
-input.changename{position:absolute;border-radius:0px;left:-25px;overflow:hidden;color:#595c5f;line-height:20px;text-align:center;font-size:12px;z-index:0;border:none;}	
-input.changename:hover{background:none;color:#F33;}	
-input{width:98px;height:50px;line-height:20px;text-align:center;background:none;border:1px solid #CCC;border-radius:8px;transition:all 0.2s ease-in 0.1s;margin-left:25px;background-color:white;}
-input:hover{background:#09F;color:#fff;}
+ul li.picture{width:220px;height:167px;float:left;margin-left:55px;margin-top:55px;border:1px solid #fff;position:relative;transition:all 0.2s ease-in 0.1s;}
 ul li.folder{overflow:hidden;width:150px;height:167px;float:left;margin-left:55px;margin-top:55px;border:1px solid #fff;position:relative;transition:all 0.2s ease-in 0.1s;}
-.inputpicture{width:219px;height:50px;}	
-.inputfolder{width:150px;height:50px;}
+.carrynews{width:98px;height:50px;line-height:20px;text-align:center;background:none;border:1px solid #CCC;border-radius:8px;transition:all 0.2s ease-in 0.1s;margin-left:25px;background-color:white;}
+.remove1{width:98px;height:50px;line-height:20px;text-align:center;background:none;border:1px solid #CCC;border-radius:8px;transition:all 0.2s ease-in 0.1s;margin-left:25px;background-color:white;}
+.inputpicture{width:219px;height:50px;line-height:20px;text-align:center;background:none;border:1px solid #CCC;border-radius:8px;transition:all 0.2s ease-in 0.1s;margin-left:25px;background-color:white;position:absolute;border-radius:0px;left:-25px;overflow:hidden;color:#595c5f;line-height:20px;text-align:center;font-size:12px;z-index:0;border:none;}	
+.inputfolder{width:150px;height:50px;line-height:20px;text-align:center;background:none;border:1px solid #CCC;border-radius:8px;transition:all 0.2s ease-in 0.1s;margin-left:25px;background-color:white;position:absolute;border-radius:0px;left:-25px;overflow:hidden;color:#595c5f;line-height:20px;text-align:center;font-size:12px;z-index:0;border:none;}
+.picimg{width:220px;height:117px;}
+.folderimg{width:150px;height:117px;}
 </style>
 <script type="text/javascript">
 var removeid="";
@@ -36,7 +33,6 @@ function gotoremove(dom){
 	var type=dom.childNodes[0].getAttribute("alt");
 	removeid=name;
 	removetype=type;
-	
 }
 function showlicence(dom){
 	var name=dom.getAttribute("name");//获取当前对象的name属性
@@ -54,6 +50,7 @@ $(function(){
 $.ajax({
 	url:'../rest/catalog/showZZcatalog',
 	dataType:'json',
+	async: false,
 	success:function(data){
 		var id='';
 		//将图片元素拼接
@@ -62,7 +59,7 @@ $.ajax({
 				for(var j=0;j<data[i].licence.length;j++){
 					id = data[i].licence[j].licenceId;
 					str="<li class='picture'>"
-						+"<div class='item'><a name='"+data[i].licence[j].licenceId+"' onclick=gotoremove(this); ondblclick=showlicence(this);><img src='"+data[i].licence[j].licenceFileUrl+"'style='width:15%;height:20%;' alt='image'></img></a>"
+						+"<div class='item'><a name='"+data[i].licence[j].licenceId+"' onclick=gotoremove(this); ondblclick=showlicence(this);><img class='picimg'src='"+data[i].licence[j].licenceFileUrl+"' alt='image'></img></a>"
 		       			+"<input type='text' class='changename inputpicture'  style='bottom:-50px;' value='"+data[i].licence[j].licenceName+"'/>"
 			        	+"</div>"
 						+"</li>";
@@ -73,7 +70,7 @@ $.ajax({
 				for(var k=0;k<data[i].catalog.length;k++){
 					id=data[i].catalog[k].catalogId;
 					str="<li class='folder'>"
-						+"<div class='item'><a name='"+data[i].catalog[k].catalogId+"' onclick=gotoremove(this) ondblclick=showlicence(this);><img src='../images/213125.png' style='width:150px;height:117px;' alt='file'></img></a>"
+						+"<div class='item'><a name='"+data[i].catalog[k].catalogId+"' onclick=gotoremove(this) ondblclick=showlicence(this);><img class='folderimg' src='../images/213125.png'  alt='file'></img></a>"
 						+"<input type='text' class='changename inputfolder' style='bottom:-50px;'value='"+data[i].catalog[k].catalogName+"'/>"
 						+"</div>"
 						+"</li>";
@@ -99,11 +96,12 @@ $removenews.hide();
 	    	$.ajax({
 					type:'POST',
 					url:'../rest/catalog/createCatalog',
+					async: false,
 					data:{
 						"catalogName":catalogName,
 					},
 					success:function(data){
-						$parent.append("<li><div class='item'><a name='"+data.catalogId+"' ondblclick=showlicence(this);><img src='../images/213125.png' style='width:200px;height:200px;'></img></a><input type='text' \class='changename'\ value='"+data.catalogName+"'/></div></li>");
+						$("#divall").append("<li class='folder'><div class='item'><a name='"+data.catalogId+"' ondblclick=showlicence(this);><img src='../images/213125.png' ></img></a><input type='text' class='changename inputfolder' style='bottom:-50px;' value='"+data.catalogName+"'/></div></li>");
 					}
 			});	
 	},500);
@@ -189,13 +187,13 @@ $removenews.hide();
 <!-- 
 <p style=" margin:10px auto; padding:10px 0; border-bottom:1px solid #666;"><button type = "button" id="create" class="btn btn-default"  data-toggle="button"  >创建新文件夹</button><button type = "button" id="delete" class="btn btn-default"  data-toggle="button"  >删除文件夹</button></p>
  -->
-<p style=" margin:10px auto; padding:10px 0; border-bottom:1px solid #666;"><input type="button" value="新建" class="carrynews"/><input type="button" value="删除" class="remove1" id="removebutton"/></p>
+<p style=" margin:10px auto; padding:10px 0; border-bottom:1px solid #666;"><input  type="button" value="新建" class="carrynews"/><input  type="button" value="删除" class="remove1" id="removebutton"/></p>
 <div class="alldom">
-<div class="item_container">
-  <div class="item_content" id="imageChange">
-		<p style="text-align:center;">证照目录</p>
-		<ul id="divall">
-   		</ul>
+	<div class="item_container">
+	  	<div class="item_content" id="imageChange">
+			<p style="text-align:center;">证照目录</p>
+			<ul id="divall">
+	   		</ul>
 		</div>
 	</div>
 </div>

@@ -54,39 +54,15 @@
 	
 </style>
 <script>
+var licenceSourceType="";//数据来源
+var licenceStatus="";//证照状态
+var licenceFileType="";//证照文件类型
+var licenceCategory$name="";//证照类型
 $(function(){
 	//初始化下拉框
 	XJL.loadSelectOption({selectId:"update_licenceCategory",url: "../rest/dictItem/query/1/1000?dictId=eeea77c6-9eb6-4705-92fb-3516ba6ae6c5",valueName:"dictItemCode",textName:"dictItemName"});
 	XJL.loadSelectOption({selectId:"update_licenceFileType",url: "../rest/dictItem/query/1/1000?dictId=e16933ed-6cbe-4464-9420-60bdfae85ca2",valueName:"dictItemCode",textName:"dictItemName"});
-	function showInfo(licenceName,exirationDateStr,licenceCategory,licenceStatus,licenceTrustLevel,licenceFileType,licenceFileUrl,licenceStatus$name,licenceFileType$name,licenceSourceType,licenceSourceType$name,licenceCategory$name){
-		$("#licenceName").append(licenceName);
-		$("#exirationDateStr").append(exirationDateStr);
-		$("#licenceCategory").append(licenceCategory$name);
-		$("#licenceStatus").append(licenceStatus$name);
-		$("#licenceTrustLevel").append(licenceTrustLevel);
-		$("#licenceFileType").append(licenceFileType$name);
-		$("img").attr("src",licenceFileUrl);
-	}
-	function showupdateInfo(licenceName,issuingDateStr,exirationDateStr,licenceCategory,licenceFileType){
-		$("#update_licenceName").val(licenceName);
-		$("#update_startDate").val(issuingDateStr);
-		$("#update_endDate").val(exirationDateStr);
-		$("#update_licenceCategory").append("<option selected='"+licenceCategory+"'></option>");
-		$("#update_licenceFileType").append("<option selected='"+licenceFileType+"'></option>");
-		
-	}
-	function getcatalogId(){
-		var catalogId=decodeURI(decodeURI(GetQueryString('catalogId')));
-		return catalogId;
-	}
-	function getlicenceId(){
-		var licenceId = decodeURI(decodeURI(GetQueryString('licenceId')));
-		return licenceId;
-	}
-	function getremovetype(){
-		var removetype = decodeURI(decodeURI(GetQueryString('removetype')));
-		return removetype;
-	}
+
 	var removetype=getremovetype();//接收参数，根据图片是证照图片("1")还是证照目录("0")
 	/*通过判断图片的类型决定a标签的值是删除还是移除*/
 	if(removetype=="0"){
@@ -95,9 +71,7 @@ $(function(){
 		$("#delete").text("删除");
 	}
 	var licenceId=getlicenceId();
-	var licenceSourceType="";//数据来源
-	var licenceStatus="";//证照状态
-	var licenceFileType="";//证照文件类型
+	
 	var catalogId=getcatalogId();
 	$.ajax({
 		url:'../rest/catalog/query/',
@@ -105,6 +79,7 @@ $(function(){
 		data:{
 			"licenceId":licenceId,
 		},
+		async:false,
 		success:function(json){
 			var data=json[0].licence;
 			var licenceName=data.licenceName;
@@ -114,7 +89,7 @@ $(function(){
 			var licenceStatus$name=data.licenceStatus$name;//用于展示
 			var licenceTrustLevel=data.licenceTrustLevel;
 			var licenceFileType$name=data.licenceFileType$name;
-			var licenceCategory$name=data.licenceCategory$name;
+			licenceCategory$name=data.licenceCategory$name;
 			var licenceFileUrl=data.licenceFileUrl;
 			licenceStatus=data.licenceStatus;//全局变量 用于传值
 			licenceFileType=data.licenceFileType;//全局变量 用于传值
@@ -122,23 +97,22 @@ $(function(){
 			var licenceSourceType$name=data.licenceSourceType$name;//用于展示
 			var licenceFileType$name=data.licenceFileType$name;//用于展示
 			showInfo(licenceName,exirationDateStr,licenceCategory,licenceStatus,licenceTrustLevel,licenceFileType,licenceFileUrl,licenceStatus$name,licenceFileType$name,licenceSourceType,licenceSourceType$name,licenceCategory$name);
-			showupdateInfo(licenceName,issuingDateStr,exirationDateStr,licenceCategory,licenceFileType);
-			alert(licenceFileType$name);
+			showupdateInfo(licenceName,issuingDateStr,exirationDateStr,licenceCategory$name,licenceFileType$name);
 		}
 	});
 	//点击修改按钮
 	$("#modify").click(function(){
-		if(licenceSourceType!="01" && licenceStatus!="08"){
+		if(licenceSourceType.trim()!="01" && licenceStatus.trim()!="08"){
 			$("#updateLicenceModal").modal({});
-		}else if(licenceSourceType=="01"){
+		}else if(licenceSourceType.trim()=="01"){
 			alert("该证照来源于政府发放,不可修改");
-		}else if(licenceStatus=="08"){
+		}else if(licenceStatus.trim()=="08"){
 			alert("该证照在使用中");
 		}
 	});
 	//点击删除操作
 	$("#delete").click(function(){
-		if(licenceSourceType!="01" && licenceStatus!="08"){
+		if(licenceSourceType.trim()!="01" && licenceStatus.trim()!="08"){
 			var funcname="";
 			if(removetype=="0"){
 				funcname="removeOutOfCata";
@@ -156,13 +130,12 @@ $(function(){
 					alert(data.showMsg);
 				}
 			});
-		}else if(licenceSourceType=="01"){
-			alert("该证照来源于政府发放,不可修改");
-		}else if(licenceStatus=="08"){
+		}else if(licenceSourceType.trim()=="01"){
+			alert("该证照来源于政府发放,不可删除");
+		}else if(licenceStatus.trim()=="08"){
 			alert("该证照在使用中");
 		}
 	});
-	
 	//修改保存
 	$("#btn_sublicence").click(function(){
 		var licenceName=$("#update_licenceName").val();
@@ -181,21 +154,54 @@ $(function(){
 				alert("修改成功");
 			}
 		});
-		
 	});
 	
 });
 XJL.beforeShowAdd = function(){
+	alert("1");
     //初始化下拉框
-    $("#txt_itemType").selectpicker("val",'');
+    $("#update_licenceCategory").selectpicker("val",'');
+}
+XJL.beforeSubmit = function(oDataModel){
+    //重新对字典进行赋值
+    oDataModel.licenceCategory$name = licenceCategory$name; 
 }
 XJL.beforeShowUpdate = function(oDataModel){
-	console.log("itemType",oDataModel.itemType);
-    $('#txt_itemType').selectpicker("val",$.trim(oDataModel.itemType));
+	console.log("licenceCategory",oDataModel.licenceCategory$name);
+    $("#update_licenceCategory").selectpicker("val",$.trim(licenceCategory$name));
 }
+
 XJL.afterHiddenModal = function(){
     //清除下拉框
-    XJL.clearSelectPicker("txt_itemType");
+    XJL.clearSelectPicker("#update_licenceCategory");
+}
+function showInfo(licenceName,exirationDateStr,licenceCategory,licenceStatus,licenceTrustLevel,licenceFileType,licenceFileUrl,licenceStatus$name,licenceFileType$name,licenceSourceType,licenceSourceType$name,licenceCategory$name){
+	$("#licenceName").append(licenceName);
+	$("#exirationDateStr").append(exirationDateStr);
+	$("#licenceCategory").append(licenceCategory$name);
+	$("#licenceStatus").append(licenceStatus$name);
+	$("#licenceTrustLevel").append(licenceTrustLevel);
+	$("#licenceFileType").append(licenceFileType$name);
+	$("img").attr("src",licenceFileUrl);
+}
+function showupdateInfo(licenceName,issuingDateStr,exirationDateStr,licenceCategory$name,licenceFileType$name){
+	$("#update_licenceName").val(licenceName);
+	$("#update_startDate").val(issuingDateStr);
+	$("#update_endDate").val(exirationDateStr);
+//	$("#update_licenceCategory").append("<option selected='selected'>"+licenceCategory$name+"</option>");
+//	$("#update_licenceFileType").append("<option selected='selected'>"+licenceFileType$name+"</option>");
+}
+function getcatalogId(){
+	var catalogId=decodeURI(decodeURI(GetQueryString('catalogId')));
+	return catalogId;
+}
+function getlicenceId(){
+	var licenceId = decodeURI(decodeURI(GetQueryString('licenceId')));
+	return licenceId;
+}
+function getremovetype(){
+	var removetype = decodeURI(decodeURI(GetQueryString('removetype')));
+	return removetype;
 }
 </script>
 </head>
@@ -260,7 +266,7 @@ XJL.afterHiddenModal = function(){
 				    </div>
 				    <div class = "form-group"> 
 					     <label for = "licenceCategory">证照类型：</label> 
-						 <select id="update_licenceCategory" class="selectpicker show-tick form-control" data-live-search="true">
+						 <select id="update_licenceCategory" class="selectpicker show-tick form-control" name="update_licenceCategory" data-live-search="true">
 						 	
 						 </select>
 				    </div>
