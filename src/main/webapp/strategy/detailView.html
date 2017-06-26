@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery/js/jquery-rest.js"></script>
+<script src="../js/xjl/js/custom.js"></script>
+<style>
+	#top1{
+		width:100%;
+	}
+	#t1{
+		margin-left:5%;
+	}
+	#t2{
+		margin-left:5%;
+	}
+	
+</style>
+<script type="text/javascript">
+var content,strategyCreateDateStr,createUserId;
+var createUserName;
+var strategyTitle;
+var strategyId;
+$(function(){
+	strategyId=getStrategyId();
+	$.ajax({
+		url:'../rest/Strategy/queryStrategy',
+		type:'POST',
+		data:{
+			"strategyId":strategyId,
+		},
+		async:false,
+		success:function(data){
+			content=data.strategyContent;
+			strategyCreateDateStr=data.strategyCreateDateStr;
+			createUserId=data.createUserId;
+			strategyTitle=data.strategyTitle;
+		}
+	});
+	$.restPost({
+		url:'../rest/user/queryUserInfo',
+		type:'POST',
+		data:{
+			"userId":createUserId,
+		},
+		async:false,
+		success:function(data){
+			createUserName=data.cardName;
+		}
+	});
+	
+	$("#h1").append(strategyTitle);
+	$("#h2").append(content);
+	$("#t1").text("用户:"+createUserName);
+	$("#t2").text("发表于:"+strategyCreateDateStr);
+	
+});
+function getStrategyId(){
+	var  strategyId=decodeURI(decodeURI(GetQueryString('strategyId')));
+	return strategyId;
+}
+
+</script>
+</head>
+<body >
+	<div id="top1">
+		<h id="t1"></h>
+	</div>
+	<div id="top2">
+		<h id="t2"></h>
+	</div>
+	<div id="content" style="text-align:center;">
+		<h id="h1" style="text-align:center;"></h>
+		<h id="h2"></h>
+	</div>
+</body>
+</html>

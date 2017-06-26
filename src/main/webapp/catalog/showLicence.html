@@ -103,7 +103,7 @@ $(function(){
 	//点击修改按钮
 	$("#modify").click(function(){
 		if(licenceSourceType.trim()!="01" && licenceStatus.trim()!="08"){
-			$("#updateLicenceModal").modal({});
+			$("#myModal").modal({});
 		}else if(licenceSourceType.trim()=="01"){
 			alert("该证照来源于政府发放,不可修改");
 		}else if(licenceStatus.trim()=="08"){
@@ -158,7 +158,6 @@ $(function(){
 	
 });
 XJL.beforeShowAdd = function(){
-	alert("1");
     //初始化下拉框
     $("#update_licenceCategory").selectpicker("val",'');
 }
@@ -227,7 +226,7 @@ function getremovetype(){
 		<img src=""></img>
 	</div>
 	<!-- 修改页面 -->
-	<div class="modal fade" id="updateLicenceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 	 		<div id="myAlert" class="alert alert-warning" style="display: none;">
 				<a href="#" class="close" data-dismiss="alert">&times;</a>
