@@ -30,16 +30,36 @@
  * 4.画页面
  * 5.处理提交事件，提交domain对象即可，domain存储的是页面上的元素的值
  */
- */
+ 
     function MyViewModel() {
+	//定义模型自己引用，便于内部函数操作使用
         var self = this;
-        self.citySelectOptions = [
+	//定义所有下拉框选项的值
+        self.selectOptions={};
+        self.selectOptions.city = [
                 {name:"南京",id:1},
                 {name:"北京",id:2},
                 {name:"上海",id:3}
         ];
+        self.selectOptions.age = [
+            {name:"婴儿",id:1},
+            {name:"儿童",id:2},
+            {name:"少年",id:3},
+            {name:"青年",id:4},
+            {name:"中年",id:5}
+    ];
+        //定义form表单对应的数据集合
         self.domain={};
+        self.domain.id="";
         self.domain.city = ko.observableArray([2]);
+        self.domain.age = ko.observableArray();
+        self.domain.username=ko.observable();
+        //地址，是一个从表，从表在点击事件中进行处理值关系的问题
+        self.domain.address = ko.observableArray();
+        //地址id
+        self.domain.address.id=ko.observable();
+        //地址名称
+        self.domain.address.addressName=ko.observable();
     }
     var myViewModel = new MyViewModel();
     $(function () {
@@ -54,12 +74,20 @@
  </script>
 </head >
 <body>
+	id（文本框）<input data-bind ="value:domain.id" readonly="readonly"><br/>
     <!-- 指定options来源，option text/value对应的属性名称 -->
-城市<select data-bind ="options:citySelectOptions, optionsText: 'name', optionsValue: 'id', selectedOptions:domain.city" multiple="multiple">
+城市(下拉框)<select data-bind ="options:selectOptions.city, optionsText: 'name', optionsValue: 'id', selectedOptions:domain.city" multiple="multiple">
     </select><br/>
+    年龄段(下拉框)<select data-bind ="options:selectOptions.age, optionsText: 'name', optionsValue: 'id', selectedOptions:domain.age" multiple="multiple">
+    </select><br/>
+    用户名称（文本框）<input data-bind ="value:domain.username"><br/>
     已经选择的城市：<span data-bind ="text:domain.city" ></span ><br/>
+    已经选择的年龄：<span data-bind ="text:domain.age" ></span ><br/>
+    当前用户名称<span data-bind ="text:domain.username" ></span ><br/>
     <!-- 指定按钮click事件调用ViewModel中的特定函數修改result值 -->
-   <input  type ="button"  value ="1,3"  onclick ="myViewModel.domain.city([1,3])"/>
-    <input  type ="button"  value ="提交"  onclick ="submit();"/>
+   <input  type ="button"  value ="设置城市选择1和3"  onclick ="myViewModel.domain.city([1,3])"/>
+    <input  type ="button"  value ="试试在console中查看表单值"  onclick ="submit();"/>
+    <br>
+    这里显示地址列表，添加一个地址，类似于报销单中的样式
 </body>
 </html>
