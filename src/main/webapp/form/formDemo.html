@@ -53,27 +53,69 @@
         self.domain.id="";
         self.domain.city = ko.observableArray([2]);
         self.domain.age = ko.observableArray();
-        self.domain.username=ko.observable();
+        self.domain.username = ko.observable();
         //地址，是一个从表，从表在点击事件中进行处理值关系的问题
         self.domain.address = ko.observableArray();
-        //地址id
-        self.domain.address.id=ko.observable();
-        //地址名称
-        self.domain.address.addressName=ko.observable();
+        
     }
     var myViewModel = new MyViewModel();
+    function AddressViewModel(i){
+    	var self=this;
+    	
+    	self.address = {};
+    	self.address.__=i;
+    	//地址id
+        self.address.id=ko.observable();
+        //地址名称
+        self.address.addressName=ko.observable();
+        
+        
+    }
+    function deleteDom(i){
+    	$("#addressDiv"+i).remove();
+    	myViewModel.domain.address.remove(function (item){
+    		console.log("item",item);
+    		if (item.address.__==i){
+    			console.log("找到");
+    			return true;
+    		}
+    	})
+    	
+    }
     $(function () {
-        ko.applyBindings(myViewModel);
+        ko.applyBindings(myViewModel,$("#person")[0]);
     });
     function submit(){
     	var domain = ko.toJS(myViewModel.domain);
     	var domainString = JSON.stringify(domain);
     	console.log("domain",domain);
     	console.log("domainString",domainString);
+    	
     }
+    //添加一个地址信息，完成div和元素的创建，同时同步到集合中
+    var i = 0;
+    function addAddress(){
+    	i++;
+    	var panel = $('<div id="addressDiv'+i+'" class="panel panel-default"></div>');
+    	var panelHeader = $('<div class="panel-heading"><button onclick="deleteDom('+i+')">删除</button></div>');
+        var panelBody=$('<div class="panel-body">');
+    	var addresssIdDom = $('<span>id</span><input data-bind ="value:address.id" >');
+        var addresssNameDom = $('<span>name</span><input data-bind ="value:address.addressName" >');
+        panelBody.append(addresssIdDom);
+        panelBody.append(addresssNameDom);
+        panel.append(panelHeader);
+        panel.append(panelBody);
+        $("#addressList").append(panel);
+        var addressViewModel = new AddressViewModel(i);
+        ko.applyBindings(addressViewModel,panel[0]);
+        myViewModel.domain.address.push(addressViewModel);
+    }
+    
+    
  </script>
 </head >
 <body>
+	<div id="person">
 	id（文本框）<input data-bind ="value:domain.id" readonly="readonly"><br/>
     <!-- 指定options来源，option text/value对应的属性名称 -->
 城市(下拉框)<select data-bind ="options:selectOptions.city, optionsText: 'name', optionsValue: 'id', selectedOptions:domain.city" multiple="multiple">
@@ -88,6 +130,10 @@
    <input  type ="button"  value ="设置城市选择1和3"  onclick ="myViewModel.domain.city([1,3])"/>
     <input  type ="button"  value ="试试在console中查看表单值"  onclick ="submit();"/>
     <br>
+    </div>
     这里显示地址列表，添加一个地址，类似于报销单中的样式
+    <button onclick="addAddress()">增加一个地址</button>
+    <div id="addressList">
+    </div>
 </body>
 </html>
