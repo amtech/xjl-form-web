@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css" >
+<script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/bootstrap/js/bootstrap.min.js"></script>
+<style>
+	h1{
+		margin-left:12%;
+		
+	}
+	li{
+		margin-left:10%;
+		height:80px;	
+		border:none;
+		font-size:20px;	
+		list-style-type:none;
+	}
+	ul{
+		width:90%;
+		margin-top:3%;
+	}
+	.text-muted{
+		margin-left:1%;
+	}
+	.btn0{
+		margin-left:5%;display:none;
+	}
+	.btn1{
+		margin-left:5%;display:line;
+	}
+	
+</style>
+<script>
+	$(function(){
+		
+	});
+	function GotoUpload(){
+		window.open("handedCase.html");
+	}
+	function test(){
+		var s=$("#upload").attr("class");
+		if(s=="btn btn-middle btn-primary btn1"){
+			$("#upload").attr("class","btn btn-middle btn-primary btn0");
+		}else{
+			$("#upload").attr("class","btn btn-middle btn-primary btn1");
+		}
+	}
+</script>
+</head>
+<body>
+	<h1>办事详情:</h1>
+	<ul >
+		<li>办件编号:
+			<span class="text-muted" id="haha">8686</span>
+		</li>
+		<li>事项名称:
+			<span class="text-muted">身份证</span>
+		</li>
+		<li>办理部门:
+			<span class="text-muted">政务处</span>
+		</li>
+		<li>办件状态:
+			<span class="text-muted">已完结</span>
+			<button id="upload"type="button" class="btn btn-middle btn-primary btn0" onclick="GotoUpload();">上传办事攻略</button>
+		</li>
+		<li>办理进度:
+			<span class="text-muted">图片</span>
+		</li>
+		<li>申报时间:
+			<span class="text-muted">2017-6-26</span>
+		</li>
+		<li>结束时间:
+			<span class="text-muted">2017-6-27</span>
+		</li>
+		<li>申报材料:
+			<span class="text-muted">此处放ul</span>
+		</li>
+	</ul>
+	<button type="button" onclick="test();">测试</button>
+</body>
+</html>

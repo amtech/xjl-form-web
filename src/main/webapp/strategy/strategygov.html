@@ -47,7 +47,7 @@
  //显示按钮
  function stateShowLight(item,row,index){
 	 var buttonstr="";
-	 if(row.strategyState.trim()=="01"){
+	 if($.trim(row.strategyState)=="00"){
 		 buttonstr="<p>已屏蔽</p>";
 	 }else{
 		 buttonstr="<button type='button' class='btn btn_primary' onclick='hideThisRow(\""+row.strategyId+"\")' id='hide'>屏蔽</button>";
