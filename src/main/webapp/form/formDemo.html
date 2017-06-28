@@ -47,7 +47,7 @@
             {name:"少年",id:3},
             {name:"青年",id:4},
             {name:"中年",id:5}
-    ];
+    	];
         //定义form表单对应的数据集合
         self.domain={};
         self.domain.id="";
@@ -59,7 +59,7 @@
         
     }
     var myViewModel = new MyViewModel();
-    function AddressViewModel(i){
+    function AddressViewModel(i,model){
     	var self=this;
     	
     	self.address = {};
@@ -68,7 +68,11 @@
         self.address.id=ko.observable();
         //地址名称
         self.address.addressName=ko.observable();
-        
+        if (model != null){
+        	self.address.id(model.address.id);
+        	self.address.addressName(model.address.addressName);
+        	self.address.__=model.address.__;
+        }
         
     }
     function deleteDom(i){
@@ -84,6 +88,16 @@
     }
     $(function () {
         ko.applyBindings(myViewModel,$("#person")[0]);
+        //设置初始化的值
+        var data = {"id":"","city":[3],"age":[2,3],"username":"少年","address":[{"address":{"__":1,"id":"啊","addressName":"啊啊"}},{"address":{"__":2,"id":"版本","addressName":"版本"}}]};
+        myViewModel.domain.id=data.id;
+        myViewModel.domain.city(data.city);
+        myViewModel.domain.age(data.age);
+        myViewModel.domain.username(data.username);
+        $.each(data.address,function(key,value){
+        	addAddress(value);
+        })
+        
     });
     function submit(){
     	var domain = ko.toJS(myViewModel.domain);
@@ -94,7 +108,7 @@
     }
     //添加一个地址信息，完成div和元素的创建，同时同步到集合中
     var i = 0;
-    function addAddress(){
+    function addAddress(model){
     	i++;
     	var panel = $('<div id="addressDiv'+i+'" class="panel panel-default"></div>');
     	var panelHeader = $('<div class="panel-heading"><button onclick="deleteDom('+i+')">删除</button></div>');
@@ -106,7 +120,7 @@
         panel.append(panelHeader);
         panel.append(panelBody);
         $("#addressList").append(panel);
-        var addressViewModel = new AddressViewModel(i);
+        var addressViewModel = new AddressViewModel(i,model);
         ko.applyBindings(addressViewModel,panel[0]);
         myViewModel.domain.address.push(addressViewModel);
     }
