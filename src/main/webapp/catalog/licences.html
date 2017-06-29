@@ -46,7 +46,6 @@ $(function(){
 			for(var i=0;i<data.length;i++){
 				$("p").html("目录:"+data[i].catalog.catalogName);//将文件夹名称显示在页面上
 				for(var j=0;j<data[i].licenceOfCata.length;j++){
-					alert(data[i].licenceOfCata[j].licenceName);
 					//将证照展示在页面上
 					str="<li>"
 						+"<div class='item'><a name='"+data[i].licenceOfCata[j].licenceId+"'  ondblclick=showlicence(this);><img src='"+data[i].licenceOfCata[j].licenceFileUrl+"' alt='image'></img></a>"
@@ -57,7 +56,6 @@ $(function(){
 				}
 			}
 		}
-		
 	});
 	
 });
