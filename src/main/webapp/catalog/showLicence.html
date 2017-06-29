@@ -290,6 +290,7 @@ function getremovetype(){
 	</div>
 	
 <script>
+/*加载时间控件*/
 $('#update_datetimepicker1').datetimepicker({
 	minView: "month",
 	format: 'yyyy-mm-dd',
@@ -315,12 +316,12 @@ $("#licence_upload_update").fileinput({
        overwriteInitial: false
 }).on("fileuploaded", function (event, data, previewId, index) {
 	  if(data.response){
-		  $("#fileName").val(data.response.fileName);
-		  $("#ftpURL").val(data.response.ftpURL);
+		  $("#update_fileName").val(data.response.fileName);
+		  $("#update_ftpURL").val(data.response.ftpURL);
 	  }
 }).on("filesuccessremove",function(event, id){
-	  $("#fileName").val('');
-	  $("#ftpURL").val('');
+	  $("#update_fileName").val('');
+	  $("#update_ftpURL").val('');
 });
 </script>
 </body>

@@ -3,11 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<title>证照展示</title>
 <link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css" >
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap-theme.min.css" >
+<link rel="stylesheet" href="../js/bootstraptable/css/bootstrap-table.min.css">
+<link rel="stylesheet" href="../js/bootstrapselect/css/bootstrap-select.min.css">
+<link href="../css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+<link href="../js/bootstrapdatetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" media="screen">
 <script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery/js/jquery-rest.js"></script>
 <script src="../js/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/bootstraptable/js/tableExport.js"></script>
+<script src="../js/bootstraptable/js/bootstrap-table.js"></script>
+<script src="../js/bootstraptable/js/bootstrap-table-export.js"></script>
+<script src="../js/knockout/js/knockout-3.4.2.js"></script>
+<script src="../js/knockout/js/knockout.mapping-latest.js"></script>
+<script src="../js/xjl/js/fileinput.js" type="text/javascript"></script>
+<script src="../js/bootstraptable/js/knockout.bootstraptable.js"></script>
+<script src="../js/bootstrapselect/js/bootstrap-select.min.js"></script>
+<script src="../js/bootstrapselect/js/i18n/defaults-zh_CN.min.js"></script>
+<script src="../js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
+<script src="../js/bootstrapdatetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script  type="text/javascript"  src="../js/xjl/js/custom.js"></script>
+<script src="../js/xjl/js/xjl.js"></script>
+<script src="../js/xjl/js/xjl-table.js"></script>
+<script src="../js/xjl/js/xjl-select.js"></script>
+<script src=""></script>
 <style>
-	h1{
+	h3{
 		margin-left:12%;
 		
 	}
@@ -15,7 +38,7 @@
 		margin-left:10%;
 		height:80px;	
 		border:none;
-		font-size:20px;	
+		font-size:15px;	
 		list-style-type:none;
 	}
 	ul{
@@ -25,60 +48,297 @@
 	.text-muted{
 		margin-left:1%;
 	}
-	.btn0{
-		margin-left:5%;display:none;
+	#btnUploadStrategy{
+		margin-left:10%;
 	}
-	.btn1{
-		margin-left:5%;display:line;
+	img{
+		width:30px;
+		height:30px;
+		margin-left:10%;
 	}
+	.wrong:hover{
+		cursor:pointer;
+	}
+	.btnAddlicence{
+		margin-left:10%;
+	}
+	
 	
 </style>
 <script>
+var pieceId=getpieceId();
+var managementStatus;
+var pieceId;
 	$(function(){
-		
+		var data={"pieceId":pieceId};
+		$.restPost({
+			url:'../rest/historypiece/queryForDetail',
+			type:'POST',
+			data:data,
+			success:function(data){
+				pieceId=data.pieceId;
+				var matteName=data.matteName;
+				var ownerOn=data.ownerOn;
+				var managementDept=data.managementDept;
+				managementStatus=data.managementStatus;
+				var managementStatus$name=data.managementStatus$name;
+				var reportingTime=data.reportingTime;
+				var endTime=data.endTime;
+				hideOrshow(managementStatus);
+				showInfo(pieceId,matteName,ownerOn,managementDept,managementStatus$name,reportingTime,endTime);
+			}
+		});
+		$.restPost({
+			url:'../rest/historypiece/showPieceLicence',
+			type:'POST',
+			data:data,
+			success:function(data){
+				var str="";
+				for(var i=0;i<data.length;i++){
+					if(data[i].useable=="00"){
+						str+="<li id='\""+data[i].pid+"\"'>"+data[i].licenceId$name+"<img class='right' src='../images/right.jpg'></img></li>";
+					}else if(data[i].useable=="02"){
+						str+="<li id='\""+data[i].pid+"\"'>"+data[i].licenceId$name+"<span onmouseover='changeImage(this);' ><img class='wrong'  src='../images/wrong.jpg'></img><button class='btn btn-md btn-primary btnAddlicence' id=\""+data[i].licenceId+"\" type='button' onclick='addLicence(\""+data[i].licenceId+"\");' style='display:none;'>补证</button></span></li>";
+					}else if(data[i].useable=="01"){
+						str+="<li id='\""+data[i].pid+"\"'>"+data[i].licenceId$name+"<span  id='useable' style='margin-left:10%;color:green;'>待处理</span></li>";
+					}
+				}
+				$("#licenceOl").append(str);
+			}
+		});
+		//点击新增办事攻略按钮
+		$("#btn_submit").click(function(){
+			var strategyTitle=$("#strategyTitle").val();
+			var strategyContent=$("#strategyContent").val();
+			var data={"strategyTitle":strategyTitle,"strategyContent":strategyContent};
+			$.restPost({
+				url:'../rest/Strategy/addStrategy',
+				type:'POST',
+				data:data,
+				success:function(data){
+					if(data.success==true){
+						alert("办事攻略已上传成功");
+					}
+				}
+			});
+		});
+		//点击补证按钮
+		$("#btn_addlicence").click(function(){
+			var licencename=$("#licenceName").val();
+			var startDate=$("#add_startDate").val();
+			var endDate=$("#add_endDate").val();
+			var ftpURL=$("#update_ftpURL").val();
+			var fileName=$("#update_fileName").val();
+			var data={"licencename":licencename,"startDate":startDate,"endDate":endDate,"ftpURL":ftpURL,"fileName":fileName,"pieceId":pieceId};
+			$.restPost({
+				url:'../rest/historypiece/add',
+				type:'POST',
+				data:data,
+				success:function(data){
+					if(data.success==true){
+						alert("");
+					}
+				}
+			});
+		});
 	});
-	function GotoUpload(){
-		window.open("handedCase.html");
+	function getpieceId(){
+		var pieceId=XJL.getUrlParam("pieceId");
+		return pieceId;
 	}
-	function test(){
-		var s=$("#upload").attr("class");
-		if(s=="btn btn-middle btn-primary btn1"){
-			$("#upload").attr("class","btn btn-middle btn-primary btn0");
+	function GotoUpload(){
+		$("#addStrategyModal").modal({});
+	}
+	//通过办件状态决定按钮的显示与隐藏
+	function hideOrshow(managementStatus){
+		if(managementStatus=="00"){
+			$("#btnUploadStrategy").show();
 		}else{
-			$("#upload").attr("class","btn btn-middle btn-primary btn1");
+			$("#btnUploadStrategy").hide();
 		}
+	}
+	function showInfo(pieceId,matteName,ownerOn,managementDept,managementStatus$name,reportingTime,endTime){
+		$("#pieceId").text(pieceId);
+		$("#matteName").text(matteName);
+		$("#ownerOn").text(ownerOn);
+		$("#managementDept").text(managementDept);
+		$("#managementStatus").text(managementStatus$name);
+		$("#reportingTime").text(reportingTime);
+		$("#endTime").text(endTime);
+	}
+	function addLicence(licenceId){
+		$("#addLicenceModal").modal({});
+	}
+	function changeImage(obj){
+		$(obj).find("img").hide();
+		$(obj).find("button").show();
+		return;
+	}
+	function changeback(obj){
+		$(obj).find("img").show();
+		$(obj).find("button").hide();
+		return;
 	}
 </script>
 </head>
 <body>
-	<h1>办事详情:</h1>
+<div>
+	<h3>办事详情:</h3>
 	<ul >
 		<li>办件编号:
-			<span class="text-muted" id="haha">8686</span>
+			<span class="text-muted" id="pieceId"></span>
 		</li>
 		<li>事项名称:
-			<span class="text-muted">身份证</span>
+			<span class="text-muted" id="matteName"></span>
+		</li>
+		<li>申请人:
+			<span class="text-muted" id="ownerOn"></span>
 		</li>
 		<li>办理部门:
-			<span class="text-muted">政务处</span>
+			<span class="text-muted" id="managementDept"></span>
 		</li>
 		<li>办件状态:
-			<span class="text-muted">已完结</span>
-			<button id="upload"type="button" class="btn btn-middle btn-primary btn0" onclick="GotoUpload();">上传办事攻略</button>
+			<span class="text-muted" id="managementStatus"></span>
+			<button id="btnUploadStrategy"type="button" class="btn btn-middle btn-primary" onclick="GotoUpload();">上传办事攻略</button>
 		</li>
 		<li>办理进度:
-			<span class="text-muted">图片</span>
+			<span class="text-muted" id=""></span>
 		</li>
 		<li>申报时间:
-			<span class="text-muted">2017-6-26</span>
+			<span class="text-muted" id="reportingTime"></span>
 		</li>
 		<li>结束时间:
-			<span class="text-muted">2017-6-27</span>
+			<span class="text-muted" id="endTime"></span>
 		</li>
 		<li>申报材料:
-			<span class="text-muted">此处放ul</span>
+			<span class="text-muted" id="" style="margin-top:0%;">
+				<ol style="margin-left:0px;" id="licenceOl">
+					
+				</ol>
+			</span>
 		</li>
 	</ul>
-	<button type="button" onclick="test();">测试</button>
+</div>
+<!-- 上传办事攻略模式框 -->
+	<div  class="modal fade" id="addStrategyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+	 		<div id="myAlert" class="alert alert-warning" style="display: none;">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+			</div>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class = "form-group"> 
+					    <label for = "strategyTitle">标题：</label> 
+					    <input type="text" name="Title" class="form-control" id="strategyTitle" placeholder="请输入标题"/>
+			   		</div>
+				    <div class = "content"> 
+		    			<label class="control-label">内容 ：</label>        
+		         		<div class="input-group">
+	                        <input type="text" name="content"  class="form-control" id="strategyContent" placeholder="请输入内容">
+	                        <span class="input-group-btn">
+	                           <button id="btn_strategyContent_html" type="button" class="btn btn-default" onclick="window.open('../summernote.html?id=strategyContent')">编辑</button>
+	                	    </span>
+	                	</div>
+				    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+                    <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>新增</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- 补证模式框 -->	
+	<div  class="modal fade" id="addLicenceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+	 		<div id="myAlert" class="alert alert-warning" style="display: none;">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+			</div>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class = "form-group"> 
+					    <label for = "strategyTitle">材料名称:</label> 
+					    <input type="text" name="licenceName" class="form-control" id="licenceName" placeholder="请输入材料名称"/>
+			   		</div>
+				   	<div class = "form-group"> 
+		    			<label class="control-label">发证日期 ：</label>        
+		         		<div class='input-group date' id='add_datetimepicker1'>            
+			              	 <input type='text' class="form-control"    name="start_date" id="add_startDate">        
+			                 <span class="input-group-addon">            
+			                   <span class="glyphicon glyphicon-calendar"></span>        
+			                 </span>        
+		         		</div>
+				    </div>
+				    <div class = "form-group">
+		               	 <label class="control-label">有效期至：</label>
+		               	 <div class='input-group date' id='add_datetimepicker2'>            
+		               	   <input type='text' class="form-control"     name="exirationDate"   name="end_date"  id="add_endDate"/>                
+			                    <span class="input-group-addon">                    
+			                      	 <span class="glyphicon glyphicon-calendar"></span>                
+			                    </span>        
+		      			 </div>
+					</div>
+					<div class="form-group">
+			       		<input id="licence_upload_update" type="file"  multiple class="file" data-overwrite-initial="false" data-min-file-count="1">
+			       		<input type="hidden" id="update_ftpURL" name="licenceFileUrl">
+			       		<input type="hidden" id="update_fileName">
+					</div>
+					
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+                    <button type="button" id="btn_addlicence" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+/*加载时间控件*/
+$('#add_datetimepicker1').datetimepicker({
+	minView: "month",
+	format: 'yyyy-mm-dd',
+	language: 'zh-CN',
+    autoclose:true
+});
+$("#add_datetimepicker2").datetimepicker({
+	minView: "month",
+	format:'yyyy-mm-dd',
+	language: 'zh-CN',
+   	autoclose:true
+});
+/*控制时间插件*/
+$("#add_datetimepicker1").on("changeDate", function (ev) {
+	$('#add_datetimepicker2').datetimepicker('setStartDate', ev.date);
+});        
+$("#add_datetimepicker2").on("changeDate", function (ev) {
+	 $("#add_datetimepicker1").datetimepicker("setEndDate",ev.date);
+});
+/* 上传文件*/
+$("#licence_upload_update").fileinput({
+       uploadUrl: '../rest/licence/upload',  
+       overwriteInitial: false
+}).on("fileuploaded", function (event, data, previewId, index) {
+	  if(data.response){
+		  $("#update_fileName").val(data.response.fileName);
+		  $("#update_ftpURL").val(data.response.ftpURL);
+	  }
+}).on("filesuccessremove",function(event, id){
+	  $("#update_fileName").val('');
+	  $("#update_ftpURL").val('');
+});
+</script>
 </body>
 </html>

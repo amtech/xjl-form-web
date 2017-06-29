@@ -2,28 +2,60 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>历史办件列表</title>
 <link rel="stylesheet" href="../js/bootstrap/css/bootstrap.min.css" >
+<link rel="stylesheet" href="../js/bootstrap/css/bootstrap-theme.min.css" >
 <link rel="stylesheet" href="../js/bootstraptable/css/bootstrap-table.min.css">
+<link rel="stylesheet" href="../js/bootstrapselect/css/bootstrap-select.min.css">
 <script src="../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery/js/jquery-rest.js"></script>
 <script src="../js/bootstrap/js/bootstrap.min.js"></script>
 <script src="../js/bootstraptable/js/tableExport.js"></script>
 <script src="../js/bootstraptable/js/bootstrap-table.js"></script>
 <script src="../js/bootstraptable/js/bootstrap-table-export.js"></script>
+<script src="../js/knockout/js/knockout-3.4.2.js"></script>
+<script src="../js/knockout/js/knockout.mapping-latest.js"></script>
+<script src="../js/bootstraptable/js/knockout.bootstraptable.js"></script>
+<script src="../js/bootstrapselect/js/bootstrap-select.min.js"></script>
+<script src="../js/bootstrapselect/js/i18n/defaults-zh_CN.min.js"></script>
 <script src="../js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
 <script src="../js/xjl/js/xjl.js"></script>
 <script src="../js/xjl/js/xjl-table.js"></script>
+<script src="../js/xjl/js/xjl-select.js"></script>
+<script src=""></script>
+<script type="text/javascript">
+/**
+ * 历史办件列表  
+ * @author taojie
+ */
+$(function(){
+	 //初始化表格
+	 XJL.initTable("tb_historypiece","../rest/historypiece",10);
+});
+function licenceIdShowLight(item,row,index){
+	var url="<a href='#' onclick='showdetail(\""+row.pieceId+"\")'>"+row.pieceId+"</a>";
+	return url;
+}
+function matteNameShowLight(item,row,index){
+	var url="<a href='#' onclick='showdetail(\""+row.pieceId+"\")'>"+row.matteName+"</a>";
+	return url;
+}
+function showdetail(pieceId){
+	window.open("caseDetail.html?pieceId="+pieceId);
+}
+
+</script>
 </head>
 <body>
 	<div class="panel-body" style="padding-bottom:0px;">
-		<table id="tb_handedCase" data-bind="myBootstrapTable:$root">
+		<table id="tb_historypiece" data-bind="myBootstrapTable:$root">
 		    <thead>
 		        <tr>
 		            <th data-checkbox="true"></th>
-		            <th data-field="strategyTitle" data-formatter="titleShowLight">办件编号</th>
-		            <th data-field="strategyState$name" data-formatter="stateShowLight">事项名称</th>
-		            <th data-field="">申报时间</th>
-		            <th data-field="">办理状态</th>
+		            <th data-field="pieceId" data-formatter="licenceIdShowLight">办件编号</th>
+		            <th data-field="matteName" data-formatter="matteNameShowLight">事项名称</th>
+		            <th data-field="reportingTime">申报时间</th>
+		            <th data-field="managementStatus$name">办理状态</th>
 		        </tr>
 		    </thead>
 		</table>
