@@ -11,12 +11,13 @@
 <link rel="stylesheet" href="../css/thumbnail-gallery.css">
 <link rel="stylesheet" href="../js/jquery/css/jquery-ui.css">
 <script src="../js/xjl/js/custom.js"></script>
+
 <style type="text/css">
 *{margin:0;padding:0;}
 .alldom{width:100%;height:100%;}
 ul{padding:0;list-style:none;}
 ul li.picture{width:220px;height:167px;float:left;margin-left:55px;margin-top:55px;border:1px solid #fff;position:relative;transition:all 0.2s ease-in 0.1s;}
-ul li.folder{overflow:hidden;width:150px;height:167px;float:left;margin-left:55px;margin-top:55px;border:1px solid #fff;position:relative;transition:all 0.2s ease-in 0.1s;}
+ul li.folder{width:220px;height:167px;float:left;margin-left:55px;margin-top:55px;border:1px solid #fff;position:relative;transition:all 0.2s ease-in 0.1s;}
 .carrynews{width:98px;height:50px;line-height:20px;text-align:center;background:none;border:1px solid #CCC;border-radius:8px;transition:all 0.2s ease-in 0.1s;margin-left:25px;background-color:white;}
 .remove1{width:98px;height:50px;line-height:20px;text-align:center;background:none;border:1px solid #CCC;border-radius:8px;transition:all 0.2s ease-in 0.1s;margin-left:25px;background-color:white;}
 .inputpicture{width:219px;height:50px;line-height:20px;text-align:center;background:none;border:1px solid #CCC;border-radius:8px;transition:all 0.2s ease-in 0.1s;margin-left:25px;background-color:white;position:absolute;border-radius:0px;left:-25px;overflow:hidden;color:#595c5f;line-height:20px;text-align:center;font-size:12px;z-index:0;border:none;}	
@@ -54,17 +55,6 @@ $.ajax({
 		var id='';
 		//将图片元素拼接
 		for(var i=0;i<data.length;i++){
-			if(data[i].licence!=null){
-				for(var j=0;j<data[i].licence.length;j++){
-					id = data[i].licence[j].licenceId;
-					str="<li class='picture'>"
-						+"<div class='item'><a name='"+data[i].licence[j].licenceId+"' onclick=gotoremove(this); ondblclick=showlicence(this);><img class='picimg'src='"+data[i].licence[j].licenceFileUrl+"' alt='image'></img></a>"
-		       			+"<input type='text' class='changename inputpicture'  style='bottom:-50px;' value='"+data[i].licence[j].licenceName+"'/>"
-			        	+"</div>"
-						+"</li>";
-					$("#divall").append(str);
-				}
-			}
 			if(data[i].catalog!=null){
 				for(var k=0;k<data[i].catalog.length;k++){
 					id=data[i].catalog[k].catalogId;
@@ -72,6 +62,17 @@ $.ajax({
 						+"<div class='item'><a name='"+data[i].catalog[k].catalogId+"' onclick=gotoremove(this) ondblclick=showlicence(this);><img class='folderimg' src='../images/213125.png'  alt='file'></img></a>"
 						+"<input type='text' class='changename inputfolder' style='bottom:-50px;'value='"+data[i].catalog[k].catalogName+"'/>"
 						+"</div>"
+						+"</li>";
+					$("#divall").append(str);
+				}
+			}
+			if(data[i].licence!=null){
+				for(var j=0;j<data[i].licence.length;j++){
+					id = data[i].licence[j].licenceId;
+					str="<li class='picture'>"
+						+"<div class='item' ><a name='"+data[i].licence[j].licenceId+"' onclick=gotoremove(this); ondblclick=showlicence(this);><img class='picimg'src='"+data[i].licence[j].licenceFileUrl+"' alt='image'></img></a>"
+		       			+"<input type='text' class='changename inputpicture'  style='bottom:-50px;' value='"+data[i].licence[j].licenceName+"'/>"
+			        	+"</div>"
 						+"</li>";
 					$("#divall").append(str);
 				}
@@ -88,7 +89,7 @@ $removenews = $('.remove'),
 $namehide = $('#divall li input.changename');
 
 $removenews.hide();
-/*新建*/
+/*新建文件夹*/
  $carry.live('click' , function(){
 	setTimeout(function(){
 			var catalogName="新建文件夹";
@@ -105,7 +106,7 @@ $removenews.hide();
 			});	
 	},500);
  });
- 
+ //修改文件夹名称
  $("input.changename").live('blur',function(){
 	 	$(this).css('border','none');
 		var s= $(this).parent().find("input[type=text]").val();
@@ -126,14 +127,6 @@ $removenews.hide();
 			}
 		});
  });
-		
-	
-	  
-		   /* var btns = $("#removebutton");
-		   $removenews.fadeIn(250);	
-		   $(this).addClass('bgclocrc').siblings().removeClass('bgclocrc');
-		   $(this).attr("id",'remove').siblings().attr('id','');
-		   $('input').attr('id','namecc').siblings().attr('id',''); */
 /*删除*/		  
  $('#removebutton').click(function(){
   //removetype和removeid为全局变量
@@ -159,20 +152,7 @@ $removenews.hide();
 		   }
 	   });
   }else if(removetype=="image"){
-	  $.ajax({
-		  url:'../rest/catalog/deleteLicence',
-		  type:'POST',
-		  data:{
-			  id:removeid
-		  },
-		  success:function(data){
-			  if(data.success==true){
-				   alert("证照目录删除成功");
-			   }else{
-				   alert(data.errorMsg);
-			   }
-		  }
-	  });
+	  alert("此处不支持证照删除,请双击图片");
   }else{
 	  alert("请至少选择一张证照或一个目录");
   }

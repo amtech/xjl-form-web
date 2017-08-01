@@ -58,7 +58,10 @@ var licenceSourceType="";//数据来源
 var licenceStatus="";//证照状态
 var licenceFileType="";//证照文件类型
 var licenceCategory$name="";//证照类型
+var licenceCategory="";//证照类型 编码
 $(function(){
+	//2、注册增删改事件
+    XJL.initOperate2("../rest/catalog","creditId,creditEntityType,creditEntityNo,creditEntityScore");
 	//初始化下拉框
 	XJL.loadSelectOption({selectId:"update_licenceCategory",url: "../rest/dictItem/query/1/1000?dictId=eeea77c6-9eb6-4705-92fb-3516ba6ae6c5",valueName:"dictItemCode",textName:"dictItemName"});
 	XJL.loadSelectOption({selectId:"update_licenceFileType",url: "../rest/dictItem/query/1/1000?dictId=e16933ed-6cbe-4464-9420-60bdfae85ca2",valueName:"dictItemCode",textName:"dictItemName"});
@@ -85,7 +88,7 @@ $(function(){
 			var licenceName=data.licenceName;
 			var issuingDateStr=data.issuingDateStr;
 			var exirationDateStr=data.exirationDateStr;
-			var licenceCategory=data.licenceCategory;
+			licenceCategory=data.licenceCategory;//全局变量  用于传值
 			var licenceStatus$name=data.licenceStatus$name;//用于展示
 			var licenceTrustLevel=data.licenceTrustLevel;
 			var licenceFileType$name=data.licenceFileType$name;
@@ -104,6 +107,9 @@ $(function(){
 	$("#modify").click(function(){
 		if(licenceSourceType.trim()!="01" && licenceStatus.trim()!="08"){
 			$("#myModal").modal({});
+			$("#myModalLabel").text("修改");
+			$("#update_licenceCategory").selectpicker("val",$.trim(licenceCategory));
+			$("#update_licenceFileType").selectpicker("val",$.trim(licenceFileType));
 		}else if(licenceSourceType.trim()=="01"){
 			alert("该证照来源于政府发放,不可修改");
 		}else if(licenceStatus.trim()=="08"){
@@ -157,23 +163,7 @@ $(function(){
 	});
 	
 });
-XJL.beforeShowAdd = function(){
-    //初始化下拉框
-    $("#update_licenceCategory").selectpicker("val",'');
-}
-XJL.beforeSubmit = function(oDataModel){
-    //重新对字典进行赋值
-    oDataModel.licenceCategory$name = licenceCategory$name; 
-}
-XJL.beforeShowUpdate = function(oDataModel){
-	console.log("licenceCategory",oDataModel.licenceCategory$name);
-    $("#update_licenceCategory").selectpicker("val",$.trim(licenceCategory$name));
-}
 
-XJL.afterHiddenModal = function(){
-    //清除下拉框
-    XJL.clearSelectPicker("#update_licenceCategory");
-}
 function showInfo(licenceName,exirationDateStr,licenceCategory,licenceStatus,licenceTrustLevel,licenceFileType,licenceFileUrl,licenceStatus$name,licenceFileType$name,licenceSourceType,licenceSourceType$name,licenceCategory$name){
 	$("#licenceName").append(licenceName);
 	$("#exirationDateStr").append(exirationDateStr);
@@ -187,8 +177,8 @@ function showupdateInfo(licenceName,issuingDateStr,exirationDateStr,licenceCateg
 	$("#update_licenceName").val(licenceName);
 	$("#update_startDate").val(issuingDateStr);
 	$("#update_endDate").val(exirationDateStr);
-//	$("#update_licenceCategory").append("<option selected='selected'>"+licenceCategory$name+"</option>");
-//	$("#update_licenceFileType").append("<option selected='selected'>"+licenceFileType$name+"</option>");
+	/* $("#update_licenceCategory").append("<option selected='selected'>"+licenceCategory$name+"</option>");
+	$("#update_licenceFileType").append("<option selected='selected'>"+licenceFileType$name+"</option>"); */
 }
 function getcatalogId(){
 	var catalogId=decodeURI(decodeURI(GetQueryString('catalogId')));
@@ -265,14 +255,14 @@ function getremovetype(){
 				    </div>
 				    <div class = "form-group"> 
 					     <label for = "licenceCategory">证照类型：</label> 
-						 <select id="update_licenceCategory" class="selectpicker show-tick form-control" name="update_licenceCategory" data-live-search="true">
-						 	
+						 <select id="update_licenceCategory" class="selectpicker show-tick form-control" data-bind="value:licenceCategory" name="update_licenceCategory" data-live-search="true">
+						 	<option selected>空</option>
 						 </select>
 				    </div>
 				    <div class = "form-group"> 
 					     <label for = "licenceFileType">证照文件类型：</label> 
 						 <select id="update_licenceFileType" class="selectpicker show-tick form-control" data-live-search="true">
-						 	
+						 	<option selected>空</option>
 						 </select>
 				    </div>
 				    <div class="form-group">

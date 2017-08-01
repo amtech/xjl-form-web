@@ -128,7 +128,9 @@ function initMove(){
 						if(!confirm("确定执行添加操作吗?")){
 							return;
 						};
-						$(currentItem).remove();
+						$(currentItem).hide();
+						$(currentItem).find("img").hide();
+						$(currentItem).find("input").hide();
 						$.ajax({
 							type:'POST',
 							url:'../rest/catalog/saveToCatalog',

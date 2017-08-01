@@ -251,11 +251,13 @@ $("#btn_update").click(function(){
 	$("#update_startDate").val(a[0].issuingDateStr);
 	$("#update_endDate").val(a[0].exirationDateStr);
 	$('#updateLicenceModal').modal({});
+	$("#update_licenceCategory").selectpicker("val",$.trim(a[0].licenceCategory));
+	$("#update_licenceFileType").selectpicker("val",$.trim(a[0].licenceFileType));
 });
 /*修改*/
 $("#button_update").click(function(){
 	var a= $("#tb_errorLicence").bootstrapTable('getSelections'); 
-	var data={"licenceId":a[0].licenceId,"licencename":$("#update_licencename").val(),"startDate":$("#update_startDate").val(),"endDate":$("#update_endDate").val(),"ftpURL":$("#update_ftpURL").val(),"fileName":$("#update_fileName").val()};
+	var data={"licenceId":a[0].licenceId,"licencename":$("#update_licencename").val(),"startDate":$("#update_startDate").val(),"endDate":$("#update_endDate").val(),"ftpURL":$("#update_ftpURL").val(),"fileName":$("#update_fileName").val(),"licenceCategory":$("#update_licenceCategory").val(),"licenceFileType":$("#update_licenceFileType").val()};
 	$.restPost({
 		 url:'../rest/licence/modifyError',
 		 data:data,
