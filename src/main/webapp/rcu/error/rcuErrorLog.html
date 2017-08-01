@@ -1,0 +1,138 @@
+
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+<link rel="stylesheet" href="../../js/bootstrap/css/bootstrap.min.css" >
+<link rel="stylesheet" href="../../js/bootstrap/css/bootstrap-theme.min.css" >
+<link rel="stylesheet" href="../../js/bootstraptable/css/bootstrap-table.min.css">
+<link rel="stylesheet" href="../../js/bootstrapselect/css/bootstrap-select.min.css">
+<script src="../../js/jquery/js/jquery-3.2.1.min.js"></script>
+<script src="../../js/jquery/js/jquery-rest.js"></script>
+<script src="../../js/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../js/bootstraptable/js/tableExport.js"></script>
+<script src="../../js/bootstraptable/js/bootstrap-table.js"></script>
+<script src="../../js/bootstraptable/js/bootstrap-table-export.js"></script>
+<script src="../../js/knockout/js/knockout-3.4.2.js"></script>
+<script src="../../js/knockout/js/knockout.mapping-latest.js"></script>
+<script src="../../js/bootstraptable/js/knockout.bootstraptable.js"></script>
+<script src="../../js/bootstrapselect/js/bootstrap-select.min.js"></script>
+<script src="../../js/bootstrapselect/js/i18n/defaults-zh_CN.min.js"></script>
+<script src="../../js/bootstrapcheckbox/js/bootstrap-checkbox.min.js"></script>
+<script src="../../js/xjl/js/xjl.js"></script>
+<script src="../../js/xjl/js/xjl-table.js"></script>
+<script src="../../js/xjl/js/xjl-select.js"></script>
+<script>
+/**
+ * rcu错误日志表页面
+ * @author PageCoderTools lilisheng
+ *
+ */
+//初始化
+$(function () {
+    //1、初始化表格
+    XJL.initTable("tb_rcuErrorLog","../../rest/rcuErrorLog",10);
+    //2、注册增删改事件
+    XJL.initOperate2("../../rest/rcuErrorLog","errorDate,errorMessage,errorCode,deviceCode,terminalId,rcuId,errorId");
+    XJL.loadSelectOption({selectId:"txt_deviceCode",url: "../../rest/dictItem/query/1/1000?dictId=5741ffd0-7fd1-409f-bb35-157099b74bcb",valueName:"dictItemCode",textName:"dictItemName"});
+});
+
+XJL.beforeSubmit = function(oDataModel){
+    //重新对字典进行赋值
+    oDataModel.deviceCode = $("#txt_deviceCode").val().toString();
+}
+XJL.beforeShowAdd = function(){
+    //初始化下拉框
+    $("#txt_deviceCode").selectpicker("val",'');
+}
+XJL.beforeShowUpdate = function(oDataModel){
+    oDataModel.deviceCode=oDataModel.deviceCode.split(",");
+    $('#txt_deviceCode').selectpicker("val",oDataModel.deviceCode);
+}
+XJL.afterHiddenModal = function(){
+    //清除下拉框
+    XJL.clearSelectPicker("txt_deviceCode");
+}
+</script>
+</head>
+<body>
+
+<div class="panel-body" style="padding-bottom:0px;">
+<div id="toolbar" class="btn-group">
+    <button id="btn_add" type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true" style="display: none"></span>新增
+    </button>
+    <button id="btn_edit" type="button" class="btn btn-default" style="display: none">
+        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
+    </button>
+    <button id="btn_delete" type="button" class="btn btn-default" style="display: none">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+    </button>
+	    <button id="btn_select" type="button" class="btn btn-default" style="display: none" >
+        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>选择
+    </button>
+    <button id="btn_back" type="button" class="btn btn-default" style="display: none">
+        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>返回
+    </button>
+</div>
+<table id="tb_rcuErrorLog" data-bind="myBootstrapTable:$root">
+    <thead>
+        <tr>
+            <th data-checkbox="true"></th>
+            <th data-field="errorDate">错误发生时间</th>
+            <th data-field="errorMessage">错误描述</th>
+            <th data-field="errorCode">错误代码</th>
+            <th data-field="deviceCode$name">设备代码</th>
+            <th data-field="terminalId">终端id</th>
+            <th data-field="rcuId">rcu本身的id</th>
+        </tr>
+    </thead>
+</table>
+
+</div>
+
+		<div data-backdrop="false" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <h4 class="modal-title" id="myModalLabel">操作</h4>
+                </div>
+                <div class="modal-body">
+                		
+                    <div class="form-group">
+                        <label for="txt_errorDate">错误发生时间</label>
+                        <input type="text" name="txt_errorDate" data-bind="value:errorDate" class="form-control" id="txt_errorDate" placeholder="错误发生时间">
+                    </div>
+                    <div class="form-group">
+                        <label for="txt_errorMessage">错误描述</label>
+                        <input type="text" name="txt_errorMessage" data-bind="value:errorMessage" class="form-control" id="txt_errorMessage" placeholder="错误描述">
+                    </div>
+                    <div class="form-group">
+                        <label for="txt_errorCode">错误代码</label>
+                        <input type="text" name="txt_errorCode" data-bind="value:errorCode" class="form-control" id="txt_errorCode" placeholder="错误代码">
+                    </div>
+                    <div class="form-group">
+                        <label for="txt_deviceCode">设备代码</label>
+                        <select name="txt_deviceCode" data-bind="value:deviceCode" class="selectpicker show-tick form-control" id="txt_deviceCode" data-live-search="true">
+                            <option selected>空</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="txt_terminalId">终端id</label>
+                        <input type="text" name="txt_terminalId" data-bind="value:terminalId" class="form-control" id="txt_terminalId" placeholder="终端id">
+                    </div>
+                    <div class="form-group">
+                        <label for="txt_rcuId">rcu本身的id</label>
+                        <input type="text" name="txt_rcuId" data-bind="value:rcuId" class="form-control" id="txt_rcuId" placeholder="rcu本身的id">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+                    <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
